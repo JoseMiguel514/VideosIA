@@ -1,0 +1,10 @@
+[
+ {"id": "hook", "texto": "¿Sabías que el famoso caballo de Troya... ni siquiera aparece en la Ilíada?"},
+ {"id": "asedio", "texto": "Durante diez años, los griegos asediaron Troya, sin lograr cruzar sus murallas."},
+ {"id": "homero", "texto": "Pero la Ilíada de Homero termina antes del final: con el funeral de Héctor. Del caballo, ni rastro."},
+ {"id": "virgilio", "texto": "La historia completa la contó el romano Virgilio, en la Eneida. ¡Más de mil años después de la guerra!"},
+ {"id": "ulises", "texto": "Según el mito, fue idea de Ulises: un caballo gigante de madera, con soldados escondidos dentro."},
+ {"id": "noche", "texto": "Los troyanos lo metieron en la ciudad como trofeo. Y por la noche, los griegos salieron, y abrieron las puertas."},
+ {"id": "teorias", "texto": "Pero, ¿existió de verdad? Hay quien cree que era una máquina de asedio, un barco, o incluso un terremoto."},
+ {"id": "outro", "texto": "¿Y tú, qué crees? Te leo en los comentarios."}
+]
