@@ -1,0 +1,27 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0}
+#bn{width:2560px;height:1440px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 45%,#5a1a8a 0%,#1a0b2e 45%,#0b0614 80%);font-family:Anton}
+.grid{position:absolute;left:-1500px;right:-1500px;top:830px;height:1200px;transform:perspective(700px) rotateX(70deg);transform-origin:50% 0;
+ background-image:linear-gradient(#ff2e8866 5px,transparent 5px),linear-gradient(90deg,#ff2e8866 5px,transparent 5px);background-size:140px 140px;
+ -webkit-mask-image:linear-gradient(#000 0%,#000 60%,transparent)}
+.d{position:absolute;color:#39ff88;opacity:.12}
+.safe{position:absolute;left:507px;top:509px;width:1546px;height:423px;display:flex;align-items:center;justify-content:center;gap:56px}
+.logo{width:330px;height:330px;border-radius:50%;background:conic-gradient(from 20deg,#ff2e88,#ffd23f,#39ff88,#4dc3ff,#ff2e88);padding:26px;box-sizing:border-box;flex:none}
+.logo>div{width:100%;height:100%;border-radius:50%;background:radial-gradient(circle at 50% 35%,#2a1450,#0b0614 70%);display:flex;flex-direction:column;align-items:center;justify-content:center}
+.l1{font-size:100px;color:#fff;line-height:.9;text-shadow:0 0 20px #ff2e88,0 6px 0 #ff2e88}
+.l2{font-family:Montserrat;font-weight:900;font-size:38px;color:#0b0614;background:#39ff88;padding:2px 14px;border-radius:8px;transform:rotate(-6deg);margin-top:10px}
+.title{font-size:190px;color:#fff;line-height:.95;text-shadow:0 0 40px #ff2e88,0 12px 0 #ff2e88;white-space:nowrap}
+.title b{color:#39ff88;font-weight:400;text-shadow:0 0 40px #39ff88,0 12px 0 #0e6b36}
+.sub{font-family:Montserrat;font-weight:900;font-size:50px;color:#ffd23f;margin-top:14px;letter-spacing:1px;white-space:nowrap}
+.tag{display:inline-block;font-family:Montserrat;font-weight:800;font-size:40px;color:#fff;border:4px solid #fff;border-radius:40px;padding:4px 26px;margin-top:18px}
+</style></head><body>
+<div id="bn"><div class="grid"></div>
+<script>
+const r=(s)=>{let x=Math.sin(s*9301+49297)*233280;return x-Math.floor(x)};
+for(let i=0;i<40;i++){const e=document.createElement('div');e.className='d';e.textContent='$';e.style.left=r(i)*2560+'px';e.style.top=r(i+99)*1300+'px';e.style.fontSize=(80+r(i+7)*180)+'px';e.style.transform=`rotate(${r(i+3)*60-30}deg)`;document.getElementById('bn').appendChild(e)}
+</script>
+<div class="safe"><div class="logo"><div><div class="l1">DATO</div><div class="l2">BOMBA</div></div></div>
+<div><div class="title">DATO <b>BOMBA</b></div><div class="sub">Datos que te vuelan la cabeza 🤯</div><div class="tag">Nuevo Short cada semana</div></div></div>
+</div></body></html>
