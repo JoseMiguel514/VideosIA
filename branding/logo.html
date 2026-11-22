@@ -1,0 +1,24 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#000}
+.c{width:800px;height:800px;position:relative;overflow:hidden;font-family:Anton}
+/* opción A: signo $ neón con chispa */
+#a{background:radial-gradient(circle at 50% 42%,#5a1a8a 0%,#1a0b2e 55%,#0b0614 100%)}
+#a .grid{position:absolute;left:-400px;right:-400px;top:520px;height:700px;transform:perspective(500px) rotateX(70deg);transform-origin:50% 0;
+ background-image:linear-gradient(#ff2e8866 4px,transparent 4px),linear-gradient(90deg,#ff2e8866 4px,transparent 4px);background-size:90px 90px}
+#a .ring{position:absolute;inset:95px;border-radius:50%;border:16px solid #39ff88;box-shadow:0 0 60px #39ff88,inset 0 0 60px #39ff8866}
+#a .q{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:470px;color:#39ff88;
+ text-shadow:0 0 50px #39ff88,14px 14px 0 #ff2e88;transform:rotate(-6deg);line-height:1;padding-bottom:20px}
+#a .bolt{position:absolute;right:150px;top:120px;filter:drop-shadow(0 0 14px #ffd23f)}
+/* opción B: texto DB en sello */
+#b{background:#0b0614}
+#b .bg{position:absolute;inset:0;background:conic-gradient(from 20deg,#ff2e88,#ffd23f,#39ff88,#4dc3ff,#ff2e88);filter:saturate(1.2)}
+#b .in{position:absolute;inset:60px;border-radius:50%;background:radial-gradient(circle at 50% 35%,#2a1450,#0b0614 70%);display:flex;flex-direction:column;align-items:center;justify-content:center}
+#b .t1{font-size:250px;color:#fff;line-height:.9;letter-spacing:4px;text-shadow:0 0 40px #ff2e88,0 12px 0 #ff2e88}
+#b .t2{font-family:Montserrat;font-weight:900;font-size:96px;color:#0b0614;background:#39ff88;padding:4px 34px;border-radius:18px;transform:rotate(-6deg);margin-top:26px;box-shadow:0 0 40px #39ff88}
+</style></head><body>
+<div class="c" id="a"><div class="grid"></div><div class="ring"></div><div class="q">$</div>
+<svg class="bolt" width="150" height="200" viewBox="0 0 30 40"><path d="M18 0 L2 23 H13 L9 40 L28 14 H17 Z" fill="#ffd23f" stroke="#0b0614" stroke-width="2"/></svg></div>
+<div class="c" id="b"><div class="bg"></div><div class="in"><div class="t1">DATO</div><div class="t2">BOMBA</div></div></div>
+</body></html>
