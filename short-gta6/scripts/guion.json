@@ -1,0 +1,10 @@
+[
+ {"id": "hook", "texto": "Este videojuego ganó más dinero en un día... que cualquier película en toda su historia.", "pantalla": "Este videojuego ganó más dinero en UN DÍA... que cualquier película en toda su historia."},
+ {"id": "dato", "texto": "El diecinueve de noviembre salió GTA seis. Y en veinticuatro horas, vendió tres mil setecientos noventa millones de dólares.", "pantalla": "El 19{diecinueve} de noviembre salió GTA VI{seis}. Y en 24{veinticuatro} horas, vendió $3,790{tres_mil_setecientos_noventa} MILLONES de dólares."},
+ {"id": "gta5", "texto": "Eso es casi cinco veces lo que hizo GTA cinco en su primer día, allá por dos mil trece.", "pantalla": "Eso es casi CINCO VECES lo que hizo GTA V{cinco} en su primer día, allá por 2013{dos_mil_trece}."},
+ {"id": "avatar", "texto": "Y supera lo que Avatar recaudó en toda su vida en cines: unos dos mil novecientos millones.", "pantalla": "Y supera lo que Avatar recaudó en TODA su vida en cines: unos $2,900{dos_mil_novecientos} millones."},
+ {"id": "segundo", "texto": "Haz la cuenta: son casi cuarenta y cuatro mil dólares... cada segundo.", "pantalla": "Haz la cuenta: son casi $44,000{cuarenta_y_cuatro_mil} dólares... CADA SEGUNDO."},
+ {"id": "preventa", "texto": "Y antes de salir, ya tenía treinta y dos millones y medio de copias reservadas.", "pantalla": "Y antes de salir, ya tenía 32.5{treinta_y_dos_y_medio} MILLONES de copias reservadas."},
+ {"id": "ojo", "texto": "Pero ojo: esa cifra la dio la propia Take Two. Sensor Tower calcula bastante menos: unos dos mil trescientos sesenta millones.", "pantalla": "Pero OJO: esa cifra la dio la propia Take-Two. Sensor Tower calcula bastante menos: unos $2,360{dos_mil_trescientos_sesenta} millones."},
+ {"id": "outro", "texto": "¿Tú ya lo jugaste, o esperas a que baje de precio? Te leo en comentarios.", "pantalla": "¿Tú ya lo jugaste, o esperas a que baje de precio? Te leo en comentarios."}
+]
