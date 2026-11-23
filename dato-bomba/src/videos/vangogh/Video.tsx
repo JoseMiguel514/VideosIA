@@ -3,13 +3,15 @@ import { AbsoluteFill, Composition, Easing, interpolate, spring, useCurrentFrame
 import guion from "./guion.json";
 import dur from "./duraciones.json";
 import { clamp, createTimeline, FPS, Sfx } from "../../lib/engine";
-import { Big, BLUE, numFont, Card, center, GREEN, Label, PINK, Pop, Slide, Stamp, YELLOW, useGlitch } from "../../lib/ui";
+import { Big, Card, center, Label, Pop, Slide, Stamp, useGlitch } from "../../lib/ui";
+import { gallery as T } from "../../lib/themes";
 import { Bill, Calendar, Crown } from "../../lib/Icons";
 import { Gavel, Hourglass, Lock, Painting } from "../../lib/Icons2";
 import { BarV, OjoHeader, Outro } from "../../lib/common";
 import { Reel } from "../../lib/Reel";
 
 const tl = createTimeline(guion, dur);
+const { key: GREEN, accent: PINK, highlight: YELLOW, alt: BLUE, num: numFont } = T;
 const at = tl.at;
 
 const Hook: React.FC = () => {
@@ -20,13 +22,18 @@ const Hook: React.FC = () => {
     <AbsoluteFill>
       {/* foco de luz */}
       <div style={{ position: "absolute", left: 140, top: 160, width: 800, height: 900, background: "radial-gradient(ellipse at 50% 30%, rgba(255,240,200,0.35), transparent 65%)" }} />
-      <Pop at={0} from={0.6} style={center(250)}>
+      <Pop at={0} from={0.6} style={center(190)}>
         <Painting size={760} sway={Math.sin(f / 10) * 2} />
+      </Pop>
+      <Pop at={10} style={center(830)}>
+        <div style={{ background: "#f6e7c1", color: "#2a1a08", fontFamily: T.body, fontWeight: 700, fontSize: 30, padding: "8px 26px", borderRadius: 4, boxShadow: "0 6px 0 rgba(0,0,0,0.4)" }}>
+          <i>Châtaigniers en fleurs</i> · Van Gogh, 1890
+        </div>
       </Pop>
       <Pop at={tM - 8} from={3} style={center(950)}>
         <Big size={150}>$190.4M</Big>
       </Pop>
-      <Pop at={tM - 8} style={{ left: 780, top: 830 }} rot={-60}>
+      <Pop at={tM - 8} style={{ left: 820, top: 920 }} rot={-60}>
         <Gavel size={220} angle={interpolate(bang, [0, 1], [-50, 0])} />
       </Pop>
       <Pop at={tM + 4} from={3} style={{ left: 90, top: 250 }} rot={-30}>
@@ -48,7 +55,7 @@ const Pintor: React.FC = () => {
       </Slide>
       <Pop at={tY} style={{ left: 110, top: 380 }} rot={-20}>
         <div style={{ fontFamily: numFont }}>
-          <Calendar day="24" month="MAYO 1890" size={300} />
+          <Calendar day="24" month="MAYO 1890" size={300} color={PINK} />
         </div>
       </Pop>
       <Pop at={tM} style={{ left: 670, top: 380 }} rot={20}>
@@ -198,13 +205,11 @@ const hits = {
 const Video: React.FC = () => (
   <Reel
     tl={tl}
+    theme={T}
     folder="vangogh"
     scenes={{ hook: Hook, pintor: Pintor, pobre: Pobre, record: Record, oculto: Oculto, ojo: Ojo, outro: OutroScene }}
     sfx={sfx}
     hits={hits}
-    symbol="✿"
-    symbolColor={YELLOW}
-    hue={[220, 280]}
   />
 );
 

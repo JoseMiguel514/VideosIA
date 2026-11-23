@@ -3,13 +3,15 @@ import { AbsoluteFill, Composition, Easing, interpolate, spring, useCurrentFrame
 import guion from "./guion.json";
 import dur from "./duraciones.json";
 import { clamp, createTimeline, fmt, FPS, Sfx } from "../../lib/engine";
-import { BarH, Big, BLUE, Card, center, GREEN, Label, numFont, PINK, Pop, Slide, Stamp, YELLOW, useGlitch } from "../../lib/ui";
+import { BarH, Big, Card, center, Label, Pop, Slide, Stamp, useGlitch } from "../../lib/ui";
+import { sonar as T } from "../../lib/themes";
 import { Calendar } from "../../lib/Icons";
 import { Bubbles, Can, Hourglass, Lock, Submarine, Sun, Wrench } from "../../lib/Icons2";
 import { OjoHeader, Outro } from "../../lib/common";
 import { Reel } from "../../lib/Reel";
 
 const tl = createTimeline(guion, dur);
+const { key: GREEN, accent: PINK, highlight: YELLOW, alt: BLUE, num: numFont } = T;
 const at = tl.at;
 
 /** franja de "agua" para las escenas submarinas */
@@ -35,7 +37,7 @@ const Hook: React.FC = () => {
     <AbsoluteFill>
       <Water />
       <div style={{ position: "absolute", top: 560, left: interpolate(f, [0, 140], [-700, 220]), transform: `rotate(${Math.sin(f / 12) * 2}deg)` }}>
-        <Submarine size={720} />
+        <Submarine size={720} color={GREEN} />
       </div>
       <Pop at={at("hook", "140")} style={{ left: 80, top: 260 }}>
         <Label size={52} style={{ background: "#000a", padding: "6px 22px", borderRadius: 12, border: `3px solid ${BLUE}` }}>~140 tripulantes</Label>
@@ -58,16 +60,16 @@ const Dato: React.FC = () => {
   return (
     <AbsoluteFill>
       <Slide at={0} dx={-900} style={center(230)}>
-        <Submarine size={520} />
+        <Submarine size={520} color={GREEN} />
       </Slide>
       <Pop at={at("dato", "Vengeance") - 2} style={center(450)}>
         <Label size={64} color={BLUE}>HMS Vengeance</Label>
       </Pop>
       <Pop at={t12} style={{ left: 110, top: 580, fontFamily: numFont }} rot={-20}>
-        <Calendar day="12" month="ABRIL" size={240} />
+        <Calendar day="12" month="ABRIL" size={240} color="#0b6e57" />
       </Pop>
       <Pop at={t15} style={{ left: 730, top: 580, fontFamily: numFont }} rot={20}>
-        <Calendar day="15" month="NOVIEMBRE" size={240} />
+        <Calendar day="15" month="NOV" size={240} color="#0b6e57" />
       </Pop>
       <div style={{ ...center(700) }}>
         <Big size={120} color={YELLOW}>{Math.round(days)}</Big>
@@ -227,13 +229,11 @@ const hits = {
 const Video: React.FC = () => (
   <Reel
     tl={tl}
+    theme={T}
     folder="submarino"
     scenes={{ hook: Hook, dato: Dato, record: Record, diseno: Diseno, comida: Comida, horas: Horas, ojo: Ojo, outro: OutroScene }}
     sfx={sfx}
     hits={hits}
-    symbol="○"
-    symbolColor={BLUE}
-    hue={[200, 250]}
   />
 );
 

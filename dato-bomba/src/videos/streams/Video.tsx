@@ -3,13 +3,15 @@ import { AbsoluteFill, Composition, Easing, interpolate, spring, useCurrentFrame
 import guion from "./guion.json";
 import dur from "./duraciones.json";
 import { clamp, createTimeline, fmt, FPS, Sfx } from "../../lib/engine";
-import { BarH, Big, BLUE, Card, center, GREEN, Label, PINK, Pop, Slide, Stamp, YELLOW } from "../../lib/ui";
+import { BarH, Big, Card, center, Label, Pop, Slide, Stamp } from "../../lib/ui";
+import { stream as T } from "../../lib/themes";
 import { Controller, Crown } from "../../lib/Icons";
 import { Eye, Hourglass, LiveScreen } from "../../lib/Icons2";
 import { Outro } from "../../lib/common";
 import { Reel } from "../../lib/Reel";
 
 const tl = createTimeline(guion, dur);
+const { key: GREEN, accent: PINK, highlight: YELLOW, alt: BLUE } = T;
 const at = tl.at;
 
 const Hook: React.FC = () => {
@@ -26,7 +28,7 @@ const Hook: React.FC = () => {
         <Big size={110} color="white">{fmt(viewers)}</Big>
       </div>
       <Pop at={tS - 2} from={3} style={center(200)}>
-        <Stamp size={110}>RÉCORD EN VIVO</Stamp>
+        <Stamp size={76}>RÉCORD EN VIVO</Stamp>
       </Pop>
     </AbsoluteFill>
   );
@@ -44,7 +46,7 @@ const Pico: React.FC = () => {
         <Label size={50} color={YELLOW}>Espectadores al mismo tiempo</Label>
       </Pop>
       <div style={{ ...center(300) }}>
-        <Big size={170}>{fmt(n)}</Big>
+        <Big size={140}>{fmt(n)}</Big>
       </div>
       <Pop at={at("pico", "vivo") - 4} style={center(500)}>
         <Label size={40} style={{ opacity: 0.85 }}>Pico por plataforma</Label>
@@ -69,7 +71,7 @@ const Horas: React.FC = () => {
         <Big size={220}>{n.toFixed(1)}M</Big>
       </div>
       <Pop at={t + 24} style={center(680)}>
-        <Stamp size={100} color={PINK} rotate={-5}>MILLONES DE HORAS</Stamp>
+        <Stamp size={64} color={PINK} rotate={-5}>MILLONES DE HORAS</Stamp>
       </Pop>
       <Pop at={6} style={{ left: 90, top: 880 }} rot={-20}>
         <Controller size={200} glow={20} />
@@ -88,7 +90,7 @@ const Anos: React.FC = () => {
         <Hourglass size={230} t={interpolate(f, [0, 80], [0, 1], clamp)} />
       </Pop>
       <div style={{ ...center(580) }}>
-        <Big size={200} color={YELLOW}>{fmt(y)}</Big>
+        <Big size={170} color={YELLOW}>{fmt(y)}</Big>
       </div>
       <Pop at={t + 16} style={center(800)}>
         <Stamp size={100} rotate={-5}>AÑOS</Stamp>
@@ -134,7 +136,7 @@ const Illo: React.FC = () => {
   return (
     <AbsoluteFill>
       <Pop at={tE - 2} from={3} style={center(220)}>
-        <Stamp size={110} color={PINK}>EN ESPAÑOL</Stamp>
+        <Stamp size={84} color={PINK}>EN ESPAÑOL</Stamp>
       </Pop>
       <Slide at={at("illo", "IlloJuan") - 4} dx={900} style={center(450)}>
         <Card title="IlloJuan" sub="Streamer de España" value="#1" note="Mayor pico de un solo stream de GTA VI" color={GREEN} />
@@ -190,12 +192,11 @@ const hits = {
 const Video: React.FC = () => (
   <Reel
     tl={tl}
+    theme={T}
     folder="streams"
     scenes={{ hook: Hook, pico: Pico, horas: Horas, anos: Anos, juntos: Juntos, illo: Illo, outro: OutroScene }}
     sfx={sfx}
     hits={hits}
-    symbol="▶"
-    symbolColor={PINK}
   />
 );
 

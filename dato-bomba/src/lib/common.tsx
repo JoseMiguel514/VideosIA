@@ -1,12 +1,14 @@
 import React from "react";
 import { AbsoluteFill, Easing, interpolate, useCurrentFrame } from "remotion";
 import { clamp } from "./engine";
-import { Big, center, Label, OptionBtn, Pop, Slide, YELLOW, PINK, GREEN, BG } from "./ui";
+import { Big, center, Label, OptionBtn, Pop, Slide } from "./ui";
+import { useTheme } from "./theme";
 import { Warning } from "./Icons";
 
 /** Cabecera "⚠ ¡OJO!" del giro final */
 export const OjoHeader: React.FC = () => {
   const f = useCurrentFrame();
+  const { highlight: YELLOW } = useTheme();
   return (
     <>
       <Pop at={0} from={2} style={{ left: 110, top: 220 }}>
@@ -29,6 +31,7 @@ export const Outro: React.FC<{
   cta: number;
 }> = ({ title, a, b, cta }) => {
   const f = useCurrentFrame();
+  const { highlight: YELLOW, key: GREEN, accent: PINK, bg: BG, text } = useTheme();
   const p1 = interpolate(f, [a.at + 5, a.at + 40], [0, 58], { ...clamp, easing: Easing.out(Easing.cubic) });
   const p2 = interpolate(f, [b.at + 5, b.at + 40], [0, 42], { ...clamp, easing: Easing.out(Easing.cubic) });
   return (
@@ -44,9 +47,9 @@ export const Outro: React.FC<{
       </Pop>
       <Pop at={cta} style={center(860)}>
         <div style={{ transform: `translateY(${Math.sin(f / 5) * 12}px)`, display: "flex", flexDirection: "column", alignItems: "center" }}>
-          <Label size={56} style={{ background: "white", color: BG, padding: "10px 34px", borderRadius: 40 }}>Comenta y sígueme</Label>
+          <Label size={56} style={{ background: text, color: BG, padding: "10px 34px", borderRadius: 40 }}>Comenta y sígueme</Label>
           <svg width={90} height={70} viewBox="0 0 90 70" style={{ marginTop: 10 }}>
-            <path d="M10 10 L45 55 L80 10" fill="none" stroke="white" strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" />
+            <path d="M10 10 L45 55 L80 10" fill="none" stroke={text} strokeWidth={14} strokeLinecap="round" strokeLinejoin="round" />
           </svg>
         </div>
       </Pop>
@@ -66,9 +69,10 @@ export const BarV: React.FC<{ x: number; h: number; grow: number; color: string;
   base = 1030,
 }) => {
   const hh = h * grow;
+  const { radius } = useTheme();
   return (
     <>
-      <div style={{ position: "absolute", left: x, width: 300, top: base - hh, height: hh, background: `linear-gradient(180deg, ${color}, ${color}66)`, borderRadius: "22px 22px 0 0", boxShadow: `0 0 40px ${color}88` }} />
+      <div style={{ position: "absolute", left: x, width: 300, top: base - hh, height: hh, background: `linear-gradient(180deg, ${color}, ${color}66)`, borderRadius: `${radius + 8}px ${radius + 8}px 0 0`, boxShadow: `0 0 40px ${color}88` }} />
       <div style={{ position: "absolute", left: x - 40, width: 380, top: base - hh - 115, display: "flex", justifyContent: "center", opacity: grow > 0.05 ? 1 : 0 }}>
         <Big size={100} color={color}>{value}</Big>
       </div>

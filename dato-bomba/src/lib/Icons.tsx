@@ -46,9 +46,9 @@ export const Crown: React.FC<{ size?: number }> = ({ size = 160 }) => (
   </svg>
 );
 
-export const Calendar: React.FC<{ day: string; month: string; size?: number }> = ({ day, month, size = 300 }) => (
-  <div style={{ width: size, borderRadius: 32, overflow: "hidden", boxShadow: "0 20px 60px rgba(255,46,136,0.45)", border: "6px solid #fff" }}>
-    <div style={{ background: "#ff2e88", color: "white", fontSize: size * 0.2, textAlign: "center", padding: "10px 0", letterSpacing: 6 }}>{month}</div>
+export const Calendar: React.FC<{ day: string; month: string; size?: number; color?: string }> = ({ day, month, size = 300, color = "#ff2e88" }) => (
+  <div style={{ width: size, borderRadius: 32, overflow: "hidden", boxShadow: `0 20px 60px ${color}77`, border: "6px solid #fff" }}>
+    <div style={{ background: color, color: "white", fontSize: size * 0.2, textAlign: "center", padding: "10px 0", letterSpacing: 6 }}>{month}</div>
     <div style={{ background: "white", color: "#0b0614", fontSize: size * 0.5, textAlign: "center", lineHeight: 1.15 }}>{day}</div>
   </div>
 );

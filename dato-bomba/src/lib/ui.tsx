@@ -1,19 +1,8 @@
 import React from "react";
 import { AbsoluteFill, interpolate, random, spring, useCurrentFrame } from "remotion";
-import { loadFont as loadAnton } from "@remotion/google-fonts/Anton";
-import { loadFont as loadMontserrat } from "@remotion/google-fonts/Montserrat";
 import { clamp, FPS, Word } from "./engine";
+import { useTheme } from "./theme";
 
-export const { fontFamily: numFont } = loadAnton("normal", { weights: ["400"], subsets: ["latin"] });
-export const { fontFamily: bodyFont } = loadMontserrat("normal", { weights: ["800", "900"], subsets: ["latin"] });
-
-/* Paleta de marca Dato Bomba */
-export const GREEN = "#39ff88";
-export const PINK = "#ff2e88";
-export const YELLOW = "#ffd23f";
-export const BLUE = "#4dc3ff";
-export const BG = "#0b0614";
-export const PANEL = "rgba(22,16,42,0.92)";
 export const CAPTION_TOP = 1200;
 
 export const center = (top: number): React.CSSProperties => ({ position: "absolute", top, left: 0, right: 0, display: "flex", justifyContent: "center" });
@@ -57,84 +46,79 @@ export const Slide: React.FC<{ at: number; dx?: number; dy?: number; children: R
   );
 };
 
-export const Big: React.FC<{ children: React.ReactNode; size?: number; color?: string; style?: React.CSSProperties }> = ({
-  children,
-  size = 150,
-  color = GREEN,
-  style,
-}) => (
-  <div
-    style={{
-      fontFamily: numFont,
-      fontSize: size,
-      color,
-      lineHeight: 1,
-      whiteSpace: "nowrap",
-      textShadow: `0 0 30px ${color}aa, 0 8px 0 #000`,
-      WebkitTextStroke: `4px ${BG}`,
-      paintOrder: "stroke fill",
-      ...style,
-    }}
-  >
-    {children}
-  </div>
-);
-
-export const Label: React.FC<{ children: React.ReactNode; color?: string; size?: number; style?: React.CSSProperties }> = ({
-  children,
-  color = "white",
-  size = 46,
-  style,
-}) => (
-  <div style={{ fontFamily: bodyFont, fontWeight: 900, fontSize: size, color, textTransform: "uppercase", whiteSpace: "nowrap", letterSpacing: 1, ...style }}>
-    {children}
-  </div>
-);
-
-export const Stamp: React.FC<{ children: React.ReactNode; color?: string; size?: number; rotate?: number }> = ({
-  children,
-  color = PINK,
-  size = 120,
-  rotate = -8,
-}) => (
-  <div
-    style={{
-      fontFamily: numFont,
-      fontSize: size,
-      color: "white",
-      background: color,
-      padding: "4px 36px",
-      borderRadius: 24,
-      transform: `rotate(${rotate}deg)`,
-      boxShadow: `0 0 50px ${color}, 0 12px 0 rgba(0,0,0,0.6)`,
-      border: "6px solid white",
-      whiteSpace: "nowrap",
-    }}
-  >
-    {children}
-  </div>
-);
-
-/** tarjeta oscura con borde neón */
-export const Card: React.FC<{ title: string; sub: string; value: string; note?: string; color: string; width?: number }> = ({
-  title,
-  sub,
-  value,
-  note,
-  color,
-  width = 880,
-}) => (
-  <div style={{ width, padding: "26px 40px", borderRadius: 28, background: PANEL, border: `6px solid ${color}`, boxShadow: `0 0 40px ${color}66`, boxSizing: "border-box" }}>
-    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20 }}>
-      <div>
-        <Label size={44}>{title}</Label>
-        <Label size={30} color={color}>{sub}</Label>
-      </div>
-      <Big size={86} color={color}>{value}</Big>
+/** cifra / título grande */
+export const Big: React.FC<{ children: React.ReactNode; size?: number; color?: string; style?: React.CSSProperties }> = ({ children, size = 150, color, style }) => {
+  const t = useTheme();
+  const c = color ?? t.key;
+  return (
+    <div
+      style={{
+        fontFamily: t.num,
+        fontWeight: 900,
+        fontSize: size,
+        color: c,
+        lineHeight: 1,
+        whiteSpace: "nowrap",
+        textShadow: `0 0 30px ${c}99, 0 8px 0 rgba(0,0,0,0.8)`,
+        WebkitTextStroke: `4px ${t.bg}`,
+        paintOrder: "stroke fill",
+        ...style,
+      }}
+    >
+      {children}
     </div>
-    {note && <Label size={30} style={{ marginTop: 10, opacity: 0.7, textTransform: "none", fontWeight: 800, whiteSpace: "normal" }}>{note}</Label>}
-  </div>
-);
+  );
+};
+
+export const Label: React.FC<{ children: React.ReactNode; color?: string; size?: number; style?: React.CSSProperties }> = ({ children, color, size = 46, style }) => {
+  const t = useTheme();
+  return (
+    <div style={{ fontFamily: t.body, fontWeight: 800, fontSize: size, color: color ?? t.text, textTransform: "uppercase", whiteSpace: "nowrap", letterSpacing: 1, ...style }}>
+      {children}
+    </div>
+  );
+};
+
+export const Stamp: React.FC<{ children: React.ReactNode; color?: string; size?: number; rotate?: number }> = ({ children, color, size = 120, rotate = -8 }) => {
+  const t = useTheme();
+  const c = color ?? t.accent;
+  return (
+    <div
+      style={{
+        fontFamily: t.num,
+        fontWeight: 900,
+        fontSize: size,
+        color: "white",
+        background: c,
+        padding: "4px 36px",
+        borderRadius: t.radius,
+        transform: `rotate(${rotate}deg)`,
+        boxShadow: `0 0 50px ${c}, 0 12px 0 rgba(0,0,0,0.6)`,
+        border: `6px solid ${t.text}`,
+        whiteSpace: "nowrap",
+      }}
+    >
+      {children}
+    </div>
+  );
+};
+
+/** tarjeta oscura con borde de color */
+export const Card: React.FC<{ title: string; sub: string; value: string; note?: string; color: string; width?: number }> = ({ title, sub, value, note, color, width = 880 }) => {
+  const t = useTheme();
+  return (
+    <div style={{ width, padding: "26px 40px", borderRadius: t.radius + 4, background: t.panel, border: `6px solid ${color}`, boxShadow: `0 0 40px ${color}66`, boxSizing: "border-box" }}>
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", gap: 20 }}>
+        <div>
+          <Label size={44}>{title}</Label>
+          <Label size={30} color={color}>{sub}</Label>
+        </div>
+        <Big size={80} color={color}>{value}</Big>
+      </div>
+      {note && <Label size={30} style={{ marginTop: 10, opacity: 0.75, textTransform: "none", whiteSpace: "normal" }}>{note}</Label>}
+    </div>
+  );
+};
 
 /** barra horizontal con ícono, nombre y valor */
 export const BarH: React.FC<{ top: number; w: number; grow: number; color: string; name: string; sub: string; value: string; icon?: React.ReactNode }> = ({
@@ -152,93 +136,26 @@ export const BarH: React.FC<{ top: number; w: number; grow: number; color: strin
       {icon}
       <div>
         <Label size={50}>{name}</Label>
-        <Label size={32} style={{ opacity: 0.75 }}>{sub}</Label>
+        {sub && <Label size={32} style={{ opacity: 0.75 }}>{sub}</Label>}
       </div>
     </div>
-    <div style={{ marginTop: 16, height: 86, width: Math.max(0, w * grow), background: `linear-gradient(90deg, ${color}55, ${color})`, borderRadius: 16, boxShadow: `0 0 40px ${color}88`, position: "relative" }}>
-      <div style={{ position: "absolute", right: 18, top: 6, opacity: grow > 0.5 ? 1 : 0 }}>
-        <Big size={74} color="white" style={{ textShadow: "0 4px 0 #000" }}>{value}</Big>
+    <div style={{ marginTop: 16, height: 86, width: Math.max(0, w * grow), background: `linear-gradient(90deg, ${color}55, ${color})`, borderRadius: 12, boxShadow: `0 0 40px ${color}88`, position: "relative" }}>
+      <div style={{ position: "absolute", right: 18, top: 10, opacity: grow > 0.5 ? 1 : 0 }}>
+        <Big size={66} color="white" style={{ textShadow: "0 4px 0 #000" }}>{value}</Big>
       </div>
     </div>
   </div>
 );
 
 /** botón de encuesta para el cierre */
-export const OptionBtn: React.FC<{ text: string; color: string; icon: React.ReactNode; pct: number }> = ({ text, color, icon, pct }) => (
-  <div style={{ width: 880, height: 150, borderRadius: 75, background: "rgba(22,16,42,0.95)", border: `6px solid ${color}`, position: "relative", overflow: "hidden", display: "flex", alignItems: "center", padding: "0 40px", gap: 26, boxShadow: `0 0 40px ${color}55`, boxSizing: "border-box" }}>
-    <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${pct}%`, background: `${color}44` }} />
-    <div style={{ position: "relative" }}>{icon}</div>
-    <Label size={54} style={{ position: "relative" }}>{text}</Label>
-  </div>
-);
-
-/* ---------- fondo animado (símbolo flotante configurable) ---------- */
-export const Background: React.FC<{ total: number; symbol?: string; symbolColor?: string; hue?: [number, number] }> = ({
-  total,
-  symbol = "$",
-  symbolColor = GREEN,
-  hue = [270, 320],
-}) => {
-  const f = useCurrentFrame();
-  const h = interpolate(f, [0, total], hue);
+export const OptionBtn: React.FC<{ text: string; color: string; icon: React.ReactNode; pct: number }> = ({ text, color, icon, pct }) => {
+  const t = useTheme();
   return (
-    <AbsoluteFill style={{ backgroundColor: BG, overflow: "hidden" }}>
-      <AbsoluteFill
-        style={{
-          background: `radial-gradient(circle at 50% ${38 + Math.sin(f / 40) * 6}%, hsla(${h},90%,35%,0.55) 0%, transparent 55%),
-                       radial-gradient(circle at ${20 + Math.cos(f / 55) * 10}% 85%, ${symbolColor}2e 0%, transparent 45%)`,
-        }}
-      />
-      <AbsoluteFill style={{ perspective: 600, top: 1100 }}>
-        <div
-          style={{
-            position: "absolute",
-            left: -1000,
-            right: -1000,
-            height: 1600,
-            transform: "rotateX(70deg)",
-            transformOrigin: "50% 0%",
-            backgroundImage: `linear-gradient(${PINK}55 3px, transparent 3px), linear-gradient(90deg, ${PINK}55 3px, transparent 3px)`,
-            backgroundSize: "120px 120px",
-            backgroundPosition: `0px ${(f * 4) % 120}px`,
-            maskImage: "linear-gradient(to bottom, transparent, black 30%)",
-          }}
-        />
-      </AbsoluteFill>
-      {Array.from({ length: 16 }).map((_, i) => {
-        const x = random(`x${i}`) * 1080;
-        const speed = 1 + random(`s${i}`) * 2.5;
-        const y = 2100 - ((random(`y${i}`) * 2200 + f * speed) % 2300);
-        return (
-          <div
-            key={i}
-            style={{
-              position: "absolute",
-              left: x,
-              top: y,
-              fontFamily: numFont,
-              fontSize: 60 + random(`z${i}`) * 90,
-              color: symbolColor,
-              opacity: 0.08 + random(`o${i}`) * 0.08,
-              transform: `rotate(${Math.sin(f / 20 + i) * 20}deg)`,
-            }}
-          >
-            {symbol}
-          </div>
-        );
-      })}
-    </AbsoluteFill>
-  );
-};
-
-export const Overlay: React.FC<{ total: number }> = ({ total }) => {
-  const f = useCurrentFrame();
-  return (
-    <>
-      <AbsoluteFill style={{ backgroundImage: "repeating-linear-gradient(0deg, rgba(0,0,0,0.18) 0px, rgba(0,0,0,0.18) 2px, transparent 2px, transparent 5px)" }} />
-      <AbsoluteFill style={{ background: "radial-gradient(ellipse at center, transparent 55%, rgba(0,0,0,0.75) 100%)" }} />
-      <div style={{ position: "absolute", top: 0, left: 0, height: 14, width: `${(f / total) * 100}%`, background: `linear-gradient(90deg, ${PINK}, ${GREEN})`, boxShadow: `0 0 20px ${GREEN}` }} />
-    </>
+    <div style={{ width: 880, height: 150, borderRadius: 75, background: t.panel, border: `6px solid ${color}`, position: "relative", overflow: "hidden", display: "flex", alignItems: "center", padding: "0 40px", gap: 26, boxShadow: `0 0 40px ${color}55`, boxSizing: "border-box" }}>
+      <div style={{ position: "absolute", left: 0, top: 0, bottom: 0, width: `${pct}%`, background: `${color}44` }} />
+      <div style={{ position: "relative" }}>{icon}</div>
+      <Label size={54} style={{ position: "relative" }}>{text}</Label>
+    </div>
   );
 };
 
@@ -262,17 +179,19 @@ export const Cam: React.FC<{ dur: number; hits: number[]; children: React.ReactN
 
 export const Flash: React.FC = () => {
   const f = useCurrentFrame();
-  return <AbsoluteFill style={{ background: "white", opacity: interpolate(f, [0, 5], [0.85, 0], clamp) }} />;
+  const t = useTheme();
+  return <AbsoluteFill style={{ background: t.flash, opacity: interpolate(f, [0, 5], [0.8, 0], clamp) }} />;
 };
 
-/** subtítulos palabra por palabra; las cifras y MAYÚSCULAS van en verde */
+/** subtítulos palabra por palabra; las cifras y MAYÚSCULAS van con el color clave del tema */
 export const Captions: React.FC<{ words: Word[] }> = ({ words: ts }) => {
   const f = useCurrentFrame();
+  const t = useTheme();
   const chunks: Word[][] = [];
   let cur: Word[] = [];
-  ts.forEach((t) => {
-    cur.push(t);
-    if (cur.length >= 3 || /[.,:?!]$/.test(t.w)) {
+  ts.forEach((w) => {
+    cur.push(w);
+    if (cur.length >= 3 || /[.,:?!]$/.test(w.w)) {
       chunks.push(cur);
       cur = [];
     }
@@ -295,26 +214,26 @@ export const Captions: React.FC<{ words: Word[] }> = ({ words: ts }) => {
         transform: `scale(${interpolate(pop, [0, 1], [0.7, 1])}) translateY(${interpolate(pop, [0, 1], [40, 0])}px)`,
       }}
     >
-      {chunk.map((t, i) => {
-        const active = f >= t.start && f < t.end + 2;
+      {chunk.map((w, i) => {
+        const active = f >= w.start && f < w.end + 2;
         return (
           <span
             key={i}
             style={{
-              fontFamily: bodyFont,
-              fontWeight: 900,
-              fontSize: t.key ? 104 : 88,
+              fontFamily: t.caption,
+              fontWeight: t.captionWeight,
+              fontSize: w.key ? 104 : 90,
               lineHeight: 1.2,
               textTransform: "uppercase",
-              color: t.key ? GREEN : active ? YELLOW : "white",
-              WebkitTextStroke: "16px #000",
+              color: w.key ? t.key : active ? t.highlight : t.text,
+              WebkitTextStroke: `16px ${t.stroke}`,
               paintOrder: "stroke fill",
               transform: `scale(${active ? 1.12 : 1}) rotate(${active ? -3 : 0}deg)`,
               display: "inline-block",
-              textShadow: t.key ? `0 0 30px ${GREEN}88, 0 10px 0 #000` : "0 10px 0 #000",
+              textShadow: w.key ? `0 0 30px ${t.key}88, 0 10px 0 ${t.stroke}` : `0 10px 0 ${t.stroke}`,
             }}
           >
-            {t.w}
+            {w.w}
           </span>
         );
       })}
@@ -322,9 +241,10 @@ export const Captions: React.FC<{ words: Word[] }> = ({ words: ts }) => {
   );
 };
 
-/** escena "¡OJO!" con glitch: úsala en el giro final de cada video */
+/** glitch para el giro "¡OJO!" */
 export const useGlitch = (moments: number[], len = 9) => {
   const f = useCurrentFrame();
+  const t = useTheme();
   const on = moments.some((m) => f >= m && f < m + len);
   return {
     on,
@@ -332,7 +252,7 @@ export const useGlitch = (moments: number[], len = 9) => {
     bar: on ? (
       <AbsoluteFill
         style={{
-          background: `linear-gradient(0deg, transparent ${random(`a${f}`) * 80}%, ${PINK}55 ${random(`a${f}`) * 80 + 3}%, transparent ${random(`a${f}`) * 80 + 6}%)`,
+          background: `linear-gradient(0deg, transparent ${random(`a${f}`) * 80}%, ${t.accent}55 ${random(`a${f}`) * 80 + 3}%, transparent ${random(`a${f}`) * 80 + 6}%)`,
           mixBlendMode: "screen",
         }}
       />

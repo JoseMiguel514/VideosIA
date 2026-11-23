@@ -1,9 +1,18 @@
 # Dato Bomba — Shorts (Remotion)
 
-Proyecto compartido del canal: un mismo estilo (subtítulos karaoke, zoom-punch, flash, sacudidas, efectos, barra de progreso, beat original) y un video por carpeta.
+Proyecto compartido del canal: la misma edición (subtítulos karaoke, zoom-punch, flash, sacudidas, efectos, barra de progreso, beat original) y un **tema visual por video** que encaja con su historia.
+
+| Tema | Video | Look |
+|---|---|---|
+| `gallery` | Van Gogh | Noche azul con remolinos de pincel y estrellas, marco dorado, tipografía clásica (Playfair Display / Lora), placa de museo |
+| `sonar` | Submarino | Pantalla de sonar con barrido, pulsos y contactos, nieve marina, HUD "SONAR ACTIVO" con reloj, tipografía de terminal (Share Tech Mono / Rajdhani) |
+| `stream` | GTA VI streams | Pantalla de stream: borde morado, insignia "EN VIVO", chat flotante, rejilla de píxeles, tipografía gamer (Bungee / Rubik) |
+| `neon` | (por defecto) | Estilo neón original del canal |
+
+Los temas están en `src/lib/themes.tsx`; cada uno define fuentes, paleta, fondo animado y overlay. Todos los componentes (`Big`, `Label`, `Stamp`, `Card`, subtítulos…) toman sus colores y fuentes del tema activo.
 
 ```
-src/lib/          motor de tiempos, componentes de UI, íconos y plantilla <Reel>
+src/lib/          motor de tiempos, temas, componentes de UI, íconos y plantilla <Reel>
 src/videos/<v>/   guion.json · duraciones.json · Video.tsx
 public/<v>/       voz/*.wav y musica.wav de cada video
 public/sfx/       efectos compartidos
@@ -25,7 +34,7 @@ python3 scripts/voz.py <video>                    # regenerar narración (Kokoro
 python3 scripts/musica.py public/<video>/musica.wav <bpm> <semitonos> <semilla>
 ```
 
-**Nuevo video:** copia una carpeta de `src/videos/`, cambia `guion.json`, corre `scripts/voz.py`, ajusta las escenas y regístralo en `src/Root.tsx`.
+**Nuevo video:** copia una carpeta de `src/videos/`, cambia `guion.json`, corre `scripts/voz.py`, elige o crea un tema en `src/lib/themes.tsx`, ajusta las escenas y regístralo en `src/Root.tsx`.
 
 ## Publicación (TikTok)
 
