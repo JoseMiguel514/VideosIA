@@ -1,0 +1,44 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#000}
+:root{--g:#39ff88;--p:#ff2e88;--y:#ffd23f;--b:#4dc3ff;--bg:#0b0614}
+/* ---------- foto de perfil ---------- */
+#pf{width:800px;height:800px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 40%,#3b1670 0%,#170a2e 55%,#0b0614 100%);font-family:Anton}
+.stars i{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff}
+.planet{position:absolute;left:150px;top:150px;width:500px;height:500px;border-radius:50%;
+ background:radial-gradient(circle at 35% 30%,#7b3cff 0%,#3a1680 45%,#170a2e 75%);box-shadow:0 0 80px #7b3cff88,inset -40px -40px 80px #0006}
+.ring{position:absolute;left:40px;top:330px;width:720px;height:150px;border-radius:50%;border:14px solid var(--g);transform:rotate(-18deg);box-shadow:0 0 40px var(--g);
+ clip-path:polygon(0 50%,100% 50%,100% 100%,0 100%)}
+.ringb{position:absolute;left:40px;top:330px;width:720px;height:150px;border-radius:50%;border:14px solid var(--g);transform:rotate(-18deg);opacity:.55;
+ clip-path:polygon(0 0,100% 0,100% 50%,0 50%)}
+.q{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:430px;color:#fff;line-height:1;padding-bottom:30px;
+ text-shadow:0 0 40px var(--p),12px 12px 0 var(--p)}
+.bolt{position:absolute;right:120px;top:100px;filter:drop-shadow(0 0 16px #ffd23f)}
+/* ---------- banner ---------- */
+#bn{width:2560px;height:1440px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 50%,#3b1670 0%,#170a2e 45%,#0b0614 85%);font-family:Anton}
+.grid{position:absolute;left:-1500px;right:-1500px;top:880px;height:1200px;transform:perspective(700px) rotateX(70deg);transform-origin:50% 0;
+ background-image:linear-gradient(#ff2e8866 5px,transparent 5px),linear-gradient(90deg,#ff2e8866 5px,transparent 5px);background-size:140px 140px;
+ -webkit-mask-image:linear-gradient(#000 0%,#000 55%,transparent)}
+.bigplanet{position:absolute;right:240px;top:180px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff7ab6 0%,#a0206a 45%,#2a0a26 80%);box-shadow:0 0 120px #ff2e8866;opacity:.85}
+.moon{position:absolute;left:330px;top:260px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#9fe8ff,#2a6a8a 60%,#0d2030);box-shadow:0 0 80px #4dc3ff55;opacity:.8}
+.safe{position:absolute;left:507px;top:509px;width:1546px;height:423px;display:flex;align-items:center;justify-content:center;gap:50px}
+.logo{width:320px;height:320px;flex:none;border-radius:50%;overflow:hidden;border:10px solid #fff;box-shadow:0 0 50px var(--p)}
+.logo img{width:100%;height:100%}
+.t1{font-size:178px;color:#fff;line-height:.92;white-space:nowrap;text-shadow:0 0 40px var(--p),0 12px 0 var(--p)}
+.t1 b{font-weight:400;color:var(--g);text-shadow:0 0 40px var(--g),0 12px 0 #0e6b36}
+.tags{display:flex;gap:22px;margin-top:26px}
+.tag{font-family:Montserrat;font-weight:900;font-size:40px;padding:8px 26px;border-radius:40px;white-space:nowrap}
+.a{background:var(--y);color:var(--bg)} .b{border:5px solid #fff;color:#fff}
+</style></head><body>
+<div id="pf"><div class="stars" id="st1"></div><div class="ringb"></div><div class="planet"></div><div class="q">¿?</div><div class="ring"></div>
+<svg class="bolt" width="130" height="175" viewBox="0 0 30 40"><path d="M18 0 L2 23 H13 L9 40 L28 14 H17 Z" fill="#ffd23f" stroke="#0b0614" stroke-width="2"/></svg></div>
+<div id="bn"><div class="stars" id="st2"></div><div class="grid"></div><div class="moon"></div><div class="bigplanet"></div>
+<div class="safe"><div class="logo"><img id="lg"></div>
+<div><div class="t1">IMAGÍNATE <b>ESTO</b></div>
+<div class="tags"><div class="tag a">¿Qué pasaría si…?</div><div class="tag b">⚡ Datos curiosos rápidos</div></div></div></div></div>
+<script>
+const r=(s)=>{let x=Math.sin(s*9301+49297)*233280;return x-Math.floor(x)};
+function stars(id,n,w,h){const e=document.getElementById(id);for(let i=0;i<n;i++){const s=document.createElement('i');s.style.left=r(i+id.length*7)*w+'px';s.style.top=r(i*3+id.length)*h+'px';const z=2+r(i+5)*6;s.style.width=s.style.height=z+'px';s.style.opacity=.3+r(i+9)*.7;e.appendChild(s)}}
+stars('st1',60,800,800);stars('st2',220,2560,1440);
+</script></body></html>
