@@ -16,7 +16,7 @@ import { loadFont as loadMontserrat } from "@remotion/google-fonts/Montserrat";
 import vozEs from "./voz.json";
 import vozEn from "./voz_en.json";
 import { Cat, Cradle, INK, Pig, Rat, Toon } from "./Characters";
-import type { Expr } from "./Characters";
+import type { Expr, Pose } from "./Characters";
 import { Banner, Field, GothicWindow, H, Room, Sign, Village, W, WallTorch } from "./Scenery";
 
 loadOswald("normal", { weights: ["700"] });
@@ -84,11 +84,15 @@ const At: React.FC<{ x: number; y: number; children: React.ReactNode; at?: numbe
   const f = useCurrentFrame();
   const { fps } = useVideoConfig();
   if (f < at) return null;
-  const s = spring({ frame: f - at, fps, config: { damping: 11, stiffness: 150 } });
+  const cfg = { damping: 11, stiffness: 150 };
+  const s = spring({ frame: f - at, fps, config: cfg });
+  const v = s - spring({ frame: f - at - 1, fps, config: cfg }); // velocity -> squash & stretch
+  const sq = Math.max(-0.25, Math.min(0.25, v * 2.2));
   let tf = "";
-  if (from === "pop") tf = `scale(${s})`;
-  if (from === "left") tf = `translateX(${(1 - s) * -900}px)`;
-  if (from === "right") tf = `translateX(${(1 - s) * 900}px)`;
+  if (from === "pop") tf = `scale(${s * (1 - sq)}, ${s * (1 + sq)})`;
+  const hop = -Math.abs(Math.sin((1 - s) * Math.PI * 4)) * 70 * (1 - s);
+  if (from === "left") tf = `translateX(${(1 - s) * -900}px) translateY(${hop}px) rotate(${(1 - s) * 12}deg) scale(${1 + sq * 0.5}, ${1 - sq * 0.5})`;
+  if (from === "right") tf = `translateX(${(1 - s) * 900}px) translateY(${hop}px) rotate(${(1 - s) * -12}deg) scale(${1 + sq * 0.5}, ${1 - sq * 0.5})`;
   if (from === "drop") tf = `translateY(${(1 - s) * -1400}px)`;
   let op = 1;
   if (exitAt !== undefined) {
@@ -127,9 +131,13 @@ const Cam: React.FC<{ keys: Key[]; children: React.ReactNode; shakeAt?: number[]
   }
   // intro punch
   const punch = 1;
+  // handheld drift
+  sx += Math.sin(f / 37) * 7 + Math.sin(f / 17) * 3;
+  sy += Math.cos(f / 41) * 6 + Math.sin(f / 23) * 2.5;
+  const rot = Math.sin(f / 53) * 0.4;
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
-      <AbsoluteFill style={{ transform: `translate(${sx}px, ${sy}px) scale(${sc * punch}) translate(${-cx}px, ${-cy}px)`, transformOrigin: "50% 50%" }}>{children}</AbsoluteFill>
+      <AbsoluteFill style={{ transform: `translate(${sx}px, ${sy}px) rotate(${rot}deg) scale(${sc * punch * 1.015}) translate(${-cx}px, ${-cy}px)`, transformOrigin: "50% 50%" }}>{children}</AbsoluteFill>
     </AbsoluteFill>
   );
 };
@@ -146,8 +154,11 @@ const shots = (list: Shot[], end: number): Key[] => {
   const keys: Key[] = [];
   list.forEach(([s, a, b, x, y], i) => {
     const e = i + 1 < list.length ? list[i + 1][0] - 1 : end;
-    keys.push([s, a, x, y]);
-    keys.push([Math.max(s + 1, e), b, x, y]);
+    if (e - s > 14) {
+      keys.push([s, a * 1.045, x, y]);
+      keys.push([s + 9, a + ((b - a) * 9) / (e - s), x, y]);
+    } else keys.push([s, a, x, y]);
+    keys.push([e - s > 14 ? e : Math.max(s + 1, e), b, x, y]);
   });
   return keys;
 };
@@ -194,6 +205,9 @@ const Grade: React.FC<{ tint?: string; vig?: number }> = ({ tint, vig = 0.62 }) 
   </>
 );
 
+/** pose switch with blend: before `at` -> a, after -> b (eased over 8 frames) */
+const sw8 = (f: number, at: number, a: Pose, b: Pose) => (f < at ? { pose: a } : { pose: b, prevPose: a, poseT: (f - at) / 8 });
+
 /* ---------- shared sets ---------- */
 const Court: React.FC = () => (
   <BG>
@@ -229,9 +243,9 @@ const Bench: React.FC<{ x?: number; y?: number; w?: number }> = ({ x = 540, y = 
 };
 const JUDGE = { x: 540, y: 1330, h: 900 };
 const judgeHead = JUDGE.y - 0.732 * JUDGE.h - 960; // focus y for judge's face
-const Judge: React.FC<{ expr?: Expr; talking?: boolean; pose?: "gavel" | "idle" | "shrug" | "point" }> = ({ expr = "neutral", talking = false, pose = "idle" }) => (
+const Judge: React.FC<{ expr?: Expr; talking?: boolean; pose?: Pose; prevPose?: Pose; poseT?: number }> = ({ expr = "neutral", talking = false, pose = "idle", prevPose, poseT }) => (
   <At x={JUDGE.x} y={JUDGE.y} z={1000} from="none">
-    <Toon hair="judge" hairColor="#b3242f" beard="#8f8a86" outfit="#a3202c" outfit2="#f4efe6" robe expr={expr} talking={talking} pose={pose} prop={pose === "gavel" ? "gavel" : "none"} height={JUDGE.h} seed={2} />
+    <Toon hair="judge" hairColor="#b3242f" beard="#8f8a86" outfit="#a3202c" outfit2="#f4efe6" robe expr={expr} talking={talking} pose={pose} prevPose={prevPose} poseT={poseT} prop={pose === "gavel" ? "gavel" : "none"} height={JUDGE.h} seed={2} />
   </At>
 );
 const headY = (feet: number, h: number) => feet - 0.732 * h - 960;
@@ -303,7 +317,7 @@ const SHook: React.FC = () => {
         shakeAt={[fSent + 3]}
       >
         <Court />
-        <Judge expr={f >= fSent ? "angry" : "smug"} pose={f >= fSent ? "gavel" : "idle"} talking={f >= fSent} />
+        <Judge expr={f >= fSent ? "angry" : "smug"} {...sw8(f, fSent - 3, "idle", "gavel")} talking={f >= fSent} />
         <Bench />
         <At x={PIG.x} y={PIG.y} from="none">
           <Pig height={PIG.h} expr={f < fJuicio ? "worried" : f >= fSent ? "surprised" : "worried"} />
@@ -350,11 +364,11 @@ const SFalaise: React.FC = () => {
           <Cradle height={300} cry={f > fAtaco} />
         </At>
         <At x={180 + lunge * 230} y={1830} at={fCerda - 10} from="left">
-          <Pig height={640} expr={f > fAtaco ? "angry" : "smug"} />
+          <Pig height={640} expr={f > fAtaco ? "angry" : "smug"} walking={f > fCerda && f < fAtaco - 2} />
         </At>
         {f >= fAtaco && (
           <At x={MOM.x} y={MOM.y} from="none">
-            <Toon hair="kerchief" hairColor="#b8323a" outfit="#d98a2b" outfit2="#f4efe6" expr="surprised" pose="up" height={MOM.h} seed={8} />
+            <Toon hair="kerchief" hairColor="#b8323a" outfit="#d98a2b" outfit2="#f4efe6" expr="surprised" {...sw8(f, fAtaco + 1, "idle", "up")} height={MOM.h} seed={8} />
           </At>
         )}
       </Cam>
@@ -441,13 +455,13 @@ const SJuicio: React.FC = () => {
         shakeAt={[fCulp + 3]}
       >
         <Court />
-        <Judge expr={f >= fCulp ? "angry" : "neutral"} talking={f < fTest} pose={f >= fCulp - 4 ? "gavel" : "idle"} />
+        <Judge expr={f >= fCulp ? "angry" : "neutral"} talking={f < fTest} {...sw8(f, fCulp - 6, "idle", "gavel")} />
         <Bench />
         <At x={PIG.x} y={PIG.y} from="none">
           <Pig height={PIG.h} expr={f > fCulp ? "surprised" : "worried"} flip />
         </At>
         <At x={WIT.x} y={WIT.y} from="none">
-          <Toon hair="hood" hairColor="#7d6248" outfit="#8a5d33" outfit2="#e9dfc9" beard="#5a3d26" expr="angry" pose={f >= fCulp ? "idle" : "point"} height={WIT.h} seed={9} talking={f >= fTest && f < fCulp} />
+          <Toon hair="hood" hairColor="#7d6248" outfit="#8a5d33" outfit2="#e9dfc9" beard="#5a3d26" expr="angry" {...sw8(f, fCulp, "point", "idle")} height={WIT.h} seed={9} talking={f >= fTest && f < fCulp} />
         </At>
       </Cam>
       <Grade tint="rgba(150,220,215,0.18)" />

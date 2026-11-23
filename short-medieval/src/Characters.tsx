@@ -1,5 +1,5 @@
 import React, { useId } from "react";
-import { useCurrentFrame } from "remotion";
+import { Easing, interpolate, random, useCurrentFrame } from "remotion";
 
 export const INK = "#16121c";
 
@@ -106,6 +106,18 @@ export type ToonProps = {
   height?: number;
   flip?: boolean;
   look?: number;
+  prevPose?: Pose;
+  poseT?: number; // 0..1 blend from prevPose to pose
+  walking?: boolean;
+};
+export type Pose = "idle" | "point" | "up" | "gavel" | "hips" | "shrug" | "hold";
+
+/** Smooth wandering eye direction (eye darts) */
+export const gazeAt = (f: number, seed: number, amp: number) => {
+  const seg = Math.floor(f / 42);
+  const tgt = (k: number) => (random(`gaze${seed}-${k}`) - 0.5) * 2 * amp;
+  const t = interpolate(f - seg * 42, [0, 5], [0, 1], { extrapolateRight: "clamp", easing: Easing.out(Easing.quad) });
+  return tgt(seg - 1) + (tgt(seg) - tgt(seg - 1)) * t;
 };
 
 /** Reference-style toon: big white round head, capsule body, stick limbs with ball hands. viewBox 400x820, feet ~805. */
@@ -124,24 +136,41 @@ export const Toon: React.FC<ToonProps> = ({
   height = 800,
   flip = false,
   look = 0,
+  prevPose,
+  poseT = 1,
+  walking = false,
 }) => {
   const uid = useId().replace(/:/g, "");
   const f = useCurrentFrame() + seed * 13;
-  const bob = Math.sin(f / 11) * 4;
-  const sway = Math.sin(f / 19) * 1.5;
+  const tk = talking ? 1 : 0;
+  // walk cycle / idle weight shift
+  const step = walking ? Math.sin(f / 3.2) : 0;
+  const bob = walking ? -Math.abs(step) * 16 : Math.sin(f / 11) * 5 + tk * Math.abs(Math.sin(f / 4.5)) * -5;
+  const sway = Math.sin(f / 21) * 2.6 + Math.sin(f / 9) * 0.6 + tk * Math.sin(f / 13) * 1.5 + (walking ? step * 3 : 0);
   const headY = 205 + bob * 0.4;
+  // head tilt + nod (lags behind the body for overlapping action)
+  const tilt = Math.sin((f - 6) / 21) * -3.2 + Math.sin(f / 31) * 2 + tk * Math.sin(f / 7) * 3.5;
+  const nod = tk * Math.sin(f / 4.3) * 5;
+  const breathe = 1 + Math.sin(f / 13) * 0.022;
+  const gaze = look + gazeAt(f, seed, 9);
   const sw = 10;
-  const gavelSwing = pose === "gavel" ? -125 + Math.max(0, Math.sin(f / 5)) * 75 : 0;
-  const arms: Record<string, [number, number]> = {
-    idle: [10 + Math.sin(f / 12) * 3, -10 - Math.sin(f / 12) * 3],
-    point: [10, -88 + Math.sin(f / 7) * 4],
-    up: [155 + Math.sin(f / 3) * 10, -155 - Math.sin(f / 3) * 10],
-    gavel: [12, gavelSwing],
-    hips: [35, -35],
-    shrug: [75 + Math.sin(f / 8) * 5, -75 - Math.sin(f / 8) * 5],
-    hold: [10, -60],
-  };
-  const [la, ra] = arms[pose];
+  const gavelSwing = -125 + Math.max(0, Math.sin(f / 5)) * 75;
+  const gest = (k: number) => tk * (Math.sin(f / (5 + k) + k) * 16 + Math.sin(f / 11 + k * 2) * 8);
+  const armsFor = (p: Pose): [number, number] =>
+    (({
+      idle: [12 + Math.sin(f / 12) * 4 + gest(1) * 1.4, -12 - Math.sin(f / 12 + 1) * 4 - gest(2) * 2],
+      point: [12 + Math.sin(f / 12) * 4 + gest(1), -88 + Math.sin(f / 7) * 6 + gest(3) * 0.6],
+      up: [155 + Math.sin(f / 3) * 12, -155 - Math.sin(f / 3 + 0.8) * 12],
+      gavel: [14 + Math.sin(f / 12) * 4, gavelSwing],
+      hips: [35 + Math.sin(f / 15) * 3, -35 - gest(2) * 2.2 - Math.sin(f / 15) * 3],
+      shrug: [75 + Math.sin(f / 8) * 9, -75 - Math.sin(f / 8) * 9],
+      hold: [12 + gest(1), -60 + Math.sin(f / 9) * 6 + gest(2) * 0.5],
+    }) as Record<Pose, [number, number]>)[p];
+  const cur = armsFor(pose);
+  const prev = prevPose ? armsFor(prevPose) : cur;
+  const bt = Easing.out(Easing.back(1.6))(Math.max(0, Math.min(1, poseT)));
+  const la = prev[0] + (cur[0] - prev[0]) * bt;
+  const ra = prev[1] + (cur[1] - prev[1]) * bt;
   const shL = { x: 132, y: 410 + bob };
   const shR = { x: 268, y: 410 + bob };
   const armLen = 200;
@@ -153,7 +182,7 @@ export const Toon: React.FC<ToonProps> = ({
   const hR = hand(shR, ra);
   const bodyTop = 330 + bob;
   const bodyBot = robe ? 760 : 630;
-  const legSw = Math.sin(f / 11) * 4;
+  const legSw = walking ? step * 26 : Math.sin(f / 21) * 6;
   const hairD = shade(hairColor, -0.25);
   const hairL = shade(hairColor, 0.35);
   const lid = "#eef2f6";
@@ -222,8 +251,10 @@ export const Toon: React.FC<ToonProps> = ({
       <g transform={`rotate(${sway} 200 805)`}>
         {/* back arm */}
         <Arm s={shL} h={{ x: hL.x, y: hL.y + bob }} side={-1} />
-        {/* capsule body */}
-        <rect x="118" y={bodyTop} width="164" height={bodyBot - bodyTop} rx="80" fill={`url(#body${uid})`} stroke={INK} strokeWidth={sw} />
+        {/* capsule body (breathing) */}
+        <g transform={`translate(200 ${bodyBot}) scale(${2 - breathe} ${breathe}) translate(-200 ${-bodyBot})`}>
+          <rect x="118" y={bodyTop} width="164" height={bodyBot - bodyTop} rx="80" fill={`url(#body${uid})`} stroke={INK} strokeWidth={sw} />
+        </g>
         {/* shirt strip + vest edges */}
         <path d={`M178 ${bodyTop + 6} L178 ${bodyBot - 8} Q200 ${bodyBot - 4} 222 ${bodyBot - 8} L222 ${bodyTop + 6} Z`} fill={outfit2} />
         <line x1="178" y1={bodyTop + 8} x2="178" y2={bodyBot - 10} stroke={INK} strokeWidth="4" opacity="0.8" />
@@ -257,7 +288,7 @@ export const Toon: React.FC<ToonProps> = ({
           </g>
         )}
         {/* head */}
-        <g>
+        <g transform={`translate(0 ${nod}) rotate(${tilt} 200 ${headY + 150})`}>
           {hair === "hood" && <path d={`M40 ${headY + 40} Q30 ${headY - 190} 200 ${headY - 195} Q370 ${headY - 190} 360 ${headY + 40} L370 ${headY + 210} L30 ${headY + 210} Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} />}
           {hair === "curly" &&
             Array.from({ length: 9 }).map((_, i) => {
@@ -275,8 +306,8 @@ export const Toon: React.FC<ToonProps> = ({
               strokeWidth={sw}
             />
           )}
-          <Eyes cx={200 + look} cy={headY + 15} gap={50} size={17} expr={expr} f={f} seed={seed} lid={lid} />
-          <Mouth cx={200 + look} cy={headY + (beard ? 82 : 78)} w={44} expr={expr} talking={talking} f={f} />
+          <Eyes cx={200 + gaze * 0.6} cy={headY + 15} gap={50} size={17} expr={expr} f={f} seed={seed} lid={lid} />
+          <Mouth cx={200 + gaze * 0.5} cy={headY + (beard ? 82 : 78)} w={44} expr={expr} talking={talking} f={f} />
           {hair === "bald" && (
             <g stroke={INK} strokeWidth="5" fill="none" strokeLinecap="round">
               <path d={`M150 ${headY - 135} q30 -25 60 -5`} />
@@ -364,12 +395,20 @@ export type PigProps = {
   gloves?: number;
   chained?: boolean;
   talking?: boolean;
+  walking?: boolean;
 };
 
 /** Upright cartoon pig, viewBox 400x600 (feet at 580). */
-export const Pig: React.FC<PigProps> = ({ expr = "neutral", height = 600, flip = false, seed = 0, jacket = 0, pants = 0, gloves = 0, chained = false, talking = false }) => {
+export const Pig: React.FC<PigProps> = ({ expr = "neutral", height = 600, flip = false, seed = 0, jacket = 0, pants = 0, gloves = 0, chained = false, talking = false, walking = false }) => {
   const f = useCurrentFrame() + seed * 11;
-  const bob = Math.sin(f / 8) * 5;
+  const step = walking ? Math.sin(f / 3) : 0;
+  const bob = walking ? -Math.abs(step) * 18 : Math.sin(f / 9) * 6;
+  const sway = Math.sin(f / 17) * 3 + (walking ? step * 4 : 0) + (expr === "worried" ? Math.sin(f * 1.7) * 0.8 : 0);
+  const tilt = Math.sin((f - 5) / 17) * -4 + Math.sin(f / 29) * 2.5 + (talking ? Math.sin(f / 6) * 3 : 0);
+  const ear = Math.sin(f / 5) * 4 + (walking ? step * 8 : 0);
+  const sniff = (f % 70) < 12 ? 1 + Math.abs(Math.sin(f * 1.6)) * 0.08 : 1;
+  const breathe = 1 + Math.sin(f / 10) * 0.03;
+  const gaze = gazeAt(f, seed + 50, 8);
   const pink = "#ffb3c1";
   const pinkD = "#f48aa0";
   const tail = Math.sin(f / 4) * 10;
@@ -389,16 +428,16 @@ export const Pig: React.FC<PigProps> = ({ expr = "neutral", height = 600, flip =
       <path d={`M300 430 q30 ${-20 + tail} 20 -40 q-15 -15 -20 5 q-5 20 15 15`} stroke={pinkD} strokeWidth="6" fill="none" strokeLinecap="round" />
       {/* legs */}
       {[150, 250].map((x, i) => (
-        <g key={x}>
+        <g key={x} transform={`translate(0 ${walking ? Math.min(0, (i ? -step : step) * 22) : 0})`}>
           <rect x={x - 26} y="470" width="52" height="105" rx="20" fill={pants > 0.5 ? "#6b4a2f" : pink} stroke={INK} strokeWidth="9" />
           <rect x={x - 26} y="545" width="52" height="34" rx="10" fill="#5b3b3b" stroke={INK} strokeWidth="8" />
           <line x1={x} y1="552" x2={x} y2="579" stroke={INK} strokeWidth="6" />
           {chained && i === 0 && <ellipse cx={x} cy="540" rx="34" ry="12" fill="none" stroke="#9aa3ad" strokeWidth="9" />}
         </g>
       ))}
-      <g transform={`translate(0 ${bob * 0.5})`}>
+      <g transform={`translate(0 ${bob * 0.5}) rotate(${sway} 200 560)`}>
         {/* body */}
-        <ellipse cx="200" cy="420" rx="125" ry="110" fill={`url(#pg${uid})`} stroke={INK} strokeWidth="10" />
+        <ellipse cx="200" cy="420" rx={125 * (2 - breathe)} ry={110 * breathe} fill={`url(#pg${uid})`} stroke={INK} strokeWidth="10" />
         <ellipse cx="200" cy="445" rx="70" ry="60" fill="#ffd0da" />
         {/* pants (bottom of body) */}
         {pants > 0 && (
@@ -421,23 +460,29 @@ export const Pig: React.FC<PigProps> = ({ expr = "neutral", height = 600, flip =
         {/* arms */}
         {[-1, 1].map((s) => (
           <g key={s}>
-            <path d={`M${200 + s * 110} 380 Q${200 + s * 160} ${420 + Math.sin(f / 6 + s) * 8} ${200 + s * 150} 470`} stroke={INK} strokeWidth="44" fill="none" strokeLinecap="round" />
-            <path d={`M${200 + s * 110} 380 Q${200 + s * 160} ${420 + Math.sin(f / 6 + s) * 8} ${200 + s * 150} 470`} stroke={jacket > 0.5 ? "#2f4f8f" : pink} strokeWidth="28" fill="none" strokeLinecap="round" />
-            <circle cx={200 + s * 150} cy="475" r="22" fill={gloves > 0.5 ? "#f4f0e6" : "#5b3b3b"} stroke={INK} strokeWidth="8" transform={gloves > 0 && gloves <= 0.5 ? `scale(${1 + gloves})` : undefined} />
+            <path d={`M${200 + s * 110} 380 Q${200 + s * 165} ${420 + Math.sin(f / 6 + s) * 14} ${200 + s * 150 + (walking ? step * s * 25 : Math.sin(f / 9 + s) * 8)} ${470 - (talking ? Math.abs(Math.sin(f / 5 + s)) * 30 : 0)}`} stroke={INK} strokeWidth="44" fill="none" strokeLinecap="round" />
+            <path d={`M${200 + s * 110} 380 Q${200 + s * 165} ${420 + Math.sin(f / 6 + s) * 14} ${200 + s * 150 + (walking ? step * s * 25 : Math.sin(f / 9 + s) * 8)} ${470 - (talking ? Math.abs(Math.sin(f / 5 + s)) * 30 : 0)}`} stroke={jacket > 0.5 ? "#2f4f8f" : pink} strokeWidth="28" fill="none" strokeLinecap="round" />
+            <circle cx={200 + s * 150 + (walking ? step * s * 25 : Math.sin(f / 9 + s) * 8)} cy={475 - (talking ? Math.abs(Math.sin(f / 5 + s)) * 30 : 0)} r="22" fill={gloves > 0.5 ? "#f4f0e6" : "#5b3b3b"} stroke={INK} strokeWidth="8" transform={gloves > 0 && gloves <= 0.5 ? `scale(${1 + gloves})` : undefined} />
           </g>
         ))}
         {/* head */}
-        <g transform={`translate(0 ${bob * 0.3})`}>
-          <path d="M75 160 L60 40 L150 110 Z" fill={pink} stroke={INK} strokeWidth="10" strokeLinejoin="round" />
-          <path d="M325 160 L340 40 L250 110 Z" fill={pink} stroke={INK} strokeWidth="10" strokeLinejoin="round" />
-          <path d="M82 140 L72 70 L130 112 Z" fill={pinkD} />
-          <path d="M318 140 L328 70 L270 112 Z" fill={pinkD} />
+        <g transform={`translate(0 ${bob * 0.3}) rotate(${tilt} 200 320)`}>
+          <g transform={`rotate(${-ear} 110 130)`}>
+            <path d="M75 160 L60 40 L150 110 Z" fill={pink} stroke={INK} strokeWidth="10" strokeLinejoin="round" />
+            <path d="M82 140 L72 70 L130 112 Z" fill={pinkD} />
+          </g>
+          <g transform={`rotate(${ear * 0.8} 290 130)`}>
+            <path d="M325 160 L340 40 L250 110 Z" fill={pink} stroke={INK} strokeWidth="10" strokeLinejoin="round" />
+            <path d="M318 140 L328 70 L270 112 Z" fill={pinkD} />
+          </g>
           <ellipse cx="200" cy="200" rx="140" ry="125" fill={`url(#pg${uid})`} stroke={INK} strokeWidth="11" />
-          <Eyes cx={200} cy={158} gap={58} size={15} expr={expr} f={f} seed={seed + 3} lid="#ffc4cf" />
+          <Eyes cx={200 + gaze} cy={158} gap={58} size={15} expr={expr} f={f} seed={seed + 3} lid="#ffc4cf" />
           {/* snout */}
-          <ellipse cx="200" cy="230" rx="55" ry="38" fill={pinkD} stroke={INK} strokeWidth="9" />
-          <ellipse cx="182" cy="230" rx="9" ry="15" fill={INK} />
-          <ellipse cx="218" cy="230" rx="9" ry="15" fill={INK} />
+          <g transform={`translate(${200 + gaze * 0.5} 230) scale(${sniff} ${2 - sniff}) translate(-200 -230)`}>
+            <ellipse cx="200" cy="230" rx="55" ry="38" fill={pinkD} stroke={INK} strokeWidth="9" />
+            <ellipse cx="182" cy="230" rx="9" ry="15" fill={INK} />
+            <ellipse cx="218" cy="230" rx="9" ry="15" fill={INK} />
+          </g>
           <Mouth cx={200} cy={283} w={44} expr={expr} talking={talking} f={f} />
         </g>
       </g>
@@ -460,7 +505,7 @@ export const Rat: React.FC<{ height?: number; flip?: boolean; seed?: number; exp
   return (
     <svg width={height} height={height} viewBox="0 0 300 300" style={{ overflow: "visible", transform: flip ? "scaleX(-1)" : undefined }}>
       <ellipse cx="150" cy="292" rx="100" ry="10" fill="rgba(0,0,0,0.25)" />
-      <g transform={`translate(0 ${hop})`}>
+      <g transform={`translate(0 ${hop}) rotate(${run ? Math.sin(f / 2.5) * 6 : Math.sin(f / 13) * 4} 150 290) translate(150 290) scale(${run ? 1 + Math.cos(f / 1.25) * 0.06 : 1 + Math.sin(f / 8) * 0.03} ${run ? 1 - Math.cos(f / 1.25) * 0.06 : 1 - Math.sin(f / 8) * 0.03}) translate(-150 -290)`}>
         <path d={`M235 240 Q300 ${250 + Math.sin(f / 5) * 20} 290 170`} stroke={INK} strokeWidth="14" fill="none" strokeLinecap="round" />
         <path d={`M235 240 Q300 ${250 + Math.sin(f / 5) * 20} 290 170`} stroke="#f0a4b4" strokeWidth="6" fill="none" strokeLinecap="round" />
         <ellipse cx="165" cy="225" rx="85" ry="65" fill={gray} stroke={INK} strokeWidth="9" />
@@ -496,12 +541,13 @@ export const Cat: React.FC<{ height?: number; flip?: boolean; seed?: number; col
 }) => {
   const f = useCurrentFrame() + seed * 9;
   const crouch = Math.sin(f / 6) * 6;
+  const lean = Math.sin(f / 14) * 4;
   return (
     <svg width={(height * 360) / 420} height={height} viewBox="0 0 360 420" style={{ overflow: "visible", transform: flip ? "scaleX(-1)" : undefined }}>
       <ellipse cx="180" cy="410" rx="130" ry="12" fill="rgba(0,0,0,0.3)" />
       <path d={`M290 330 Q370 ${280 + Math.sin(f / 4) * 30} 330 ${170 + Math.sin(f / 5) * 20}`} stroke={INK} strokeWidth="34" fill="none" strokeLinecap="round" />
       <path d={`M290 330 Q370 ${280 + Math.sin(f / 4) * 30} 330 ${170 + Math.sin(f / 5) * 20}`} stroke={color} strokeWidth="18" fill="none" strokeLinecap="round" />
-      <g transform={`translate(0 ${crouch})`}>
+      <g transform={`translate(0 ${crouch}) rotate(${lean} 180 405)`}>
         <ellipse cx="200" cy="320" rx="120" ry="85" fill={color} stroke={INK} strokeWidth="10" />
         {[0, 1, 2].map((i) => (
           <path key={i} d={`M${190 + i * 40} 240 q10 30 0 60`} stroke={stripes} strokeWidth="12" fill="none" strokeLinecap="round" />
