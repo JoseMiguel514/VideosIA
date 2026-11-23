@@ -13,7 +13,8 @@ import {
 } from "remotion";
 import { loadFont as loadOswald } from "@remotion/google-fonts/Oswald";
 import { loadFont as loadMontserrat } from "@remotion/google-fonts/Montserrat";
-import voz from "./voz.json";
+import vozEs from "./voz.json";
+import vozEn from "./voz_en.json";
 import { Cat, Cradle, INK, Pig, Rat, Toon } from "./Characters";
 import type { Expr } from "./Characters";
 import { Banner, Field, GothicWindow, H, Room, Sign, Village, W, WallTorch } from "./Scenery";
@@ -23,17 +24,34 @@ loadMontserrat("normal", { weights: ["800"] });
 
 const FPS = 30;
 const LEAD = 5;
-type Id = keyof typeof voz;
+type Lang = "es" | "en";
+type Id = keyof typeof vozEs;
+const VOZ = { es: vozEs, en: vozEn as typeof vozEs };
+// current language: set by the root component before scenes render (one composition per render)
+let LANG: Lang = "es";
+const voz = () => VOZ[LANG];
 const ORDER: Id[] = ["hook", "falaise", "arresto", "juicio", "ropa", "ratas", "abogado", "gatos", "final", "outro"];
 const TAIL: Partial<Record<Id, number>> = { outro: 30, gatos: 4, hook: 4 };
-const sceneFrames = (id: Id) => Math.ceil(voz[id].dur * FPS) + LEAD + 8 + (TAIL[id] ?? 0);
-const STARTS: Record<string, number> = {};
-let acc = 0;
-for (const id of ORDER) {
-  STARTS[id] = acc;
-  acc += sceneFrames(id);
-}
-export const TOTAL = acc;
+const framesFor = (l: Lang, id: Id) => Math.ceil(VOZ[l][id].dur * FPS) + LEAD + 8 + (TAIL[id] ?? 0);
+const sceneFrames = (id: Id) => framesFor(LANG, id);
+const startsFor = (l: Lang) => {
+  const st = {} as Record<Id, number>;
+  let a = 0;
+  for (const id of ORDER) {
+    st[id] = a;
+    a += framesFor(l, id);
+  }
+  return { st, total: a };
+};
+const TOTALS = { es: startsFor("es").total, en: startsFor("en").total };
+/** Spanish cue word -> English cue word (scene timing anchors) */
+const CUE_EN: Record<string, string> = {
+  cerdo: "pig", juicio: "trial", abogado: "lawyer", sentencia: "sentence", cerda: "sow", ataco: "attacked", bebe: "baby",
+  arrestaron: "arrested", carcel: "jail", testigos: "witnesses", culpable: "guilty", chaqueta: "jacket", pantalones: "trousers",
+  guantes: "gloves", ratas: "rats", acusadas: "accused", cosechas: "crops", gatos: "cats", nunca: "never", nada: "nowhere",
+  cientos: "hundreds", tu: "which",
+};
+const T = (es: string, en: string) => (LANG === "en" ? en : es);
 
 const norm = (s: string) =>
   s
@@ -43,7 +61,11 @@ const norm = (s: string) =>
     .replace(/[^a-z0-9]/g, "");
 /** frame (scene-local) when a word is spoken */
 const wf = (id: Id, word: string, nth = 0) => {
-  const hits = voz[id].words.filter((w) => norm(w.w) === norm(word));
+  if (LANG === "en") {
+    word = CUE_EN[norm(word)] ?? word;
+    if (id === "abogado" && word === "trial") word = "court";
+  }
+  const hits = voz()[id].words.filter((w) => norm(w.w) === norm(word));
   const w = hits[nth] ?? hits[0];
   if (!w) throw new Error(`word ${word} not in ${id}`);
   return LEAD + Math.round(w.s * FPS);
@@ -134,7 +156,7 @@ const shots = (list: Shot[], end: number): Key[] => {
 const Captions: React.FC<{ id: Id }> = ({ id }) => {
   const f = useCurrentFrame();
   const t = (f - LEAD) / FPS;
-  const words = voz[id].words;
+  const words = voz()[id].words;
   let cur = -1;
   for (let i = 0; i < words.length; i++) if (t >= words[i].s - 0.02) cur = i;
   if (cur < 0) return null;
@@ -323,7 +345,7 @@ const SFalaise: React.FC = () => {
         <BG blur={2}>
           <Village />
         </BG>
-        <Sign text="FALAISE" sub="FRANCIA · 1386" y={70} color="#5b3420" glow={false} />
+        <Sign text="FALAISE" sub={T("FRANCIA · 1386", "FRANCE · 1386")} y={70} color="#5b3420" glow={false} />
         <At x={640} y={1730} from="none">
           <Cradle height={300} cry={f > fAtaco} />
         </At>
@@ -520,7 +542,7 @@ const SRatas: React.FC = () => {
         <BG blur={2}>
           <Field eaten={eaten} />
         </BG>
-        <Sign text="AUTUN" sub="FRANCIA · 1522" y={70} color="#5b3420" glow={false} />
+        <Sign text="AUTUN" sub={T("FRANCIA · 1522", "FRANCE · 1522")} y={70} color="#5b3420" glow={false} />
         {rats.map(([x, y, d], i) => (
           <At key={i} x={x} y={y} at={8 + d}>
             <Rat height={230 + (y - 1500) * 0.3} nibble flip={i % 2 === 1} seed={i} expr={f > fAcus ? "surprised" : "happy"} />
@@ -714,7 +736,9 @@ const SCENES: Record<Id, React.FC> = {
   outro: SOutro,
 };
 
-export const Juicios: React.FC = () => {
+export const Juicios: React.FC<{ lang: Lang }> = ({ lang }) => {
+  LANG = lang;
+  const { st: STARTS, total: TOTAL } = startsFor(lang);
   return (
     <AbsoluteFill style={{ background: "#111" }}>
       {ORDER.map((id) => {
@@ -726,7 +750,7 @@ export const Juicios: React.FC = () => {
               <Captions id={id} />
             </AbsoluteFill>
             <Sequence from={LEAD} layout="none">
-              <Audio src={staticFile(`voz/${id}.wav`)} volume={1} />
+              <Audio src={staticFile(`${lang === "en" ? "voz_en" : "voz"}/${id}.wav`)} volume={1} />
             </Sequence>
           </Sequence>
         );
@@ -737,5 +761,8 @@ export const Juicios: React.FC = () => {
 };
 
 export const MyComposition: React.FC = () => (
-  <Composition id="JuiciosAnimales" component={Juicios} durationInFrames={TOTAL} fps={FPS} width={W} height={H} />
+  <>
+    <Composition id="JuiciosAnimales" component={Juicios} defaultProps={{ lang: "es" as Lang }} durationInFrames={TOTALS.es} fps={FPS} width={W} height={H} />
+    <Composition id="AnimalTrialsEN" component={Juicios} defaultProps={{ lang: "en" as Lang }} durationInFrames={TOTALS.en} fps={FPS} width={W} height={H} />
+  </>
 );
