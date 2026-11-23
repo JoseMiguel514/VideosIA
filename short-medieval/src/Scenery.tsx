@@ -73,14 +73,20 @@ export const Room: React.FC<{
       <line x1={BACK.l} x2={BACK.r} y1={BACK.floor} y2={BACK.floor} stroke="rgba(0,0,0,0.35)" strokeWidth="8" />
       <line x1={BACK.l} y1={BACK.top} x2={BACK.l} y2={BACK.floor} stroke="rgba(0,0,0,0.25)" strokeWidth="6" />
       <line x1={BACK.r} y1={BACK.top} x2={BACK.r} y2={BACK.floor} stroke="rgba(0,0,0,0.25)" strokeWidth="6" />
-      {children}
-      {/* vignette */}
       <defs>
-        <radialGradient id="vig" cx="50%" cy="45%" r="75%">
-          <stop offset="60%" stopColor="black" stopOpacity="0" />
-          <stop offset="100%" stopColor="black" stopOpacity="0.55" />
+        <radialGradient id="roomlight" cx="50%" cy="42%" r="65%">
+          <stop offset="0" stopColor="white" stopOpacity="0.22" />
+          <stop offset="0.45" stopColor="white" stopOpacity="0" />
+          <stop offset="1" stopColor="#0a1a22" stopOpacity="0.5" />
         </radialGradient>
+        <linearGradient id="walltop" x1="0" x2="0" y1="0" y2="1">
+          <stop offset="0" stopColor="#0a1a22" stopOpacity="0.45" />
+          <stop offset="0.45" stopColor="#0a1a22" stopOpacity="0" />
+        </linearGradient>
       </defs>
+      <rect width={W} height={BACK.floor} fill="url(#walltop)" />
+      {children}
+      <rect width={W} height={H} fill="url(#roomlight)" />
     </svg>
   );
 };
@@ -136,9 +142,9 @@ export const WallTorch: React.FC<{ x: number; y: number }> = ({ x, y }) => {
 };
 
 /** Outdoor village street */
-export const Village: React.FC<{ evening?: boolean; children?: React.ReactNode }> = ({ evening = false, children }) => {
+export const Village: React.FC<{ evening?: boolean; night?: boolean; children?: React.ReactNode }> = ({ evening = false, night = false, children }) => {
   const f = useCurrentFrame();
-  const sky = evening ? ["#ff9a6b", "#ffd59e"] : ["#7cc6f2", "#d4f0ff"];
+  const sky = night ? ["#0b1030", "#2a3570"] : evening ? ["#ff9a6b", "#ffd59e"] : ["#7cc6f2", "#d4f0ff"];
   const houses = [
     { x: -60, w: 330, h: 520, c: "#f4e4c1", r: "#b5523b" },
     { x: 250, w: 280, h: 430, c: "#efd9a8", r: "#7a4b8f" },
@@ -181,7 +187,7 @@ export const Village: React.FC<{ evening?: boolean; children?: React.ReactNode }
             <line x1={h.x + h.w} x2={h.x + h.w * 0.66} y1={baseY - h.h} y2={baseY - h.h * 0.5} />
           </g>
           <polygon points={`${h.x - 30},${baseY - h.h} ${h.x + h.w / 2},${baseY - h.h - 200} ${h.x + h.w + 30},${baseY - h.h}`} fill={h.r} stroke={INK} strokeWidth="10" strokeLinejoin="round" />
-          <rect x={h.x + h.w * 0.4} y={baseY - h.h * 0.42} width={h.w * 0.2} height={h.h * 0.17} fill={evening ? "#ffd56b" : "#3b4a66"} stroke={INK} strokeWidth="8" />
+          <rect x={h.x + h.w * 0.4} y={baseY - h.h * 0.42} width={h.w * 0.2} height={h.h * 0.17} fill={evening || night ? "#ffd56b" : "#3b4a66"} stroke={INK} strokeWidth="8" />
           <path d={`M${h.x + h.w * 0.08} ${baseY} L${h.x + h.w * 0.08} ${baseY - 150} Q${h.x + h.w * 0.18} ${baseY - 200} ${h.x + h.w * 0.28} ${baseY - 150} L${h.x + h.w * 0.28} ${baseY} Z`} fill="#7a4b26" stroke={INK} strokeWidth="8" />
         </g>
       ))}
@@ -194,8 +200,42 @@ export const Village: React.FC<{ evening?: boolean; children?: React.ReactNode }
           return <ellipse key={`${r}-${c}`} cx={(c * 100 + (r % 2) * 50) - 20} cy={y} rx={40 * s} ry={14 * s} fill="#a3906f" stroke="rgba(0,0,0,0.2)" strokeWidth="4" />;
         }),
       )}
+      {night && <circle cx="820" cy="260" r="80" fill="#fdf3c8" opacity="0.95" />}
+      <defs>
+        <radialGradient id="vlight" cx="50%" cy="40%" r="70%">
+          <stop offset="0" stopColor="#fff3d0" stopOpacity="0.2" />
+          <stop offset="0.5" stopColor="white" stopOpacity="0" />
+          <stop offset="1" stopColor="#1a0f08" stopOpacity="0.45" />
+        </radialGradient>
+      </defs>
       {children}
+      <rect width={W} height={H} fill="url(#vlight)" />
     </svg>
+  );
+};
+
+/** In-world hanging sign, like the "OPERATING" sign in the reference */
+export const Sign: React.FC<{ text: string; sub?: string; x?: number; y?: number; w?: number; color?: string; glow?: boolean }> = ({ text, sub, x = 540, y = 40, w = 560, color = "#7a1e24", glow = true }) => {
+  const f = useCurrentFrame();
+  return (
+    <div style={{ position: "absolute", left: x - w / 2, top: y, width: w, zIndex: 50 }}>
+      <div style={{ position: "absolute", left: 60, top: -200, width: 10, height: 200, background: INK }} />
+      <div style={{ position: "absolute", right: 60, top: -200, width: 10, height: 200, background: INK }} />
+      <div
+        style={{
+          border: `12px solid #3c4250`,
+          outline: `6px solid ${INK}`,
+          borderRadius: 10,
+          background: `linear-gradient(${color}, ${color}cc)`,
+          padding: "14px 10px 16px",
+          textAlign: "center",
+          boxShadow: glow ? `0 0 ${50 + Math.sin(f / 9) * 10}px rgba(255,90,90,0.35), 0 18px 0 rgba(0,0,0,0.35)` : "0 18px 0 rgba(0,0,0,0.35)",
+        }}
+      >
+        <div style={{ fontFamily: "Oswald", fontWeight: 700, fontSize: 86, lineHeight: 1, color: "#f0b9b0", letterSpacing: 2, textShadow: "0 0 18px rgba(255,140,120,0.6)" }}>{text}</div>
+        {sub && <div style={{ fontFamily: "Oswald", fontWeight: 700, fontSize: 40, color: "#f3d9c8", letterSpacing: 4, opacity: 0.9 }}>{sub}</div>}
+      </div>
+    </div>
   );
 };
 
@@ -244,6 +284,14 @@ export const Field: React.FC<{ eaten?: number; children?: React.ReactNode }> = (
           );
         }),
       )}
+      <rect width={W} height={H} fill="url(#vlight2)" />
+      <defs>
+        <radialGradient id="vlight2" cx="60%" cy="25%" r="80%">
+          <stop offset="0" stopColor="#fff3d0" stopOpacity="0.25" />
+          <stop offset="0.5" stopColor="white" stopOpacity="0" />
+          <stop offset="1" stopColor="#2a1505" stopOpacity="0.5" />
+        </radialGradient>
+      </defs>
       {children}
     </svg>
   );

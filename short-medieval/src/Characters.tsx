@@ -1,12 +1,12 @@
-import React from "react";
+import React, { useId } from "react";
 import { useCurrentFrame } from "remotion";
 
-export const INK = "#1b1420";
+export const INK = "#16121c";
 
-type Expr = "neutral" | "happy" | "surprised" | "angry" | "smug" | "worried";
+export type Expr = "neutral" | "happy" | "surprised" | "angry" | "smug" | "worried";
 
-/* ---------- shared face parts ---------- */
-const Eyes: React.FC<{ cx: number; cy: number; gap: number; size: number; expr: Expr; f: number; seed: number; look?: number }> = ({
+/* ---------- shared face parts (reference style: small solid ovals, thick curved brows) ---------- */
+export const Eyes: React.FC<{ cx: number; cy: number; gap: number; size: number; expr: Expr; f: number; seed: number; look?: number; lid?: string }> = ({
   cx,
   cy,
   gap,
@@ -15,37 +15,47 @@ const Eyes: React.FC<{ cx: number; cy: number; gap: number; size: number; expr: 
   f,
   seed,
   look = 0,
+  lid = "#f4f6f8",
 }) => {
-  const blink = (f + seed * 37) % 97 < 4 ? 0.12 : 1;
-  const big = expr === "surprised" ? 1.35 : expr === "worried" ? 1.1 : 1;
-  const ry = size * 1.25 * big * blink * (expr === "smug" ? 0.55 : 1);
-  const rx = size * big;
-  const brow = (side: -1 | 1) => {
-    const x = cx + side * gap;
-    const y = cy - size * 1.9 * (expr === "surprised" ? 1.25 : 1);
-    let tilt = 0;
-    if (expr === "angry") tilt = 9;
-    if (expr === "worried") tilt = -9;
-    if (expr === "smug") tilt = side === 1 ? -6 : 3;
-    return (
-      <path
-        d={`M${x - size * 1.1} ${y + tilt * -side * 0.6 + (side === 1 ? 0 : 0)} Q${x} ${y - size * 0.5 + (expr === "angry" ? size * 0.4 : 0)} ${x + size * 1.1} ${y + tilt * side * 0.6}`}
-        stroke={INK}
-        strokeWidth={size * 0.42}
-        fill="none"
-        strokeLinecap="round"
-      />
-    );
+  const blink = (f + seed * 37) % 101 < 4 ? 0.1 : 1;
+  const big = expr === "surprised" ? 1.25 : 1;
+  const rx = size * 0.8 * big;
+  const ry = size * 1.05 * big * blink;
+  const browY = cy - size * (expr === "surprised" ? 2.9 : expr === "worried" ? 2.4 : 2.1);
+  const brow = (s: -1 | 1) => {
+    const x = cx + s * gap;
+    // inner end (toward nose) / outer end heights
+    let inner = 0;
+    let outer = 0;
+    let arch = -size * 0.5;
+    if (expr === "angry") {
+      inner = size * 0.9;
+      outer = -size * 0.3;
+      arch = 0;
+    }
+    if (expr === "worried") {
+      inner = -size * 0.8;
+      outer = size * 0.4;
+      arch = -size * 0.2;
+    }
+    if (expr === "smug") {
+      inner = s === 1 ? -size * 0.6 : size * 0.3;
+      outer = s === 1 ? size * 0.2 : 0;
+      arch = -size * 0.4;
+    }
+    const xi = x - s * size * 1.2;
+    const xo = x + s * size * 1.3;
+    return <path d={`M${xi} ${browY + inner} Q${x} ${browY + arch + (inner + outer) / 2} ${xo} ${browY + outer}`} stroke={INK} strokeWidth={size * 0.55} fill="none" strokeLinecap="round" />;
   };
   return (
     <g>
       {[-1, 1].map((s) => (
         <g key={s}>
-          <ellipse cx={cx + s * gap + look} cy={cy} rx={rx} ry={ry} fill={INK} />
-          {blink > 0.5 && (
+          <ellipse cx={cx + s * gap + look} cy={cy} rx={rx} ry={Math.max(ry, 1.5)} fill={INK} />
+          {expr === "smug" && blink > 0.5 && (
             <>
-              <circle cx={cx + s * gap + look + rx * 0.35} cy={cy - ry * 0.35} r={rx * 0.38} fill="white" />
-              <circle cx={cx + s * gap + look - rx * 0.3} cy={cy + ry * 0.35} r={rx * 0.16} fill="white" />
+              <rect x={cx + s * gap + look - rx - 2} y={cy - ry - 2} width={rx * 2 + 4} height={ry * 0.95} fill={lid} />
+              <line x1={cx + s * gap + look - rx - 4} x2={cx + s * gap + look + rx + 4} y1={cy - ry * 0.08} y2={cy - ry * 0.08} stroke={INK} strokeWidth={size * 0.35} strokeLinecap="round" />
             </>
           )}
           {brow(s as -1 | 1)}
@@ -55,32 +65,37 @@ const Eyes: React.FC<{ cx: number; cy: number; gap: number; size: number; expr: 
   );
 };
 
-const Mouth: React.FC<{ cx: number; cy: number; w: number; expr: Expr; talking: boolean; f: number }> = ({ cx, cy, w, expr, talking, f }) => {
-  const open = talking ? 0.2 + Math.abs(Math.sin(f * 0.6) * Math.sin(f * 0.21 + 1)) * 0.9 : 0;
-  if (expr === "surprised" || open > 0.25) {
-    const h = expr === "surprised" ? w * 0.75 : w * 0.55 * open + 4;
+export const Mouth: React.FC<{ cx: number; cy: number; w: number; expr: Expr; talking: boolean; f: number }> = ({ cx, cy, w, expr, talking, f }) => {
+  const open = talking ? Math.abs(Math.sin(f * 0.62) * Math.sin(f * 0.23 + 1)) : 0;
+  const x = cx + w * 0.15; // slightly off-center like the reference
+  if (expr === "surprised" || expr === "worried" || open > 0.3) {
+    const h = expr === "surprised" ? w * 0.55 : expr === "worried" && open < 0.3 ? w * 0.3 : w * 0.18 + open * w * 0.4;
+    const rx = expr === "surprised" ? w * 0.36 : w * 0.3;
     return (
       <g>
-        <ellipse cx={cx} cy={cy + h * 0.3} rx={w * (expr === "surprised" ? 0.38 : 0.5)} ry={h * 0.6} fill="#5a1a22" stroke={INK} strokeWidth={6} />
-        <ellipse cx={cx} cy={cy + h * 0.55} rx={w * 0.22} ry={h * 0.22} fill="#e2607a" />
+        <ellipse cx={x} cy={cy + h * 0.3} rx={rx} ry={h * 0.55} fill="#3a1620" stroke={INK} strokeWidth={w * 0.12} />
+        <ellipse cx={x} cy={cy + h * 0.55} rx={rx * 0.55} ry={h * 0.18} fill="#e06b86" />
       </g>
     );
   }
-  if (expr === "angry" || expr === "worried")
-    return <path d={`M${cx - w / 2} ${cy + 10} Q${cx} ${cy - 10} ${cx + w / 2} ${cy + 10}`} stroke={INK} strokeWidth={7} fill="none" strokeLinecap="round" />;
-  if (expr === "smug")
-    return <path d={`M${cx - w / 2} ${cy + 4} Q${cx + w * 0.1} ${cy + 18} ${cx + w / 2} ${cy - 10}`} stroke={INK} strokeWidth={7} fill="none" strokeLinecap="round" />;
-  const curve = expr === "happy" ? 26 : 12;
-  return <path d={`M${cx - w / 2} ${cy} Q${cx} ${cy + curve} ${cx + w / 2} ${cy}`} stroke={INK} strokeWidth={7} fill={expr === "happy" ? "#5a1a22" : "none"} strokeLinecap="round" />;
+  if (expr === "angry") return <path d={`M${x - w / 2} ${cy + 6} Q${x} ${cy - 8} ${x + w / 2} ${cy + 6}`} stroke={INK} strokeWidth={w * 0.15} fill="none" strokeLinecap="round" />;
+  if (expr === "smug") return <path d={`M${x - w / 2} ${cy + 2} Q${x} ${cy + w * 0.25} ${x + w / 2} ${cy - w * 0.12}`} stroke={INK} strokeWidth={w * 0.15} fill="none" strokeLinecap="round" />;
+  const curve = expr === "happy" ? w * 0.45 : w * 0.2;
+  return <path d={`M${x - w / 2} ${cy} Q${x} ${cy + curve} ${x + w / 2} ${cy - 2}`} stroke={INK} strokeWidth={w * 0.15} fill={expr === "happy" ? "#3a1620" : "none"} strokeLinecap="round" />;
+};
+
+const shade = (hex: string, k: number) => {
+  const n = parseInt(hex.slice(1), 16);
+  const c = [(n >> 16) & 255, (n >> 8) & 255, n & 255].map((v) => Math.max(0, Math.min(255, Math.round(k > 0 ? v + (255 - v) * k : v * (1 + k)))));
+  return `rgb(${c.join(",")})`;
 };
 
 /* ---------- humans ---------- */
 export type ToonProps = {
   hair?: "bowl" | "spiky" | "hood" | "helmet" | "judge" | "lawyer" | "bald" | "kerchief" | "curly";
   hairColor?: string;
-  skin?: string;
-  outfit?: string;
-  outfit2?: string;
+  outfit?: string; // vest / tunic
+  outfit2?: string; // shirt strip
   robe?: boolean;
   beard?: string | null;
   expr?: Expr;
@@ -93,13 +108,12 @@ export type ToonProps = {
   look?: number;
 };
 
-/** Toon: big round head, thin legs, bold outline. viewBox 400x820 (feet at y=800). */
+/** Reference-style toon: big white round head, capsule body, stick limbs with ball hands. viewBox 400x820, feet ~805. */
 export const Toon: React.FC<ToonProps> = ({
   hair = "bowl",
-  hairColor = "#6b3b1f",
-  skin = "#fff3df",
-  outfit = "#3f7d5a",
-  outfit2 = "#2c5a40",
+  hairColor = "#d8692a",
+  outfit = "#d9a82a",
+  outfit2 = "#f2f2ee",
   robe = false,
   beard = null,
   expr = "neutral",
@@ -111,207 +125,241 @@ export const Toon: React.FC<ToonProps> = ({
   flip = false,
   look = 0,
 }) => {
+  const uid = useId().replace(/:/g, "");
   const f = useCurrentFrame() + seed * 13;
-  const bob = Math.sin(f / 9) * 5;
-  const sway = Math.sin(f / 16) * 2;
-  const headY = 250 + bob * 0.5;
-  const sw = 9;
-  // arm angles: [left, right] rotation degrees from hanging down
-  const gavelSwing = pose === "gavel" ? -120 + Math.max(0, Math.sin(f / 5)) * 70 : 0;
+  const bob = Math.sin(f / 11) * 4;
+  const sway = Math.sin(f / 19) * 1.5;
+  const headY = 205 + bob * 0.4;
+  const sw = 10;
+  const gavelSwing = pose === "gavel" ? -125 + Math.max(0, Math.sin(f / 5)) * 75 : 0;
   const arms: Record<string, [number, number]> = {
-    idle: [12 + Math.sin(f / 10) * 3, -12 - Math.sin(f / 10) * 3],
-    point: [12, -95 + Math.sin(f / 6) * 4],
-    up: [150 + Math.sin(f / 3) * 12, -150 - Math.sin(f / 3) * 12],
-    gavel: [15, gavelSwing],
-    hips: [40, -40],
-    shrug: [70 + Math.sin(f / 8) * 5, -70 - Math.sin(f / 8) * 5],
-    hold: [12, -55],
+    idle: [10 + Math.sin(f / 12) * 3, -10 - Math.sin(f / 12) * 3],
+    point: [10, -88 + Math.sin(f / 7) * 4],
+    up: [155 + Math.sin(f / 3) * 10, -155 - Math.sin(f / 3) * 10],
+    gavel: [12, gavelSwing],
+    hips: [35, -35],
+    shrug: [75 + Math.sin(f / 8) * 5, -75 - Math.sin(f / 8) * 5],
+    hold: [10, -60],
   };
   const [la, ra] = arms[pose];
-  const shL = { x: 145, y: 470 };
-  const shR = { x: 255, y: 470 };
-  const armLen = 175;
+  const shL = { x: 132, y: 410 + bob };
+  const shR = { x: 268, y: 410 + bob };
+  const armLen = 200;
   const hand = (sh: { x: number; y: number }, ang: number) => {
     const r = (ang * Math.PI) / 180;
     return { x: sh.x - Math.sin(r) * armLen, y: sh.y + Math.cos(r) * armLen };
   };
   const hL = hand(shL, la);
   const hR = hand(shR, ra);
-  const bodyBottom = robe ? 730 : 640;
-  const kneeSwing = Math.sin(f / 9) * 3;
+  const bodyTop = 330 + bob;
+  const bodyBot = robe ? 760 : 630;
+  const legSw = Math.sin(f / 11) * 4;
+  const hairD = shade(hairColor, -0.25);
+  const hairL = shade(hairColor, 0.35);
+  const lid = "#eef2f6";
+
+  const Arm: React.FC<{ s: { x: number; y: number }; h: { x: number; y: number }; side: number }> = ({ s, h, side }) => {
+    const mx = (s.x + h.x) / 2 + side * 18;
+    const my = (s.y + h.y) / 2 + 10;
+    return (
+      <g>
+        <path d={`M${s.x} ${s.y} Q${mx} ${my} ${h.x} ${h.y}`} stroke={INK} strokeWidth={11} fill="none" strokeLinecap="round" />
+        <circle cx={h.x} cy={h.y} r="20" fill={`url(#hand${uid})`} stroke={INK} strokeWidth="3" />
+      </g>
+    );
+  };
 
   return (
-    <svg
-      width={(height * 400) / 820}
-      height={height}
-      viewBox="0 0 400 820"
-      style={{ overflow: "visible", transform: flip ? "scaleX(-1)" : undefined }}
-    >
-      <ellipse cx="200" cy="805" rx="120" ry="16" fill="rgba(0,0,0,0.28)" />
-      {/* legs */}
-      {!robe && (
-        <g>
-          <path d={`M175 620 L${165 + kneeSwing} 790`} stroke={INK} strokeWidth={14} strokeLinecap="round" />
-          <path d={`M225 620 L${235 - kneeSwing} 790`} stroke={INK} strokeWidth={14} strokeLinecap="round" />
-          <path d={`M175 620 L${165 + kneeSwing} 790`} stroke={outfit2} strokeWidth={6} strokeLinecap="round" />
-          <path d={`M225 620 L${235 - kneeSwing} 790`} stroke={outfit2} strokeWidth={6} strokeLinecap="round" />
-        </g>
-      )}
-      <ellipse cx={robe ? 165 : 158 + kneeSwing} cy="795" rx="30" ry="14" fill="#4a2c1a" stroke={INK} strokeWidth={6} />
-      <ellipse cx={robe ? 235 : 242 - kneeSwing} cy="795" rx="30" ry="14" fill="#4a2c1a" stroke={INK} strokeWidth={6} />
-      {/* spear behind */}
+    <svg width={(height * 400) / 820} height={height} viewBox="0 0 400 820" style={{ overflow: "visible", transform: flip ? "scaleX(-1)" : undefined }}>
+      <defs>
+        <radialGradient id={`head${uid}`} cx="40%" cy="35%" r="70%">
+          <stop offset="0.55" stopColor="#ffffff" />
+          <stop offset="0.85" stopColor="#e4e9f0" />
+          <stop offset="1" stopColor="#c3cbd8" />
+        </radialGradient>
+        <linearGradient id={`body${uid}`} x1="0" x2="1">
+          <stop offset="0" stopColor={shade(outfit, 0.15)} />
+          <stop offset="0.6" stopColor={outfit} />
+          <stop offset="1" stopColor={shade(outfit, -0.35)} />
+        </linearGradient>
+        <linearGradient id={`hair${uid}`} x1="0" x2="0.4" y1="0" y2="1">
+          <stop offset="0" stopColor={hairL} />
+          <stop offset="0.5" stopColor={hairColor} />
+          <stop offset="1" stopColor={hairD} />
+        </linearGradient>
+        <radialGradient id={`hand${uid}`} cx="35%" cy="30%" r="70%">
+          <stop offset="0" stopColor="#6a5560" />
+          <stop offset="0.5" stopColor="#2e2329" />
+          <stop offset="1" stopColor="#120d11" />
+        </radialGradient>
+        <linearGradient id={`metal${uid}`} x1="0" x2="1" y1="0" y2="1">
+          <stop offset="0" stopColor="#eef2f6" />
+          <stop offset="0.5" stopColor="#aab4c0" />
+          <stop offset="1" stopColor="#6c7684" />
+        </linearGradient>
+      </defs>
+      <ellipse cx="200" cy="808" rx="110" ry="14" fill="rgba(0,0,0,0.3)" />
       {prop === "spear" && (
-        <g transform={`translate(${hR.x - 200} 0)`}>
-          <line x1="200" y1="120" x2="200" y2="800" stroke="#7a4b26" strokeWidth="14" />
-          <line x1="200" y1="120" x2="200" y2="800" stroke={INK} strokeWidth="3" strokeDasharray="0" opacity="0.3" />
-          <path d="M200 30 L226 130 L200 118 L174 130 Z" fill="#d7dde3" stroke={INK} strokeWidth={6} strokeLinejoin="round" />
+        <g transform={`translate(${hR.x - 200} ${bob})`}>
+          <line x1="200" y1="60" x2="200" y2="805" stroke={INK} strokeWidth="16" strokeLinecap="round" />
+          <line x1="200" y1="60" x2="200" y2="805" stroke="#8a5a32" strokeWidth="8" />
+          <path d="M200 -40 L224 70 L200 58 L176 70 Z" fill={`url(#metal${uid})`} stroke={INK} strokeWidth={6} strokeLinejoin="round" />
         </g>
       )}
       {prop === "pitchfork" && (
-        <g transform={`translate(${hR.x - 200} 0)`}>
-          <line x1="200" y1="180" x2="200" y2="800" stroke="#9a6a3a" strokeWidth="12" />
-          <path d="M160 100 L160 170 Q200 200 240 170 L240 100 M200 90 L200 185" stroke={INK} strokeWidth={10} fill="none" strokeLinecap="round" />
+        <g transform={`translate(${hR.x - 200} ${bob})`}>
+          <line x1="200" y1="160" x2="200" y2="805" stroke={INK} strokeWidth="15" />
+          <line x1="200" y1="160" x2="200" y2="805" stroke="#a57441" strokeWidth="8" />
+          <path d="M160 70 L160 150 Q200 180 240 150 L240 70 M200 60 L200 170" stroke={INK} strokeWidth={10} fill="none" strokeLinecap="round" />
         </g>
       )}
-      <g transform={`rotate(${sway} 200 800)`}>
-        {/* body */}
-        <path
-          d={`M140 ${440 + bob} Q200 ${415 + bob} 260 ${440 + bob} Q${robe ? 300 : 285} ${bodyBottom - 80} ${robe ? 290 : 272} ${bodyBottom} Q200 ${bodyBottom + 18} ${robe ? 110 : 128} ${bodyBottom} Q${robe ? 100 : 115} ${bodyBottom - 80} 140 ${440 + bob} Z`}
-          fill={outfit}
-          stroke={INK}
-          strokeWidth={sw}
-          strokeLinejoin="round"
-        />
-        {/* center stripe / lacing */}
-        <path d={`M200 ${432 + bob} L200 ${bodyBottom + 8}`} stroke={outfit2} strokeWidth={22} />
-        {[0, 1, 2].map((i) => (
-          <circle key={i} cx="200" cy={470 + bob + i * 38} r="7" fill="#f2d27a" stroke={INK} strokeWidth="3" />
-        ))}
-        {/* belt */}
-        {!robe && <rect x="122" y={575} width="156" height="22" rx="6" fill="#5b3420" stroke={INK} strokeWidth={6} />}
-        {!robe && <rect x="186" y={572} width="28" height="28" rx="4" fill="#f2c14e" stroke={INK} strokeWidth={5} />}
-        {robe && <path d={`M150 ${445 + bob} L200 ${520 + bob} L250 ${445 + bob}`} fill="#fff" stroke={INK} strokeWidth={6} />}
-        {/* arms */}
-        {[
-          [shL, hL],
-          [shR, hR],
-        ].map(([s, h], i) => (
-          <g key={i}>
-            <path d={`M${s.x} ${s.y + bob} Q${(s.x + h.x) / 2 + (i ? 12 : -12)} ${(s.y + h.y) / 2 + bob} ${h.x} ${h.y + bob}`} stroke={INK} strokeWidth={22} fill="none" strokeLinecap="round" />
-            <path d={`M${s.x} ${s.y + bob} Q${(s.x + h.x) / 2 + (i ? 12 : -12)} ${(s.y + h.y) / 2 + bob} ${h.x} ${h.y + bob}`} stroke={outfit} strokeWidth={10} fill="none" strokeLinecap="round" />
-            <circle cx={h.x} cy={h.y + bob} r="22" fill={skin} stroke={INK} strokeWidth={7} />
-          </g>
-        ))}
-        {/* held props in right hand */}
+      {/* legs: very thin, slightly bent, no feet */}
+      <g>
+        <path d={`M178 ${bodyBot - 20} Q${168 + legSw} 720 ${170 - legSw} 805 l-14 2`} stroke={INK} strokeWidth={10} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={`M222 ${bodyBot - 20} Q${236 - legSw} 720 ${228 + legSw} 805 l14 2`} stroke={INK} strokeWidth={10} fill="none" strokeLinecap="round" strokeLinejoin="round" />
+        <path d={`M222 ${bodyBot - 20} Q${236 - legSw} 720 ${228 + legSw} 805`} stroke="#5d6072" strokeWidth={3.5} fill="none" strokeLinecap="round" />
+      </g>
+      <g transform={`rotate(${sway} 200 805)`}>
+        {/* back arm */}
+        <Arm s={shL} h={{ x: hL.x, y: hL.y + bob }} side={-1} />
+        {/* capsule body */}
+        <rect x="118" y={bodyTop} width="164" height={bodyBot - bodyTop} rx="80" fill={`url(#body${uid})`} stroke={INK} strokeWidth={sw} />
+        {/* shirt strip + vest edges */}
+        <path d={`M178 ${bodyTop + 6} L178 ${bodyBot - 8} Q200 ${bodyBot - 4} 222 ${bodyBot - 8} L222 ${bodyTop + 6} Z`} fill={outfit2} />
+        <line x1="178" y1={bodyTop + 8} x2="178" y2={bodyBot - 10} stroke={INK} strokeWidth="4" opacity="0.8" />
+        <line x1="222" y1={bodyTop + 8} x2="222" y2={bodyBot - 10} stroke={INK} strokeWidth="4" opacity="0.8" />
+        {/* stitching */}
+        <path d={`M135 ${bodyBot - 48} Q200 ${bodyBot - 36} 265 ${bodyBot - 48}`} stroke={shade(outfit, 0.5)} strokeWidth="3.5" strokeDasharray="12 9" fill="none" opacity="0.9" />
+        {!robe && <rect x="232" y={bodyTop + 110} width="34" height="30" rx="5" fill={shade(outfit, 0.45)} stroke={INK} strokeWidth="3" opacity="0.9" />}
+        {robe && (
+          <>
+            <path d={`M170 ${bodyTop + 4} L200 ${bodyTop + 70} L230 ${bodyTop + 4}`} fill="#fbfbf8" stroke={INK} strokeWidth={5} strokeLinejoin="round" />
+            <path d={`M118 ${bodyTop + 160} Q200 ${bodyTop + 180} 282 ${bodyTop + 160}`} stroke={shade(outfit, -0.4)} strokeWidth="14" fill="none" />
+          </>
+        )}
+        {/* front arm */}
+        <Arm s={shR} h={{ x: hR.x, y: hR.y + bob }} side={1} />
         {prop === "gavel" && (
           <g transform={`translate(${hR.x} ${hR.y + bob}) rotate(${ra + 180})`}>
-            <rect x="-6" y="-95" width="12" height="95" fill="#8a5a2b" stroke={INK} strokeWidth="4" />
-            <rect x="-38" y="-130" width="76" height="40" rx="8" fill="#a8693a" stroke={INK} strokeWidth="6" />
+            <rect x="-6" y="-100" width="12" height="100" fill="#8a5a2b" stroke={INK} strokeWidth="4" />
+            <rect x="-40" y="-138" width="80" height="42" rx="9" fill="#9b5f32" stroke={INK} strokeWidth="6" />
+            <rect x="-34" y="-132" width="30" height="10" rx="4" fill="#d79a62" opacity="0.8" />
           </g>
         )}
         {prop === "scroll" && (
-          <g transform={`translate(${hR.x} ${hR.y + bob - 20}) rotate(-10)`}>
-            <rect x="-10" y="-70" width="90" height="120" fill="#f5e6c0" stroke={INK} strokeWidth="6" />
-            <rect x="-18" y="-82" width="106" height="20" rx="10" fill="#e2c98d" stroke={INK} strokeWidth="5" />
-            <rect x="-18" y="40" width="106" height="20" rx="10" fill="#e2c98d" stroke={INK} strokeWidth="5" />
+          <g transform={`translate(${hR.x - 10} ${hR.y + bob - 30}) rotate(-8)`}>
+            <rect x="-10" y="-70" width="90" height="120" fill="#f1e2bd" stroke={INK} strokeWidth="6" />
+            <rect x="-18" y="-82" width="106" height="20" rx="10" fill="#dcc185" stroke={INK} strokeWidth="5" />
+            <rect x="-18" y="40" width="106" height="20" rx="10" fill="#dcc185" stroke={INK} strokeWidth="5" />
             {[0, 1, 2, 3].map((i) => (
               <line key={i} x1="5" x2={65 - (i % 2) * 15} y1={-45 + i * 22} y2={-45 + i * 22} stroke="#9b7b4a" strokeWidth="5" />
             ))}
           </g>
         )}
         {/* head */}
-        <g transform={`translate(0 ${bob * 0.4})`}>
-          {hair === "hood" && <path d="M60 260 Q50 90 200 80 Q350 90 340 260 L350 440 L50 440 Z" fill={hairColor} stroke={INK} strokeWidth={sw} />}
-          {hair === "lawyer" && <path d="M85 300 Q70 360 110 420 L290 420 Q330 360 315 300 Z" fill="#e8e1d2" stroke={INK} strokeWidth={sw} />}
+        <g>
+          {hair === "hood" && <path d={`M40 ${headY + 40} Q30 ${headY - 190} 200 ${headY - 195} Q370 ${headY - 190} 360 ${headY + 40} L370 ${headY + 210} L30 ${headY + 210} Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} />}
           {hair === "curly" &&
-            [0, 1, 2, 3, 4, 5, 6, 7, 8].map((i) => {
-              const a = Math.PI * (1.05 + (i / 8) * 0.9);
-              return <circle key={i} cx={200 + Math.cos(a) * 140} cy={headY + 10 + Math.sin(a) * 135} r="42" fill={hairColor} stroke={INK} strokeWidth={sw} />;
+            Array.from({ length: 9 }).map((_, i) => {
+              const a = Math.PI * (1.02 + (i / 8) * 0.96);
+              return <circle key={i} cx={200 + Math.cos(a) * 145} cy={headY + 5 + Math.sin(a) * 140} r="44" fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} />;
             })}
-          <ellipse cx="200" cy={headY} rx="150" ry="142" fill={skin} stroke={INK} strokeWidth={sw + 1} />
-          {/* cheeks */}
-          <ellipse cx={130} cy={headY + 45} rx="24" ry="14" fill="#ff9b9b" opacity="0.55" />
-          <ellipse cx={270} cy={headY + 45} rx="24" ry="14" fill="#ff9b9b" opacity="0.55" />
+          <ellipse cx="200" cy={headY} rx="152" ry="148" fill={`url(#head${uid})`} stroke={INK} strokeWidth={sw + 2} />
+          {/* subtle rim light */}
+          <path d={`M88 ${headY + 70} Q120 ${headY + 125} 185 ${headY + 138}`} stroke="white" strokeWidth="5" fill="none" opacity="0.7" strokeLinecap="round" />
           {beard && (
             <path
-              d={`M88 ${headY + 30} Q95 ${headY + 175} 200 ${headY + 185} Q305 ${headY + 175} 312 ${headY + 30} Q290 ${headY + 110} 200 ${headY + 115} Q110 ${headY + 110} 88 ${headY + 30} Z`}
+              d={`M70 ${headY + 20} Q78 ${headY + 170} 200 ${headY + 182} Q322 ${headY + 170} 330 ${headY + 20} Q300 ${headY + 100} 200 ${headY + 104} Q100 ${headY + 100} 70 ${headY + 20} Z`}
               fill={beard}
               stroke={INK}
               strokeWidth={sw}
             />
           )}
-          <Eyes cx={200} cy={headY - 5} gap={52} size={17} expr={expr} f={f} seed={seed} look={look} />
-          <Mouth cx={200} cy={headY + 62} w={56} expr={expr} talking={talking} f={f} />
-          {/* hair styles */}
-          {hair === "bowl" && (
-            <path
-              d={`M52 ${headY - 5} Q40 ${headY - 175} 200 ${headY - 170} Q360 ${headY - 175} 348 ${headY - 5} Q330 ${headY - 50} 300 ${headY - 55} L100 ${headY - 55} Q70 ${headY - 50} 52 ${headY - 5} Z`}
-              fill={hairColor}
-              stroke={INK}
-              strokeWidth={sw}
-              strokeLinejoin="round"
-            />
+          <Eyes cx={200 + look} cy={headY + 15} gap={50} size={17} expr={expr} f={f} seed={seed} lid={lid} />
+          <Mouth cx={200 + look} cy={headY + (beard ? 82 : 78)} w={44} expr={expr} talking={talking} f={f} />
+          {hair === "bald" && (
+            <g stroke={INK} strokeWidth="5" fill="none" strokeLinecap="round">
+              <path d={`M150 ${headY - 135} q30 -25 60 -5`} />
+              <path d={`M165 ${headY - 120} q30 -25 60 -5`} />
+            </g>
           )}
           {hair === "spiky" && (
             <g>
-              {[-2, -1, 0, 1, 2].map((i) => (
-                <path
-                  key={i}
-                  d={`M${200 + i * 52 - 45} ${headY - 95 + Math.abs(i) * 18} Q${200 + i * 60} ${headY - 250 + Math.abs(i) * 30} ${200 + i * 52 + 70} ${headY - 120 + Math.abs(i) * 16} Z`}
-                  fill={hairColor}
-                  stroke={INK}
-                  strokeWidth={sw}
-                  strokeLinejoin="round"
-                />
+              {[-2, -1, 0, 1, 2].map((i) => {
+                const bx = 200 + i * 55;
+                const by = headY - 110 + Math.abs(i) * 22;
+                return (
+                  <g key={i}>
+                    <path d={`M${bx - 55} ${by + 30} Q${bx - 40} ${by - 120} ${bx + 70} ${by - 150 + Math.abs(i) * 25} Q${bx + 10} ${by - 70} ${bx + 55} ${by + 25} Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+                    <path d={`M${bx - 30} ${by - 10} Q${bx - 10} ${by - 80} ${bx + 40} ${by - 110 + Math.abs(i) * 20}`} stroke={hairL} strokeWidth="6" fill="none" strokeLinecap="round" opacity="0.9" />
+                  </g>
+                );
+              })}
+            </g>
+          )}
+          {hair === "bowl" && (
+            <g>
+              <path
+                d={`M46 ${headY + 5} Q30 ${headY - 175} 200 ${headY - 172} Q370 ${headY - 175} 354 ${headY + 5} L325 ${headY - 40} L300 ${headY - 10} L275 ${headY - 50} L245 ${headY - 20} L220 ${headY - 55} L190 ${headY - 25} L160 ${headY - 55} L130 ${headY - 20} L105 ${headY - 50} L78 ${headY - 15} Z`}
+                fill={`url(#hair${uid})`}
+                stroke={INK}
+                strokeWidth={sw}
+                strokeLinejoin="round"
+              />
+              <path d={`M90 ${headY - 90} Q140 ${headY - 150} 230 ${headY - 150}`} stroke={hairL} strokeWidth="7" fill="none" strokeLinecap="round" />
+              {[0, 1, 2, 3, 4].map((i) => (
+                <circle key={i} cx={110 + i * 45} cy={headY - 70 - (i % 2) * 25} r="4" fill={hairD} />
               ))}
             </g>
           )}
-          {hair === "curly" && <path d={`M80 ${headY - 70} Q200 ${headY - 150} 320 ${headY - 70}`} stroke={hairColor} strokeWidth={50} fill="none" />}
+          {hair === "curly" && <path d={`M90 ${headY - 95} Q200 ${headY - 160} 310 ${headY - 95}`} stroke={hairL} strokeWidth="8" fill="none" strokeLinecap="round" />}
           {hair === "kerchief" && (
             <g>
-              <path d={`M48 ${headY - 10} Q50 ${headY - 170} 200 ${headY - 165} Q350 ${headY - 170} 352 ${headY - 10} Q200 ${headY - 90} 48 ${headY - 10} Z`} fill={hairColor} stroke={INK} strokeWidth={sw} />
-              {[0, 1, 2, 3].map((i) => (
-                <circle key={i} cx={110 + i * 60} cy={headY - 110 + (i % 2) * 20} r="9" fill="white" opacity="0.8" />
+              <path d={`M42 ${headY - 5} Q42 ${headY - 185} 200 ${headY - 182} Q358 ${headY - 185} 358 ${headY - 5} Q200 ${headY - 95} 42 ${headY - 5} Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} />
+              {[0, 1, 2, 3, 4].map((i) => (
+                <circle key={i} cx={95 + i * 52} cy={headY - 115 + (i % 2) * 28} r="9" fill="white" opacity="0.85" />
               ))}
+              <path d={`M330 ${headY - 40} l45 25 l-10 -45 Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth="7" strokeLinejoin="round" />
             </g>
           )}
+          {hair === "hood" && <path d={`M52 ${headY + 20} Q55 ${headY - 175} 200 ${headY - 178} Q345 ${headY - 175} 348 ${headY + 20}`} fill="none" stroke={INK} strokeWidth={sw} />}
           {hair === "helmet" && (
             <g>
-              <path d={`M30 ${headY - 40} Q200 ${headY - 20} 370 ${headY - 40} L340 ${headY - 70} Q200 ${headY - 60} 60 ${headY - 70} Z`} fill="#b9c2cc" stroke={INK} strokeWidth={sw} />
-              <path d={`M70 ${headY - 65} Q70 ${headY - 210} 200 ${headY - 210} Q330 ${headY - 210} 330 ${headY - 65} Z`} fill="#cfd6de" stroke={INK} strokeWidth={sw} />
-              <path d={`M110 ${headY - 150} Q140 ${headY - 190} 190 ${headY - 195}`} stroke="white" strokeWidth={10} fill="none" strokeLinecap="round" opacity="0.8" />
+              <path d={`M20 ${headY - 35} Q200 ${headY - 5} 380 ${headY - 35} L350 ${headY - 75} Q200 ${headY - 60} 50 ${headY - 75} Z`} fill={`url(#metal${uid})`} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+              <path d={`M65 ${headY - 70} Q65 ${headY - 225} 200 ${headY - 225} Q335 ${headY - 225} 335 ${headY - 70} Z`} fill={`url(#metal${uid})`} stroke={INK} strokeWidth={sw} />
+              <path d={`M115 ${headY - 150} Q140 ${headY - 195} 195 ${headY - 205}`} stroke="white" strokeWidth={9} fill="none" strokeLinecap="round" opacity="0.9" />
+              <line x1="200" y1={headY - 225} x2="200" y2={headY - 70} stroke={INK} strokeWidth="5" opacity="0.5" />
             </g>
           )}
           {hair === "judge" && (
             <g>
-              <path d={`M60 ${headY - 70} L90 ${headY - 280} Q200 ${headY - 310} 310 ${headY - 280} L340 ${headY - 70} Q200 ${headY - 100} 60 ${headY - 70} Z`} fill="#a3202c" stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
-              <path d={`M55 ${headY - 75} Q200 ${headY - 110} 345 ${headY - 75}`} stroke="#f3d27a" strokeWidth={22} fill="none" />
-              <path d={`M55 ${headY - 75} Q200 ${headY - 110} 345 ${headY - 75}`} stroke={INK} strokeWidth={5} fill="none" opacity="0.6" />
-              <circle cx="200" cy={headY - 300} r="18" fill="#f3d27a" stroke={INK} strokeWidth={6} />
+              <path d={`M58 ${headY - 75} L88 ${headY - 290} Q200 ${headY - 320} 312 ${headY - 290} L342 ${headY - 75} Q200 ${headY - 105} 58 ${headY - 75} Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+              <path d={`M110 ${headY - 120} L128 ${headY - 270}`} stroke={hairL} strokeWidth="8" strokeLinecap="round" opacity="0.8" />
+              <path d={`M52 ${headY - 80} Q200 ${headY - 118} 348 ${headY - 80}`} stroke={INK} strokeWidth={30} fill="none" />
+              <path d={`M52 ${headY - 80} Q200 ${headY - 118} 348 ${headY - 80}`} stroke="#e6bd55" strokeWidth={20} fill="none" />
+              <circle cx="200" cy={headY - 312} r="18" fill="#e6bd55" stroke={INK} strokeWidth={6} />
             </g>
           )}
           {hair === "lawyer" && (
             <g>
-              <path d={`M70 ${headY - 80} Q200 ${headY - 140} 330 ${headY - 80} L320 ${headY - 190} L80 ${headY - 190} Z`} fill="#22202a" stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
-              <path d={`M80 ${headY - 190} Q200 ${headY - 240} 320 ${headY - 190}`} fill="#22202a" stroke={INK} strokeWidth={sw} />
-              <circle cx="200" cy={headY - 228} r="16" fill="#c03a3a" stroke={INK} strokeWidth={5} />
+              <path d={`M62 ${headY - 85} Q200 ${headY - 140} 338 ${headY - 85} L325 ${headY - 200} L75 ${headY - 200} Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+              <path d={`M75 ${headY - 200} Q200 ${headY - 255} 325 ${headY - 200}`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} />
+              <path d={`M100 ${headY - 110} L105 ${headY - 190}`} stroke={hairL} strokeWidth="7" strokeLinecap="round" />
+              <circle cx="200" cy={headY - 240} r="16" fill="#b8323a" stroke={INK} strokeWidth={5} />
             </g>
           )}
-          {hair === "hood" && <path d={`M58 ${headY + 10} Q60 ${headY - 175} 200 ${headY - 178} Q340 ${headY - 175} 342 ${headY + 10}`} fill="none" stroke={INK} strokeWidth={sw} />}
         </g>
       </g>
     </svg>
   );
 };
 
-/* ---------- animals ---------- */
 export type PigProps = {
-  dressed?: boolean;
   expr?: Expr;
   height?: number;
   flip?: boolean;
   seed?: number;
-  jacket?: number; // 0..1 reveal amounts
+  jacket?: number;
   pants?: number;
   gloves?: number;
   chained?: boolean;
@@ -325,8 +373,16 @@ export const Pig: React.FC<PigProps> = ({ expr = "neutral", height = 600, flip =
   const pink = "#ffb3c1";
   const pinkD = "#f48aa0";
   const tail = Math.sin(f / 4) * 10;
+  const uid = useId().replace(/:/g, "");
   return (
     <svg width={(height * 400) / 600} height={height} viewBox="0 0 400 600" style={{ overflow: "visible", transform: flip ? "scaleX(-1)" : undefined }}>
+      <defs>
+        <radialGradient id={`pg${uid}`} cx="40%" cy="35%" r="70%">
+          <stop offset="0.5" stopColor="#ffc4cf" />
+          <stop offset="0.85" stopColor="#f59fb2" />
+          <stop offset="1" stopColor="#d97d93" />
+        </radialGradient>
+      </defs>
       <ellipse cx="200" cy="585" rx="120" ry="14" fill="rgba(0,0,0,0.28)" />
       {/* tail */}
       <path d={`M300 430 q30 ${-20 + tail} 20 -40 q-15 -15 -20 5 q-5 20 15 15`} stroke={INK} strokeWidth="14" fill="none" strokeLinecap="round" />
@@ -342,7 +398,7 @@ export const Pig: React.FC<PigProps> = ({ expr = "neutral", height = 600, flip =
       ))}
       <g transform={`translate(0 ${bob * 0.5})`}>
         {/* body */}
-        <ellipse cx="200" cy="420" rx="125" ry="110" fill={pink} stroke={INK} strokeWidth="10" />
+        <ellipse cx="200" cy="420" rx="125" ry="110" fill={`url(#pg${uid})`} stroke={INK} strokeWidth="10" />
         <ellipse cx="200" cy="445" rx="70" ry="60" fill="#ffd0da" />
         {/* pants (bottom of body) */}
         {pants > 0 && (
@@ -376,10 +432,8 @@ export const Pig: React.FC<PigProps> = ({ expr = "neutral", height = 600, flip =
           <path d="M325 160 L340 40 L250 110 Z" fill={pink} stroke={INK} strokeWidth="10" strokeLinejoin="round" />
           <path d="M82 140 L72 70 L130 112 Z" fill={pinkD} />
           <path d="M318 140 L328 70 L270 112 Z" fill={pinkD} />
-          <ellipse cx="200" cy="200" rx="140" ry="125" fill={pink} stroke={INK} strokeWidth="11" />
-          <ellipse cx="120" cy="250" rx="22" ry="12" fill="#ff7b98" opacity="0.6" />
-          <ellipse cx="280" cy="250" rx="22" ry="12" fill="#ff7b98" opacity="0.6" />
-          <Eyes cx={200} cy={155} gap={60} size={15} expr={expr} f={f} seed={seed + 3} />
+          <ellipse cx="200" cy="200" rx="140" ry="125" fill={`url(#pg${uid})`} stroke={INK} strokeWidth="11" />
+          <Eyes cx={200} cy={158} gap={58} size={15} expr={expr} f={f} seed={seed + 3} lid="#ffc4cf" />
           {/* snout */}
           <ellipse cx="200" cy="230" rx="55" ry="38" fill={pinkD} stroke={INK} strokeWidth="9" />
           <ellipse cx="182" cy="230" rx="9" ry="15" fill={INK} />
@@ -418,7 +472,7 @@ export const Rat: React.FC<{ height?: number; flip?: boolean; seed?: number; exp
         <circle cx="185" cy="70" r="40" fill={gray} stroke={INK} strokeWidth="9" />
         <circle cx="185" cy="70" r="22" fill="#f0a4b4" />
         <ellipse cx="130" cy="140" rx="85" ry="72" fill={gray} stroke={INK} strokeWidth="9" />
-        <Eyes cx={130} cy={125} gap={32} size={11} expr={expr} f={f} seed={seed} />
+        <Eyes cx={130} cy={125} gap={32} size={11} expr={expr} f={f} seed={seed} lid="#a7a3b5" />
         <circle cx="130" cy="172" r="13" fill="#e2607a" stroke={INK} strokeWidth="5" />
         {nibble && <rect x="115" y={186 + Math.abs(Math.sin(f / 1.5)) * 5} width="30" height="16" rx="3" fill="white" stroke={INK} strokeWidth="4" />}
         {[-1, 1].map((s) => (
