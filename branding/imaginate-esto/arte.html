@@ -1,44 +1,104 @@
 <!doctype html><html><head><meta charset="utf-8">
-<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bangers&family=Montserrat:wght@900&display=swap" rel="stylesheet">
 <style>
 body{margin:0;background:#000}
-:root{--g:#39ff88;--p:#ff2e88;--y:#ffd23f;--b:#4dc3ff;--bg:#0b0614}
-/* ---------- foto de perfil ---------- */
-#pf{width:800px;height:800px;position:relative;overflow:hidden;background:radial-gradient(circle at 50% 40%,#3b1670 0%,#170a2e 55%,#0b0614 100%);font-family:Anton}
-.stars i{position:absolute;width:6px;height:6px;border-radius:50%;background:#fff}
-.planet{position:absolute;left:150px;top:150px;width:500px;height:500px;border-radius:50%;
- background:radial-gradient(circle at 35% 30%,#7b3cff 0%,#3a1680 45%,#170a2e 75%);box-shadow:0 0 80px #7b3cff88,inset -40px -40px 80px #0006}
-.ring{position:absolute;left:40px;top:330px;width:720px;height:150px;border-radius:50%;border:14px solid var(--g);transform:rotate(-18deg);box-shadow:0 0 40px var(--g);
- clip-path:polygon(0 50%,100% 50%,100% 100%,0 100%)}
-.ringb{position:absolute;left:40px;top:330px;width:720px;height:150px;border-radius:50%;border:14px solid var(--g);transform:rotate(-18deg);opacity:.55;
- clip-path:polygon(0 0,100% 0,100% 50%,0 50%)}
-.q{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:430px;color:#fff;line-height:1;padding-bottom:30px;
- text-shadow:0 0 40px var(--p),12px 12px 0 var(--p)}
-.bolt{position:absolute;right:120px;top:100px;filter:drop-shadow(0 0 16px #ffd23f)}
-/* ---------- banner ---------- */
-#bn{width:2560px;height:1440px;position:relative;overflow:hidden;background:radial-gradient(ellipse at 50% 50%,#3b1670 0%,#170a2e 45%,#0b0614 85%);font-family:Anton}
-.grid{position:absolute;left:-1500px;right:-1500px;top:880px;height:1200px;transform:perspective(700px) rotateX(70deg);transform-origin:50% 0;
- background-image:linear-gradient(#ff2e8866 5px,transparent 5px),linear-gradient(90deg,#ff2e8866 5px,transparent 5px);background-size:140px 140px;
- -webkit-mask-image:linear-gradient(#000 0%,#000 55%,transparent)}
-.bigplanet{position:absolute;right:240px;top:180px;width:560px;height:560px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#ff7ab6 0%,#a0206a 45%,#2a0a26 80%);box-shadow:0 0 120px #ff2e8866;opacity:.85}
-.moon{position:absolute;left:330px;top:260px;width:240px;height:240px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#9fe8ff,#2a6a8a 60%,#0d2030);box-shadow:0 0 80px #4dc3ff55;opacity:.8}
-.safe{position:absolute;left:507px;top:509px;width:1546px;height:423px;display:flex;align-items:center;justify-content:center;gap:50px}
-.logo{width:320px;height:320px;flex:none;border-radius:50%;overflow:hidden;border:10px solid #fff;box-shadow:0 0 50px var(--p)}
-.logo img{width:100%;height:100%}
-.t1{font-size:178px;color:#fff;line-height:.92;white-space:nowrap;text-shadow:0 0 40px var(--p),0 12px 0 var(--p)}
-.t1 b{font-weight:400;color:var(--g);text-shadow:0 0 40px var(--g),0 12px 0 #0e6b36}
-.tags{display:flex;gap:22px;margin-top:26px}
-.tag{font-family:Montserrat;font-weight:900;font-size:40px;padding:8px 26px;border-radius:40px;white-space:nowrap}
-.a{background:var(--y);color:var(--bg)} .b{border:5px solid #fff;color:#fff}
+.c{position:relative;overflow:hidden}
+#pf{width:800px;height:800px}
+#bn{width:2560px;height:1440px}
+svg{position:absolute;overflow:visible}
+.title{position:absolute;font-family:Bangers;color:#fff;white-space:nowrap;letter-spacing:4px;
+ -webkit-text-stroke:18px #1a0b2e;paint-order:stroke fill;text-shadow:12px 14px 0 #1a0b2e}
+.tag{position:absolute;font-family:Montserrat;font-weight:900;white-space:nowrap;border:8px solid #1a0b2e;border-radius:60px;box-shadow:8px 10px 0 #1a0b2e}
 </style></head><body>
-<div id="pf"><div class="stars" id="st1"></div><div class="ringb"></div><div class="planet"></div><div class="q">¿?</div><div class="ring"></div>
-<svg class="bolt" width="130" height="175" viewBox="0 0 30 40"><path d="M18 0 L2 23 H13 L9 40 L28 14 H17 Z" fill="#ffd23f" stroke="#0b0614" stroke-width="2"/></svg></div>
-<div id="bn"><div class="stars" id="st2"></div><div class="grid"></div><div class="moon"></div><div class="bigplanet"></div>
-<div class="safe"><div class="logo"><img id="lg"></div>
-<div><div class="t1">IMAGÍNATE <b>ESTO</b></div>
-<div class="tags"><div class="tag a">¿Qué pasaría si…?</div><div class="tag b">⚡ Datos curiosos rápidos</div></div></div></div></div>
+<div class="c" id="pf"></div>
+<div class="c" id="bn"></div>
 <script>
-const r=(s)=>{let x=Math.sin(s*9301+49297)*233280;return x-Math.floor(x)};
-function stars(id,n,w,h){const e=document.getElementById(id);for(let i=0;i<n;i++){const s=document.createElement('i');s.style.left=r(i+id.length*7)*w+'px';s.style.top=r(i*3+id.length)*h+'px';const z=2+r(i+5)*6;s.style.width=s.style.height=z+'px';s.style.opacity=.3+r(i+9)*.7;e.appendChild(s)}}
-stars('st1',60,800,800);stars('st2',220,2560,1440);
+const O = '#1a0b2e'; // contorno de dibujo animado
+// ---------- piezas de dibujo ----------
+const sunburst = (w,h,cx,cy,n,c1,c2)=>{let s=`<svg width="${w}" height="${h}" style="left:0;top:0"><rect width="${w}" height="${h}" fill="${c1}"/>`;
+  const R=Math.hypot(w,h);for(let i=0;i<n;i++){const a1=i/n*2*Math.PI,a2=(i+.5)/n*2*Math.PI;
+  s+=`<path d="M${cx} ${cy} L${cx+R*Math.cos(a1)} ${cy+R*Math.sin(a1)} L${cx+R*Math.cos(a2)} ${cy+R*Math.sin(a2)}Z" fill="${c2}"/>`}
+  return s+`<radialGradient id="vg${w}"><stop offset="40%" stop-color="#000" stop-opacity="0"/><stop offset="100%" stop-color="#000" stop-opacity=".55"/></radialGradient><rect width="${w}" height="${h}" fill="url(#vg${w})"/></svg>`};
+const earth = (x,y,s,look=0)=>`<svg width="${s}" height="${s}" viewBox="0 0 200 200" style="left:${x}px;top:${y}px">
+  <defs><clipPath id="ec${x}"><circle cx="100" cy="100" r="92"/></clipPath></defs>
+  <circle cx="100" cy="100" r="92" fill="#2f8fff"/>
+  <g clip-path="url(#ec${x})" fill="#3ccf5a">
+   <path d="M20 60 q30 -30 60 -10 q10 25 -15 35 q-10 20 -35 10 q-20 -10 -10 -35z"/>
+   <path d="M120 20 q40 0 60 30 q-10 20 -35 15 q-25 -5 -25 -45z"/>
+   <path d="M130 120 q30 -10 50 10 q0 40 -30 55 q-30 -10 -20 -65z"/>
+   <path d="M30 140 q20 -5 30 15 q-5 25 -25 25 q-15 -15 -5 -40z"/>
+  </g>
+  <circle cx="100" cy="100" r="92" fill="none" stroke="#fff" stroke-opacity=".35" stroke-width="10" stroke-dasharray="80 400" transform="rotate(200 100 100)"/>
+  <circle cx="100" cy="100" r="92" fill="none" stroke="${O}" stroke-width="9"/>
+  <!-- cejas -->
+  <path d="M52 52 q18 -16 36 -4" stroke="${O}" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <path d="M112 48 q18 -12 36 4" stroke="${O}" stroke-width="8" fill="none" stroke-linecap="round"/>
+  <!-- ojos -->
+  <ellipse cx="72" cy="82" rx="20" ry="25" fill="#fff" stroke="${O}" stroke-width="6"/>
+  <ellipse cx="128" cy="82" rx="20" ry="25" fill="#fff" stroke="${O}" stroke-width="6"/>
+  <circle cx="${76+look}" cy="${78-Math.abs(look)}" r="9" fill="${O}"/><circle cx="${132+look}" cy="${78-Math.abs(look)}" r="9" fill="${O}"/>
+  <circle cx="${79+look}" cy="${74-Math.abs(look)}" r="3" fill="#fff"/><circle cx="${135+look}" cy="${74-Math.abs(look)}" r="3" fill="#fff"/>
+  <!-- boca sorprendida -->
+  <ellipse cx="100" cy="138" rx="18" ry="22" fill="#7a1030" stroke="${O}" stroke-width="6"/>
+  <ellipse cx="100" cy="148" rx="10" ry="7" fill="#ff6b8a"/>
+  <!-- gota de sudor -->
+  <path d="M168 60 q10 18 0 26 q-10 -8 0 -26z" fill="#9fe8ff" stroke="${O}" stroke-width="4"/>
+ </svg>`;
+const asteroid = (x,y,s,rot=0)=>`<svg width="${s}" height="${s}" viewBox="0 0 200 200" style="left:${x}px;top:${y}px;transform:rotate(${rot}deg)">
+  <path d="M95 105 L10 190 L40 120 L0 150 L60 80 Z" fill="#ff7a1a" stroke="${O}" stroke-width="6" stroke-linejoin="round"/>
+  <path d="M95 105 L30 175 L60 120 L30 135 L75 90 Z" fill="#ffd23f"/>
+  <path d="M90 60 q20 -40 60 -30 q45 10 40 55 q-5 45 -50 50 q-45 5 -55 -30 q-8 -25 5 -45z" fill="#8a6a55" stroke="${O}" stroke-width="7"/>
+  <circle cx="125" cy="60" r="12" fill="#6b4f3e" stroke="${O}" stroke-width="4"/><circle cx="160" cy="105" r="9" fill="#6b4f3e" stroke="${O}" stroke-width="4"/>
+  <path d="M112 90 l18 6 M150 82 l-16 8" stroke="${O}" stroke-width="6" stroke-linecap="round"/>
+  <circle cx="122" cy="102" r="6" fill="${O}"/><circle cx="142" cy="98" r="6" fill="${O}"/>
+  <path d="M120 125 q15 -8 30 0" stroke="${O}" stroke-width="6" fill="none" stroke-linecap="round"/>
+ </svg>`;
+const moon = (x,y,s)=>`<svg width="${s}" height="${s}" viewBox="0 0 200 200" style="left:${x}px;top:${y}px">
+  <circle cx="100" cy="100" r="88" fill="#d9d4e8" stroke="${O}" stroke-width="8"/>
+  <circle cx="60" cy="60" r="16" fill="#b7b0cc" stroke="${O}" stroke-width="4"/><circle cx="150" cy="140" r="20" fill="#b7b0cc" stroke="${O}" stroke-width="4"/><circle cx="140" cy="55" r="9" fill="#b7b0cc" stroke="${O}" stroke-width="4"/>
+  <circle cx="78" cy="98" r="9" fill="${O}"/><circle cx="122" cy="98" r="9" fill="${O}"/>
+  <path d="M80 140 q20 -14 40 0" stroke="${O}" stroke-width="7" fill="none" stroke-linecap="round"/>
+  <path d="M64 78 l20 8 M136 78 l-20 8" stroke="${O}" stroke-width="6" stroke-linecap="round"/>
+ </svg>`;
+const ufo = (x,y,s)=>`<svg width="${s}" height="${s}" viewBox="0 0 200 200" style="left:${x}px;top:${y}px">
+  <path d="M70 120 L40 200 H160 L130 120Z" fill="#ffe96b" opacity=".55"/>
+  <path d="M60 80 q40 -70 80 0z" fill="#9fe8ff" stroke="${O}" stroke-width="7"/>
+  <circle cx="100" cy="62" r="14" fill="#3ccf5a" stroke="${O}" stroke-width="5"/><circle cx="96" cy="58" r="4" fill="${O}"/><circle cx="106" cy="58" r="4" fill="${O}"/>
+  <ellipse cx="100" cy="100" rx="90" ry="28" fill="#ff2e88" stroke="${O}" stroke-width="7"/>
+  <circle cx="50" cy="100" r="8" fill="#ffd23f" stroke="${O}" stroke-width="4"/><circle cx="100" cy="108" r="8" fill="#ffd23f" stroke="${O}" stroke-width="4"/><circle cx="150" cy="100" r="8" fill="#ffd23f" stroke="${O}" stroke-width="4"/>
+ </svg>`;
+const rocket = (x,y,s,rot)=>`<svg width="${s}" height="${s}" viewBox="0 0 200 200" style="left:${x}px;top:${y}px;transform:rotate(${rot}deg)">
+  <path d="M85 150 q15 50 30 0z" fill="#ff7a1a" stroke="${O}" stroke-width="6"/><path d="M93 150 q7 28 14 0z" fill="#ffd23f"/>
+  <path d="M100 10 q40 40 30 140 h-60 q-10 -100 30 -140z" fill="#fff" stroke="${O}" stroke-width="7"/>
+  <path d="M70 110 l-30 40 l32 -5z M130 110 l30 40 l-32 -5z" fill="#ff2e88" stroke="${O}" stroke-width="6" stroke-linejoin="round"/>
+  <circle cx="100" cy="75" r="18" fill="#4dc3ff" stroke="${O}" stroke-width="6"/>
+ </svg>`;
+const stars = (w,h,n,seed)=>{let s=`<svg width="${w}" height="${h}" style="left:0;top:0">`;const r=(k)=>{let x=Math.sin(k*9301+seed)*233280;return x-Math.floor(x)};
+  for(let i=0;i<n;i++){const x=r(i)*w,y=r(i+500)*h,z=10+r(i+900)*22;
+  s+=`<path d="M${x} ${y-z} L${x+z*.3} ${y-z*.3} L${x+z} ${y} L${x+z*.3} ${y+z*.3} L${x} ${y+z} L${x-z*.3} ${y+z*.3} L${x-z} ${y} L${x-z*.3} ${y-z*.3}Z" fill="#fff" opacity="${.5+r(i+77)*.5}"/>`}
+  return s+'</svg>'};
+const bubble = (x,y,w,h,txt,size,fill='#fff',color=O,tail='left')=>`<svg width="${w}" height="${h+50}" viewBox="0 0 ${w} ${h+50}" style="left:${x}px;top:${y}px">
+  <rect x="6" y="6" width="${w-12}" height="${h-12}" rx="${h/2.6}" fill="${fill}" stroke="${O}" stroke-width="10"/>
+  <path d="M${tail=='left'?w*.22:w*.7} ${h-12} L${tail=='left'?w*.12:w*.85} ${h+40} L${tail=='left'?w*.36:w*.58} ${h-12}Z" fill="${fill}" stroke="${O}" stroke-width="10" stroke-linejoin="round"/>
+  <rect x="${tail=='left'?w*.2:w*.56}" y="${h-26}" width="${w*.18}" height="22" fill="${fill}"/>
+  <text x="${w/2}" y="${h/2+size*.36}" text-anchor="middle" font-family="Bangers" font-size="${size}" fill="${color}" letter-spacing="3">${txt}</text></svg>`;
+
+// ---------- FOTO DE PERFIL ----------
+document.getElementById('pf').innerHTML =
+  sunburst(800,800,400,430,24,'#5b1fb0','#7b3cff') + stars(800,800,14,77) +
+  asteroid(440,70,300,-8) + earth(140,250,510,10) +
+  bubble(85,95,320,160,'¿Y SI...?',88,'#ffd23f');
+
+// ---------- BANNER ----------
+document.getElementById('bn').innerHTML =
+  sunburst(2560,1440,1280,720,40,'#4a168f','#6a2bd6') + stars(2560,1440,70,31) +
+  // personajes fuera de la zona segura (se ven en escritorio/TV)
+  moon(2120,430,360) + ufo(2190,90,300) + rocket(170,880,300,25) + asteroid(110,300,420,-6) +
+  // zona segura
+  earth(540,545,340,12) +
+  `<div class="title" style="left:910px;top:540px;font-size:186px;line-height:1">IMAGÍNATE <span style="color:#ffd23f">ESTO</span></div>` +
+  `<div style="position:absolute;left:925px;top:770px;display:flex;gap:22px">
+     <div class="tag" style="position:static;font-size:38px;background:#39ff88;color:#1a0b2e;padding:10px 30px">🎬 WHAT IF ANIMADOS</div>
+     <div class="tag" style="position:static;font-size:38px;background:#fff;color:#1a0b2e;padding:10px 30px">⚡ DATOS RÁPIDOS</div></div>` +
+  bubble(600,330,520,190,'¿Y SI...?',130,'#ffd23f','#1a0b2e','left');
 </script></body></html>
