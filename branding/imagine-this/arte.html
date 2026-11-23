@@ -1,0 +1,168 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Anton&family=Montserrat:wght@800;900&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#000}
+.c{position:relative;overflow:hidden}
+#bn{width:2560px;height:1440px}
+#pf{width:800px;height:800px}
+svg{position:absolute;left:0;top:0}
+.t{position:absolute;font-family:Anton;color:#f4f1ea;white-space:nowrap;letter-spacing:6px;line-height:1;
+ -webkit-text-stroke:14px #0c0a0e;paint-order:stroke fill;text-shadow:10px 12px 0 #0c0a0e, 0 0 60px rgba(0,0,0,.6)}
+.grunge{-webkit-mask-image:url(#);}
+</style></head><body>
+<div class="c" id="bn"></div>
+<div class="c" id="pf"></div>
+<script>
+const OL='#0f0b0d';
+const R=(k,s=1)=>{let x=Math.sin(k*12.9898+s*78.233)*43758.5453;return x-Math.floor(x)};
+
+const defs = (id)=>`<defs>
+ <filter id="blur20${id}"><feGaussianBlur stdDeviation="20"/></filter>
+ <filter id="blur6${id}"><feGaussianBlur stdDeviation="6"/></filter>
+ <filter id="glow${id}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="18" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <filter id="grain${id}"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" seed="4"/><feColorMatrix values="0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 .22 0"/></filter>
+ <filter id="moonTex${id}"><feTurbulence type="fractalNoise" baseFrequency="0.012" numOctaves="5" seed="9"/><feColorMatrix values="0 0 0 0 .55  0 0 0 0 .58  0 0 0 0 .62  1.2 0 0 0 -.25"/></filter>
+ <radialGradient id="moonG${id}" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#f3ecd8"/><stop offset=".6" stop-color="#b9b2a2"/><stop offset="1" stop-color="#5e5a58"/></radialGradient>
+ <linearGradient id="sky${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1820"/><stop offset=".45" stop-color="#173a48"/><stop offset=".72" stop-color="#3a5560"/><stop offset=".86" stop-color="#c46a32"/><stop offset="1" stop-color="#2a1a14"/></linearGradient>
+ <linearGradient id="sea${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#1f4250"/><stop offset="1" stop-color="#06141a"/></linearGradient>
+ <linearGradient id="ice${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#d8f2ff"/><stop offset="1" stop-color="#6fa9c4"/></linearGradient>
+ <linearGradient id="aur${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#39ffb0" stop-opacity="0"/><stop offset=".4" stop-color="#39ffb0" stop-opacity=".55"/><stop offset=".7" stop-color="#9b5cff" stop-opacity=".45"/><stop offset="1" stop-color="#9b5cff" stop-opacity="0"/></linearGradient>
+ <linearGradient id="jacket${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8873a"/><stop offset="1" stop-color="#8a3f14"/></linearGradient>
+ <linearGradient id="rock${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b3430"/><stop offset="1" stop-color="#0d0a0a"/></linearGradient>
+ <radialGradient id="vig${id}" cx="50%" cy="50%" r="75%"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".7"/></radialGradient>
+</defs>`;
+
+/* ciudad: edificios con ventanas; flooded=true → parte baja bajo el agua; icy=true → cubierto de hielo */
+function city(id,x0,x1,base,seed,icy){let s='';let x=x0;let i=0;
+ while(x<x1){const w=50+R(i,seed)*90,h=120+R(i+3,seed)*330;const col=icy?'#9ccbe0':'#24353d';const dark=icy?'#6e9fb6':'#16242a';
+  s+=`<rect x="${x}" y="${base-h}" width="${w}" height="${h+40}" fill="${col}" stroke="${OL}" stroke-width="4"/>`;
+  s+=`<rect x="${x+w*.7}" y="${base-h}" width="${w*.3}" height="${h+40}" fill="${dark}"/>`;
+  for(let r=0;r<h/34;r++)for(let c=0;c<w/24-1;c++){if(R(i*31+r*7+c,seed)>.55)s+=`<rect x="${x+8+c*22}" y="${base-h+14+r*34}" width="10" height="16" fill="${icy?'#e9fbff':'#ffb35c'}" opacity="${icy?.8:.85}"/>`}
+  if(icy){s+=`<path d="M${x-4} ${base-h} h${w+8} v14 h-${w+8}z" fill="#f2fbff" stroke="${OL}" stroke-width="3"/>`;
+   for(let k=0;k<w/14;k++)s+=`<path d="M${x+k*14} ${base-h+14} l6 ${16+R(k+i,seed)*26} l6 -${16+R(k+i,seed)*26}z" fill="#e6f8ff"/>`}
+  else if(R(i,seed+1)>.5){s+=`<path d="M${x} ${base-h+10} q${w/2} -26 ${w} 0" fill="#3d6b3a" stroke="${OL}" stroke-width="3"/>`}
+  x+=w+6+R(i+9,seed)*30;i++}return s}
+
+function rain(x0,x1,y0,y1,n,seed){let s='';for(let i=0;i<n;i++){const x=x0+R(i,seed)*(x1-x0),y=y0+R(i+1,seed)*(y1-y0),l=30+R(i+2,seed)*60;
+ s+=`<line x1="${x}" y1="${y}" x2="${x-l*.25}" y2="${y+l}" stroke="#bfe3f0" stroke-opacity="${.25+R(i+5,seed)*.35}" stroke-width="2"/>`}return s}
+
+function waves(x0,x1,y0,y1,n,seed){let s='';for(let i=0;i<n;i++){const x=x0+R(i,seed)*(x1-x0),y=y0+R(i+1,seed)*(y1-y0),w=20+R(i+2,seed)*90*(y-y0+60)/(y1-y0+60);
+ s+=`<path d="M${x} ${y} q${w/2} -${w/6} ${w} 0" stroke="#cfeaf2" stroke-opacity=".5" stroke-width="3" fill="none"/>`}return s}
+
+/* protagonista original: cabeza negra tipo silueta, ojos simples, chaqueta naranja con capucha, gafas, bufanda teal */
+function hero(id,x,y,sc,look=1){return `<g transform="translate(${x} ${y}) scale(${sc})" stroke="${OL}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
+ <!-- mochila + saco de dormir enrollado -->
+ <path d="M-230 40 h120 v250 h-120z" fill="#5b4a2c"/>
+ <rect x="-250" y="-20" width="170" height="70" rx="35" fill="#6f7a4a"/>
+ <path d="M-215 -20 v70 M-125 -20 v70" stroke="#3a2416" stroke-width="12"/>
+ <ellipse cx="-250" cy="15" rx="16" ry="35" fill="#56603a"/>
+ <path d="M-250 0 a12 16 0 1 0 1 0" fill="none" stroke-width="4"/>
+ <!-- capucha (detrás) -->
+ <path d="M-120 -40 q-10 -150 120 -160 q140 0 130 160 l-20 60 h-210z" fill="#b85a20"/>
+ <!-- cuerpo / chaqueta -->
+ <path d="M-190 330 q-10 -210 90 -270 q100 -40 200 0 q100 60 90 270z" fill="url(#jacket${id})"/>
+ <path d="M0 40 v290" stroke-width="5" fill="none"/>
+ <path d="M-150 170 h80 v70 h-80z M70 170 h80 v70 h-80z" fill="#c96a28"/>
+ <path d="M-150 170 h80 v20 h-80z M70 170 h80 v20 h-80z" fill="#9c4a18"/>
+ <path d="M-170 300 q-20 -130 40 -200" fill="none" stroke-width="5"/>
+ <!-- correa del morral -->
+ <path d="M-110 50 L140 320" stroke="#4a2c18" stroke-width="30"/><path d="M-110 50 L140 320" stroke="${OL}" stroke-width="4" fill="none"/>
+ <!-- bufanda -->
+ <path d="M-100 40 q100 50 200 0 q20 40 -10 70 q-90 40 -180 0 q-30 -30 -10 -70z" fill="#1fa39a"/>
+ <path d="M40 90 q20 60 -10 120 l-40 -10 q20 -50 10 -100z" fill="#178a82"/>
+ <!-- cabeza silueta negra -->
+ <ellipse cx="0" cy="-60" rx="112" ry="118" fill="#0b0b0e"/>
+ <!-- mechones de pelo -->
+ <path d="M-100 -120 q20 -40 50 -20 q10 -40 50 -15 q20 -35 50 -5 q30 -20 45 25 q-40 -10 -60 5 q-30 -20 -50 0 q-30 -15 -50 5 q-20 -10 -35 5z" fill="#0b0b0e"/>
+ <!-- gafas sobre la capucha -->
+ <path d="M-118 -150 q118 -60 236 0" fill="none" stroke="#3a2416" stroke-width="18"/>
+ <circle cx="-48" cy="-178" r="34" fill="#2f6f78"/><circle cx="48" cy="-178" r="34" fill="#2f6f78"/>
+ <path d="M-62 -192 q10 -10 26 -6 M34 -192 q10 -10 26 -6" stroke="#bff6ff" stroke-width="5" fill="none"/>
+ <!-- ojos (miran hacia arriba/derecha) -->
+ <ellipse cx="${-38+look*14}" cy="-70" rx="22" ry="30" fill="#f6f3ea" stroke="none"/>
+ <ellipse cx="${42+look*14}" cy="-70" rx="22" ry="30" fill="#f6f3ea" stroke="none"/>
+ <!-- cejas preocupadas -->
+ <path d="M${-60+look*14} -112 q20 -14 44 -4 M${22+look*14} -116 q24 -10 44 4" stroke="#f6f3ea" stroke-width="7" fill="none"/>
+ <!-- boca asombrada -->
+ <path d="M${-14+look*14} 4 q24 -26 48 0 q-6 16 -24 16 q-18 0 -24 -16z" fill="#e0525a" stroke="none"/>
+ </g>`}
+
+function moon(id,cx,cy,r){return `<g>
+ <circle cx="${cx}" cy="${cy}" r="${r*1.25}" fill="#ffe2b0" opacity=".18" filter="url(#blur20${id})"/>
+ <circle cx="${cx}" cy="${cy}" r="${r}" fill="url(#moonG${id})" stroke="${OL}" stroke-width="8"/>
+ <clipPath id="mc${id}"><circle cx="${cx}" cy="${cy}" r="${r}"/></clipPath>
+ <g clip-path="url(#mc${id})">
+  <rect x="${cx-r}" y="${cy-r}" width="${2*r}" height="${2*r}" filter="url(#moonTex${id})" opacity=".55"/>
+  ${Array.from({length:11}).map((_,i)=>{const a=R(i,5)*6.28,d=R(i,6)*r*.85,cr=r*(.04+R(i,7)*.12);const X=cx+Math.cos(a)*d,Y=cy+Math.sin(a)*d;
+    return `<ellipse cx="${X}" cy="${Y}" rx="${cr}" ry="${cr*.8}" fill="#7d776c" opacity=".55"/><path d="M${X-cr*.8} ${Y+cr*.2} a${cr} ${cr*.8} 0 0 0 ${cr*1.6} 0" stroke="#f3ecd8" stroke-opacity=".7" stroke-width="3" fill="none"/>`}).join('')}
+  <path d="M${cx-r*.2} ${cy+r*.1} l${r*.15} ${r*.12} l${r*.05} ${r*.25} l${r*.18} ${r*.1} l${r*.1} ${r*.3}" stroke="#ff9a3c" stroke-width="7" fill="none" filter="url(#glow${id})"/>
+  <path d="M${cx-r*.05} ${cy+r*.22} l-${r*.22} ${r*.08} l-${r*.1} ${r*.2}" stroke="#ff9a3c" stroke-width="5" fill="none" filter="url(#glow${id})"/>
+  <circle cx="${cx+r*.35}" cy="${cy+r*.35}" r="${r*1.05}" fill="#0a1820" opacity=".45"/>
+ </g></g>`}
+
+function meteor(id,x,y,len,ang){return `<g transform="translate(${x} ${y}) rotate(${ang})">
+ <path d="M0 0 L-${len} -18 L-${len} 18z" fill="#ff9a3c" opacity=".55" filter="url(#blur6${id})"/>
+ <path d="M0 0 L-${len*.7} -8 L-${len*.7} 8z" fill="#ffe7a8" opacity=".9"/>
+ <circle r="22" fill="#fff3d0" filter="url(#glow${id})"/><circle r="16" fill="#6b4a3a" stroke="${OL}" stroke-width="4"/></g>`}
+
+function clouds(id,x0,x1,y,n,seed,col,op){let s='';for(let i=0;i<n;i++){const x=x0+R(i,seed)*(x1-x0),yy=y+R(i+1,seed)*120,rx=140+R(i+2,seed)*260;
+ s+=`<ellipse cx="${x}" cy="${yy}" rx="${rx}" ry="${rx*.35}" fill="${col}" opacity="${op}" filter="url(#blur20${id})"/>`}return s}
+
+/* ================= BANNER 2560x1440 ================= */
+(function(){const id='b',W=2560,H=1440,hz=930;
+let s=`<svg width="${W}" height="${H}">${defs(id)}
+<rect width="${W}" height="${H}" fill="url(#sky${id})"/>
+<!-- aurora sobre el lado helado -->
+<path d="M1500 260 q300 -120 600 40 q260 120 520 -20 v260 q-280 120 -520 0 q-300 -150 -600 -40z" fill="url(#aur${id})" filter="url(#blur20${id})"/>
+${clouds(id,0,1300,120,10,3,'#0b1a22',.75)}
+${clouds(id,0,W,520,12,8,'#22414e',.45)}
+${moon(id,1700,420,330)}
+${meteor(id,2380,170,520,160)}
+${meteor(id,1040,120,260,150)}
+<!-- ciudad inundada (izquierda) y ciudad congelada (derecha) -->
+${city(id,0,1450,hz+20,2,false)}
+${city(id,1450,W,hz+10,7,true)}
+<!-- mar a la izquierda, hielo a la derecha -->
+<rect x="0" y="${hz-40}" width="${W}" height="${H}" fill="url(#sea${id})"/>
+<path d="M1470 ${hz-30} L${W} ${hz-45} V${H} H2000 l-60 -90 l-80 -40 l-40 -110 l-110 -60 l-40 -90 l-120 -70 l-30 -60z" fill="url(#ice${id})" stroke="${OL}" stroke-width="5"/>
+${Array.from({length:14}).map((_,i)=>{const x=1650+R(i,50)*880,y=hz+30+R(i,51)*400;return `<path d="M${x} ${y} l${30+R(i,52)*60} ${10+R(i,53)*30} l${-10+R(i,54)*40} ${20+R(i,55)*40} M${x+30} ${y+12} l50 -20" stroke="#5f93ad" stroke-width="3" fill="none"/>`}).join('')}
+
+${Array.from({length:30}).map((_,i)=>`<path d="M${1750+R(i,4)*800} ${hz+R(i,5)*480} l${40+R(i,6)*120} ${-10+R(i,7)*20}" stroke="#ffffff" stroke-opacity=".6" stroke-width="4"/>`).join('')}
+${waves(0,2000,hz-30,H,200,11)}
+<!-- reflejo de la luna en el agua -->
+<path d="M1150 ${hz} h300 l-120 ${H-hz} h-60z" fill="#ffe2b0" opacity=".12" filter="url(#blur20${id})"/>
+<!-- auto flotando y escombros -->
+<g transform="translate(330 ${hz+170})" stroke="${OL}" stroke-width="5"><path d="M0 0 q20 -45 70 -50 h90 q40 5 60 50z" fill="#8a8f96"/><path d="M45 -40 h50 v30 h-60z M110 -40 h45 l15 30 h-60z" fill="#1d3a46"/><path d="M-20 0 h260 v18 h-260z" fill="#1f4250" stroke="none" opacity=".9"/></g>
+<path d="M760 ${hz+250} l150 -12 l8 16 l-150 12z" fill="#5a3a24" stroke="${OL}" stroke-width="5"/>
+${rain(0,1500,0,H,520,21)}
+<!-- copos sobre el lado helado -->
+${Array.from({length:120}).map((_,i)=>`<circle cx="${1450+R(i,40)*1110}" cy="${R(i,41)*H}" r="${2+R(i,42)*4}" fill="#fff" opacity="${.4+R(i,43)*.5}"/>`).join('')}
+<!-- acantilado en primer plano -->
+<path d="M0 ${H} V1100 q150 -40 330 -30 q150 -10 300 0 q140 10 200 100 q50 70 60 270z" fill="url(#rock${id})" stroke="${OL}" stroke-width="7"/>
+<path d="M90 1180 l60 40 M300 1130 l40 70 M520 1150 l-30 60" stroke="#5a4d44" stroke-width="5"/>
+${hero(id,560,760,1.0,1)}
+<rect width="${W}" height="${H}" fill="url(#vig${id})"/>
+<rect width="${W}" height="${H}" filter="url(#grain${id})"/>
+</svg>
+<div class="t" style="left:860px;top:520px;font-size:200px">IMAGINE THIS</div>
+<div class="t" style="left:870px;top:735px;font-size:150px;color:#ffc94a">WHAT IF...?</div>
+<div style="position:absolute;left:1560px;top:770px;font-family:Montserrat;font-weight:900;font-size:40px;color:#0c0a0e;background:#f4f1ea;padding:12px 26px;border:6px solid #0c0a0e;box-shadow:8px 8px 0 #0c0a0e;transform:rotate(-2deg);white-space:nowrap">ANIMATED STORIES</div>`;
+document.getElementById('bn').innerHTML=s})();
+
+/* ================= PERFIL 800x800 ================= */
+(function(){const id='p',W=800,H=800;
+let s=`<svg width="${W}" height="${H}">${defs(id)}
+<rect width="${W}" height="${H}" fill="url(#sky${id})"/>
+${clouds(id,0,W,60,6,5,'#0b1a22',.7)}
+${moon(id,560,250,230)}
+${meteor(id,250,120,200,150)}
+${rain(0,W,0,H,160,9)}
+<rect x="0" y="600" width="${W}" height="200" fill="url(#sea${id})"/>
+${waves(0,W,610,H,40,3)}
+${hero(id,330,560,1.55,1)}
+<rect width="${W}" height="${H}" fill="url(#vig${id})"/>
+<rect width="${W}" height="${H}" filter="url(#grain${id})"/>
+</svg>
+<div class="t" style="left:540px;top:430px;font-size:300px;color:#ffc94a;-webkit-text-stroke:18px #0c0a0e;transform:rotate(8deg)">?</div>`;
+document.getElementById('pf').innerHTML=s})();
+</script></body></html>
