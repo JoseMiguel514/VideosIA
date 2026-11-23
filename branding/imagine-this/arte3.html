@@ -1,0 +1,108 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#000}.c{position:relative;overflow:hidden}svg{position:absolute;left:0;top:0}
+.t{position:absolute;font-family:Fredoka;font-weight:700;white-space:nowrap;line-height:1}</style></head><body>
+<div class="c" id="pf" style="width:800px;height:800px"></div>
+<div class="c" id="bn" style="width:2560px;height:1440px"></div>
+<script>
+const INK='#2a0f3d';
+const rnd=(i,s)=>{let x=Math.sin(i*12.9898+s*78.233)*43758.5453;return x-Math.floor(x)};
+const defs=(id)=>`<defs>
+ <linearGradient id="sky${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#5b1d8c"/><stop offset=".45" stop-color="#d8367a"/><stop offset=".78" stop-color="#ff8a3d"/><stop offset="1" stop-color="#ffd36b"/></linearGradient>
+ <radialGradient id="sun${id}" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#fff4c2"/><stop offset=".5" stop-color="#ffd36b" stop-opacity=".6"/><stop offset="1" stop-color="#ffd36b" stop-opacity="0"/></radialGradient>
+ <radialGradient id="gal${id}" cx="40%" cy="35%" r="70%"><stop offset="0" stop-color="#3b2a8f"/><stop offset=".55" stop-color="#1a1150"/><stop offset="1" stop-color="#0a0626"/></radialGradient>
+ <linearGradient id="hood${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#22d3c5"/><stop offset="1" stop-color="#0f8f9a"/></linearGradient>
+ <linearGradient id="ground${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#4a1d73"/><stop offset="1" stop-color="#1e0b33"/></linearGradient>
+ <radialGradient id="moon${id}" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#fff6dc"/><stop offset="1" stop-color="#c9b8a8"/></radialGradient>
+ <filter id="neb${id}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="22"/></filter>
+ <filter id="glow${id}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="10" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <filter id="sh${id}" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="16" stdDeviation="10" flood-color="${INK}" flood-opacity=".45"/></filter>
+ <pattern id="dots${id}" width="26" height="26" patternUnits="userSpaceOnUse"><circle cx="13" cy="13" r="3" fill="#fff" opacity=".12"/></pattern>
+</defs>`;
+/* rayos de sol de fondo */
+const rays=(cx,cy,n,R)=>{let o='';for(let i=0;i<n;i++){const a1=i/n*6.283,a2=(i+.5)/n*6.283;o+=`<path d="M${cx} ${cy}L${cx+R*Math.cos(a1)} ${cy+R*Math.sin(a1)}L${cx+R*Math.cos(a2)} ${cy+R*Math.sin(a2)}Z" fill="#fff" opacity=".07"/>`}return o};
+/* personaje con cabeza-galaxia */
+const guy=(id,x,y,s)=>{
+ let starsIn='';for(let i=0;i<45;i++){const a=rnd(i,1)*6.283,d=rnd(i,2)*140;starsIn+=`<circle cx="${Math.cos(a)*d}" cy="${20+Math.sin(a)*d}" r="${1+rnd(i,3)*3}" fill="#fff" opacity="${.4+rnd(i,4)*.6}"/>`}
+ return `<g transform="translate(${x} ${y}) scale(${s})" filter="url(#sh${id})">
+ <!-- anillo de la cabeza: mitad trasera -->
+ <g transform="rotate(-10 0 150)"><ellipse cx="0" cy="150" rx="225" ry="52" fill="none" stroke="#e0a83a" stroke-width="12"/></g>
+ <!-- cuerpo: sudadera turquesa -->
+ <path d="M-250 720 C-250 420 -175 205 -70 182 Q0 168 70 182 C175 205 250 420 250 720Z" fill="url(#hood${id})" stroke="${INK}" stroke-width="8"/>
+ <path d="M-70 186 q70 50 140 0" fill="#0c7a84" stroke="${INK}" stroke-width="6"/>
+ <path d="M-34 212 l-8 64 M34 212 l8 64" stroke="#fff" stroke-width="7" stroke-linecap="round"/>
+ <circle cx="-42" cy="280" r="8" fill="#ffb347" stroke="${INK}" stroke-width="3"/><circle cx="42" cy="280" r="8" fill="#ffb347" stroke="${INK}" stroke-width="3"/>
+ <!-- parche ? -->
+ <rect x="-60" y="320" width="120" height="120" rx="30" fill="#ff8a3d" stroke="${INK}" stroke-width="6" transform="rotate(-6 0 380)"/>
+ <text x="0" y="414" font-family="Fredoka" font-weight="700" font-size="104" text-anchor="middle" fill="#fff" stroke="${INK}" stroke-width="4" transform="rotate(-6 0 380)">?</text>
+ <!-- cuello -->
+ <rect x="-22" y="150" width="44" height="44" rx="12" fill="#140d40" stroke="${INK}" stroke-width="6"/>
+ <!-- cabeza galaxia -->
+ <clipPath id="hc${id}"><circle cx="0" cy="20" r="150"/></clipPath>
+ <circle cx="0" cy="20" r="150" fill="url(#gal${id})"/>
+ <g clip-path="url(#hc${id})">
+  <ellipse cx="-60" cy="-40" rx="90" ry="55" fill="#ff4fa3" opacity=".55" filter="url(#neb${id})"/>
+  <ellipse cx="70" cy="90" rx="100" ry="60" fill="#22d3c5" opacity=".45" filter="url(#neb${id})"/>
+  <ellipse cx="40" cy="-60" rx="60" ry="40" fill="#ffb347" opacity=".35" filter="url(#neb${id})"/>
+  <path d="M-110 60 q60 -90 150 -40 q60 40 120 -20" stroke="#ffffff" stroke-opacity=".18" stroke-width="20" fill="none" filter="url(#neb${id})"/>
+  ${starsIn}
+  <path d="M95 -40 l5 12 l12 5 l-12 5 l-5 12 l-5 -12 l-12 -5 l12 -5z" fill="#fff"/>
+ </g>
+ <circle cx="0" cy="20" r="150" fill="none" stroke="${INK}" stroke-width="9"/>
+ <!-- ojos -->
+ <ellipse cx="-52" cy="10" rx="44" ry="54" fill="#fff" stroke="${INK}" stroke-width="6"/>
+ <ellipse cx="50" cy="10" rx="44" ry="54" fill="#fff" stroke="${INK}" stroke-width="6"/>
+ <circle cx="-36" cy="-12" r="22" fill="${INK}"/><circle cx="66" cy="-12" r="22" fill="${INK}"/>
+ <circle cx="-29" cy="-20" r="8" fill="#fff"/><circle cx="73" cy="-20" r="8" fill="#fff"/>
+ <!-- cejas (una levantada) -->
+ <path d="M-90 -58 q36 -14 72 -2 M16 -92 q40 -30 78 -4" stroke="#fff" stroke-width="9" fill="none" stroke-linecap="round"/>
+ <!-- sonrisa -->
+ <path d="M-16 100 q28 18 56 -12" stroke="#fff" stroke-width="8" fill="none" stroke-linecap="round"/>
+ <!-- anillo de la cabeza: mitad delantera + lunita -->
+ <clipPath id="rf${id}"><rect x="-300" y="150" width="600" height="200"/></clipPath>
+ <g transform="rotate(-10 0 150)"><ellipse cx="0" cy="150" rx="225" ry="52" fill="none" stroke="#ffd36b" stroke-width="12" clip-path="url(#rf${id})" filter="url(#glow${id})"/></g>
+ <circle cx="-168" cy="214" r="26" fill="url(#moon${id})" stroke="${INK}" stroke-width="5"/>
+ <circle cx="-174" cy="207" r="6" fill="#c9b8a8"/>
+ <!-- brazo y mano en la barbilla -->
+ <path d="M175 400 q80 -140 -45 -230" stroke="${INK}" stroke-width="82" fill="none" stroke-linecap="round"/>
+ <path d="M175 400 q80 -140 -45 -230" stroke="url(#hood${id})" stroke-width="68" fill="none" stroke-linecap="round"/>
+ <circle cx="118" cy="168" r="40" fill="#140d40" stroke="${INK}" stroke-width="6"/>
+ <path d="M86 150 q-14 -18 6 -28 q16 4 14 22" fill="#140d40" stroke="${INK}" stroke-width="5"/>
+ </g>`};
+const moon=(id,x,y,r)=>`<g filter="url(#sh${id})"><circle cx="${x}" cy="${y}" r="${r}" fill="url(#moon${id})" stroke="${INK}" stroke-width="${r*.06}"/>
+ <circle cx="${x-r*.3}" cy="${y-r*.2}" r="${r*.18}" fill="#c9b8a8"/><circle cx="${x+r*.35}" cy="${y+r*.25}" r="${r*.13}" fill="#c9b8a8"/>
+ <path d="M${x-r*.1} ${y+r*.05} l${r*.18} ${r*.15} l${r*.02} ${r*.28}" stroke="#ff6a1f" stroke-width="${r*.06}" fill="none" stroke-linecap="round"/></g>`;
+const meteor=(id,x,y,s,rot)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})" filter="url(#sh${id})"><path d="M0 0 L-230 -30 Q-200 0 -230 30z" fill="#ffd36b" stroke="${INK}" stroke-width="6"/><path d="M0 0 L-150 -12 L-150 12z" fill="#fff6dc"/><circle r="34" fill="#8a5a48" stroke="${INK}" stroke-width="7"/><circle cx="-8" cy="-6" r="8" fill="#5c4234"/></g>`;
+const planet=(id,x,y,r)=>`<g filter="url(#sh${id})"><circle cx="${x}" cy="${y}" r="${r}" fill="#22d3c5" stroke="${INK}" stroke-width="${r*.07}"/><path d="M${x-r*.9} ${y-r*.2} q${r*.9} ${r*.3} ${r*1.8} 0 M${x-r*.8} ${y+r*.35} q${r*.8} ${r*.25} ${r*1.6} 0" stroke="#0f8f9a" stroke-width="${r*.12}" fill="none"/><ellipse cx="${x}" cy="${y}" rx="${r*1.8}" ry="${r*.4}" fill="none" stroke="#ffd36b" stroke-width="${r*.12}" transform="rotate(-18 ${x} ${y})" stroke-dasharray="0 ${r*3.6} ${r*4} 0"/></g>`;
+const ufo=(id,x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})" filter="url(#sh${id})"><path d="M-40 10 L-95 170 H95 L40 10z" fill="#fff6a8" opacity=".35"/><path d="M-48 -8 q48 -72 96 0z" fill="#9fe8ff" stroke="${INK}" stroke-width="6"/><ellipse cx="0" cy="0" rx="105" ry="30" fill="#ff4fa3" stroke="${INK}" stroke-width="6"/><circle cx="-55" cy="2" r="9" fill="#ffd36b" stroke="${INK}" stroke-width="3"/><circle cx="0" cy="10" r="9" fill="#ffd36b" stroke="${INK}" stroke-width="3"/><circle cx="55" cy="2" r="9" fill="#ffd36b" stroke="${INK}" stroke-width="3"/></g>`;
+const sparkle=(x,y,s)=>`<path d="M${x} ${y-s} Q${x} ${y} ${x+s} ${y} Q${x} ${y} ${x} ${y+s} Q${x} ${y} ${x-s} ${y} Q${x} ${y} ${x} ${y-s}Z" fill="#fff" opacity=".9"/>`;
+
+// ===== PERFIL =====
+document.getElementById('pf').innerHTML=`<svg width="800" height="800">${defs('p')}
+<rect width="800" height="800" fill="url(#skyp)"/>${rays(400,380,22,900)}
+<rect width="800" height="800" fill="url(#dotsp)"/>
+<circle cx="400" cy="380" r="330" fill="url(#sunp)"/>
+${sparkle(120,140,22)}${sparkle(680,150,18)}${sparkle(690,560,14)}${sparkle(110,560,12)}
+${guy('p',385,395,1.22)}
+</svg>`;
+
+// ===== BANNER =====
+document.getElementById('bn').innerHTML=`<svg width="2560" height="1440">${defs('b')}
+<rect width="2560" height="1440" fill="url(#skyb)"/>${rays(760,760,40,2600)}
+<rect width="2560" height="1440" fill="url(#dotsb)"/>
+<circle cx="760" cy="720" r="560" fill="url(#sunb)"/>
+${sparkle(1500,240,26)}${sparkle(2000,560,18)}${sparkle(420,420,20)}${sparkle(1320,1180,16)}${sparkle(2400,820,22)}
+${moon('b',2250,290,140)}
+${meteor('b',400,230,1.1,155)}
+${meteor('b',1880,130,.6,160)}
+${planet('b',230,1050,90)}
+${ufo('b',2300,1060,1.05)}
+<!-- pequeño planeta bajo los pies -->
+<ellipse cx="900" cy="1720" rx="1500" ry="560" fill="url(#groundb)" stroke="${INK}" stroke-width="10"/>
+<circle cx="380" cy="1240" r="24" fill="#3a1660"/><circle cx="1500" cy="1260" r="34" fill="#3a1660"/><circle cx="1150" cy="1300" r="16" fill="#3a1660"/>
+${guy('b',760,720,1.12)}
+</svg>
+<div class="t" style="left:1110px;top:540px;font-size:190px;color:#fff;-webkit-text-stroke:14px ${INK};paint-order:stroke fill;text-shadow:0 12px 0 ${INK}">IMAGINE THIS</div>
+<div class="t" style="left:1118px;top:760px;font-size:110px;color:#ffd36b;-webkit-text-stroke:12px ${INK};paint-order:stroke fill;text-shadow:0 10px 0 ${INK}">WHAT IF...?</div>
+<div class="t" style="left:1745px;top:785px;font-size:32px;font-weight:600;color:${INK};background:#fff;border:5px solid ${INK};border-radius:40px;padding:8px 22px;box-shadow:0 6px 0 ${INK}">Animated stories</div>`;
+</script></body></html>
