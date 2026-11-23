@@ -1,0 +1,9 @@
+[
+ {"id": "hook", "texto": "Este cuadro de unos castaños en flor... se acaba de vender por ciento noventa millones de dólares.", "pantalla": "Este cuadro de unos castaños en flor... se acaba de vender por $190{ciento_noventa} MILLONES de dólares."},
+ {"id": "pintor", "texto": "Lo pintó Van Gogh en mayo de mil ochocientos noventa. Dos meses antes de morir.", "pantalla": "Lo pintó Van Gogh en mayo de 1890{mil_ochocientos_noventa}. DOS MESES antes de morir."},
+ {"id": "pobre", "texto": "Y en vida, casi no vendía cuadros: sobrevivía con el dinero que le mandaba su hermano Theo.", "pantalla": "Y en vida, casi NO VENDÍA cuadros: sobrevivía con el dinero que le mandaba su hermano Theo."},
+ {"id": "record", "texto": "Su récord anterior era de ciento diecisiete millones. Este lo superó por más de un sesenta por ciento.", "pantalla": "Su récord anterior era de $117{ciento_diecisiete} millones. Este lo superó por más de un 60%{sesenta_por_ciento}."},
+ {"id": "oculto", "texto": "Y llevaba unos cincuenta años sin mostrarse en público, en manos de una familia argentina.", "pantalla": "Y llevaba unos 50{cincuenta} AÑOS sin mostrarse en público, en manos de una familia argentina."},
+ {"id": "ojo", "texto": "Pero ojo: casi no se subasta. Los herederos de un editor judío, dueño del cuadro en la época nazi, lo reclamaban... y llegaron a un acuerdo un día antes.", "pantalla": "Pero OJO: casi no se subasta. Los herederos de un editor judío, dueño del cuadro en la época nazi, lo reclamaban... y llegaron a un acuerdo UN DÍA ANTES."},
+ {"id": "outro", "texto": "¿Tú pagarías eso por un cuadro? Te leo en comentarios.", "pantalla": "¿Tú pagarías eso por un cuadro? Te leo en comentarios."}
+]

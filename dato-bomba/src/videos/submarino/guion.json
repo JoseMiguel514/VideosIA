@@ -1,0 +1,10 @@
+[
+ {"id": "hook", "texto": "Unas ciento cuarenta personas pasaron doscientos diecisiete días bajo el mar... sin ver el sol.", "pantalla": "Unas 140{ciento_cuarenta} personas pasaron 217{doscientos_diecisiete} DÍAS bajo el mar... sin ver el sol."},
+ {"id": "dato", "texto": "Es el submarino nuclear británico HMS Vengeance. Salió el doce de abril... y volvió el quince de noviembre.", "pantalla": "Es el submarino nuclear británico HMS Vengeance. Salió el 12{doce} de abril... y volvió el 15{quince} de noviembre."},
+ {"id": "record", "texto": "Rompió el récord de doscientos cinco días, que otro submarino había marcado este mismo año.", "pantalla": "Rompió el RÉCORD de 205{doscientos_cinco} días, que otro submarino había marcado este mismo año."},
+ {"id": "diseno", "texto": "Y estos submarinos se diseñaron para misiones de tres a cuatro meses. Esto fue casi el doble.", "pantalla": "Y estos submarinos se diseñaron para misiones de 3{tres} a 4{cuatro} meses. Esto fue casi EL DOBLE."},
+ {"id": "comida", "texto": "Y no pueden recibir comida: su ubicación es secreta. Todo va guardado desde el inicio, hasta en los pasillos.", "pantalla": "Y no pueden recibir comida: su ubicación es SECRETA. Todo va guardado desde el inicio, hasta en los pasillos."},
+ {"id": "horas", "texto": "Haz la cuenta: son más de cinco mil doscientas horas encerrados.", "pantalla": "Haz la cuenta: son más de 5,200{cinco_mil_doscientas} HORAS encerrados."},
+ {"id": "ojo", "texto": "Pero ojo: el récord no es buena noticia. Pasó porque el submarino que debía relevarlo tuvo una falla.", "pantalla": "Pero OJO: el récord no es buena noticia. Pasó porque el submarino que debía relevarlo tuvo una FALLA."},
+ {"id": "outro", "texto": "¿Tú aguantarías siete meses ahí abajo? Te leo en comentarios.", "pantalla": "¿Tú aguantarías 7{siete} meses ahí abajo? Te leo en comentarios."}
+]

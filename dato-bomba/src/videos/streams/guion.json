@@ -1,0 +1,9 @@
+[
+ {"id": "hook", "texto": "GTA seis no solo rompió récords de ventas... también rompió los streams.", "pantalla": "GTA VI{seis} no solo rompió récords de ventas... también rompió los STREAMS."},
+ {"id": "pico", "texto": "El día del lanzamiento, casi ocho millones de personas lo veían en vivo, al mismo tiempo.", "pantalla": "El día del lanzamiento, casi 8{ocho} MILLONES de personas lo veían en vivo, al mismo tiempo."},
+ {"id": "horas", "texto": "Y en solo dos días, se vieron doscientos catorce millones de horas de streams.", "pantalla": "Y en solo dos días, se vieron 214{doscientos_catorce} MILLONES de horas de streams."},
+ {"id": "anos", "texto": "Eso son más de veinticuatro mil años... viendo a otros jugar.", "pantalla": "Eso son más de 24,000{veinticuatro_mil} AÑOS... viendo a otros jugar."},
+ {"id": "juntos", "texto": "Más que la primera semana de Elden Ring, Hogwarts Legacy y Cyberpunk... juntos.", "pantalla": "Más que la primera semana de Elden Ring, Hogwarts Legacy y Cyberpunk... JUNTOS."},
+ {"id": "illo", "texto": "Y el stream con más gente al mismo tiempo fue en español: IlloJuan, con quinientos sesenta y dos mil personas.", "pantalla": "Y el stream con más gente al mismo tiempo fue EN ESPAÑOL: IlloJuan, con 562,000{quinientos_sesenta_y_dos_mil} personas."},
+ {"id": "outro", "texto": "¿Tú lo juegas, o prefieres verlo en stream? Te leo en comentarios.", "pantalla": "¿Tú lo juegas, o prefieres verlo en stream? Te leo en comentarios."}
+]
