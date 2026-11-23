@@ -9,7 +9,7 @@ out = {}
 for e in escenas:
     if e.get('card'):
         out[e['id']] = 2.2; continue
-    audio, sr = k.create(e['texto'], voice=voice, speed=0.95, lang='en-us')
+    audio, sr = k.create(e['texto'], voice=voice, speed=float(os.environ.get('SPEED','0.95')), lang='en-us')
     sf.write(f"public/{v}/voz/{e['id']}.wav", audio, sr)
     out[e['id']] = round(len(audio) / sr, 3)
 json.dump(out, open(f'src/{v}/duraciones.json', 'w'), indent=2)

@@ -125,14 +125,14 @@ export const NightCity: React.FC<{ seed?: string }> = ({ seed = "nc" }) => (
 );
 
 /* ===== Tarjeta de "acto" (título de sección) ===== */
-export const ActCard: React.FC<{ n: number; title: string; dur: number }> = ({ n, title, dur }) => {
+export const ActCard: React.FC<{ n: number; title: string; dur: number; kicker?: string }> = ({ n, title, dur, kicker }) => {
   const f = useCurrentFrame();
   const k = Math.min(1, f / 15);
   const o = Math.min(1, (dur - f) / 12);
   return (
     <AbsoluteFill style={{ background: "radial-gradient(ellipse at 50% 50%, #1c1640, #07061a 70%)", alignItems: "center", justifyContent: "center", opacity: Math.max(0, o) }}>
       <Stars n={60} />
-      <div style={{ fontFamily: FONT, fontWeight: 600, fontSize: 36, letterSpacing: 14, color: "#ffd36b", opacity: k, transform: `translateY(${(1 - k) * 20}px)` }}>CHAPTER {n}</div>
+      <div style={{ fontFamily: FONT, fontWeight: 600, fontSize: 36, letterSpacing: 14, color: "#ffd36b", opacity: k, transform: `translateY(${(1 - k) * 20}px)` }}>{kicker ?? `CHAPTER ${n}`}</div>
       <div style={{ fontFamily: FONT, fontWeight: 700, fontSize: 110, color: "#fff", marginTop: 10, letterSpacing: 4, opacity: k, transform: `scale(${0.9 + 0.1 * k})`, textShadow: "0 0 40px rgba(127,240,255,.4)" }}>{title}</div>
       <div style={{ width: 400 * k, height: 4, background: "#22d3c5", marginTop: 24, borderRadius: 2 }} />
     </AbsoluteFill>

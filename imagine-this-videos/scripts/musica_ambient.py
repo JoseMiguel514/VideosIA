@@ -1,7 +1,7 @@
 # Música ambiental original: pad + piano arpegiado + beat suave. Uso: python3 scripts/musica_ambient.py salida.wav segundos
 import sys, numpy as np, soundfile as sf
 from scipy.signal import lfilter
-OUT, T = sys.argv[1], float(sys.argv[2]); sr = 44100; N = int(T * sr); t = np.arange(N) / sr
+OUT, T = sys.argv[1], float(sys.argv[2]); TR = 2 ** (int(sys.argv[3]) / 12) if len(sys.argv) > 3 else 1.0; sr = 44100; N = int(T * sr); t = np.arange(N) / sr
 rng = np.random.default_rng(12)
 mix = np.zeros(N)
 def lp(x, a): return lfilter([1 - a], [1, -a], x)
@@ -11,7 +11,7 @@ def add(sig, t0, g=1.0):
     j = min(N, i + len(sig)); mix[i:j] += sig[: j - i] * g
 bpm = 84; beat = 60 / bpm; bar = beat * 4
 # progresión Am - F - C - G (2 compases cada uno)
-prog = [[220.0, 261.63, 329.63], [174.61, 220.0, 261.63], [261.63, 329.63, 392.0], [196.0, 246.94, 293.66]]
+prog = [[f * TR for f in ch] for ch in [[220.0, 261.63, 329.63], [174.61, 220.0, 261.63], [261.63, 329.63, 392.0], [196.0, 246.94, 293.66]]]
 # pad
 pad = np.zeros(N)
 for b in range(int(T / bar) + 1):
