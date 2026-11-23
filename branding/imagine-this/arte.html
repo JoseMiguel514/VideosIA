@@ -12,6 +12,7 @@ svg{position:absolute;left:0;top:0}
 </style></head><body>
 <div class="c" id="bn"></div>
 <div class="c" id="pf"></div>
+<script src="hero.js"></script>
 <script>
 const OL='#0f0b0d';
 const R=(k,s=1)=>{let x=Math.sin(k*12.9898+s*78.233)*43758.5453;return x-Math.floor(x)};
@@ -29,6 +30,7 @@ const defs = (id)=>`<defs>
  <linearGradient id="aur${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#39ffb0" stop-opacity="0"/><stop offset=".4" stop-color="#39ffb0" stop-opacity=".55"/><stop offset=".7" stop-color="#9b5cff" stop-opacity=".45"/><stop offset="1" stop-color="#9b5cff" stop-opacity="0"/></linearGradient>
  <linearGradient id="jacket${id}" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#e8873a"/><stop offset="1" stop-color="#8a3f14"/></linearGradient>
  <linearGradient id="rock${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#3b3430"/><stop offset="1" stop-color="#0d0a0a"/></linearGradient>
+${heroDefs(id)}
  <radialGradient id="vig${id}" cx="50%" cy="50%" r="75%"><stop offset=".55" stop-color="#000" stop-opacity="0"/><stop offset="1" stop-color="#000" stop-opacity=".7"/></radialGradient>
 </defs>`;
 
@@ -48,44 +50,6 @@ function rain(x0,x1,y0,y1,n,seed){let s='';for(let i=0;i<n;i++){const x=x0+R(i,s
 
 function waves(x0,x1,y0,y1,n,seed){let s='';for(let i=0;i<n;i++){const x=x0+R(i,seed)*(x1-x0),y=y0+R(i+1,seed)*(y1-y0),w=20+R(i+2,seed)*90*(y-y0+60)/(y1-y0+60);
  s+=`<path d="M${x} ${y} q${w/2} -${w/6} ${w} 0" stroke="#cfeaf2" stroke-opacity=".5" stroke-width="3" fill="none"/>`}return s}
-
-/* protagonista original: cabeza negra tipo silueta, ojos simples, chaqueta naranja con capucha, gafas, bufanda teal */
-function hero(id,x,y,sc,look=1){return `<g transform="translate(${x} ${y}) scale(${sc})" stroke="${OL}" stroke-width="6" stroke-linejoin="round" stroke-linecap="round">
- <!-- mochila + saco de dormir enrollado -->
- <path d="M-230 40 h120 v250 h-120z" fill="#5b4a2c"/>
- <rect x="-250" y="-20" width="170" height="70" rx="35" fill="#6f7a4a"/>
- <path d="M-215 -20 v70 M-125 -20 v70" stroke="#3a2416" stroke-width="12"/>
- <ellipse cx="-250" cy="15" rx="16" ry="35" fill="#56603a"/>
- <path d="M-250 0 a12 16 0 1 0 1 0" fill="none" stroke-width="4"/>
- <!-- capucha (detrás) -->
- <path d="M-120 -40 q-10 -150 120 -160 q140 0 130 160 l-20 60 h-210z" fill="#b85a20"/>
- <!-- cuerpo / chaqueta -->
- <path d="M-190 330 q-10 -210 90 -270 q100 -40 200 0 q100 60 90 270z" fill="url(#jacket${id})"/>
- <path d="M0 40 v290" stroke-width="5" fill="none"/>
- <path d="M-150 170 h80 v70 h-80z M70 170 h80 v70 h-80z" fill="#c96a28"/>
- <path d="M-150 170 h80 v20 h-80z M70 170 h80 v20 h-80z" fill="#9c4a18"/>
- <path d="M-170 300 q-20 -130 40 -200" fill="none" stroke-width="5"/>
- <!-- correa del morral -->
- <path d="M-110 50 L140 320" stroke="#4a2c18" stroke-width="30"/><path d="M-110 50 L140 320" stroke="${OL}" stroke-width="4" fill="none"/>
- <!-- bufanda -->
- <path d="M-100 40 q100 50 200 0 q20 40 -10 70 q-90 40 -180 0 q-30 -30 -10 -70z" fill="#1fa39a"/>
- <path d="M40 90 q20 60 -10 120 l-40 -10 q20 -50 10 -100z" fill="#178a82"/>
- <!-- cabeza silueta negra -->
- <ellipse cx="0" cy="-60" rx="112" ry="118" fill="#0b0b0e"/>
- <!-- mechones de pelo -->
- <path d="M-100 -120 q20 -40 50 -20 q10 -40 50 -15 q20 -35 50 -5 q30 -20 45 25 q-40 -10 -60 5 q-30 -20 -50 0 q-30 -15 -50 5 q-20 -10 -35 5z" fill="#0b0b0e"/>
- <!-- gafas sobre la capucha -->
- <path d="M-118 -150 q118 -60 236 0" fill="none" stroke="#3a2416" stroke-width="18"/>
- <circle cx="-48" cy="-178" r="34" fill="#2f6f78"/><circle cx="48" cy="-178" r="34" fill="#2f6f78"/>
- <path d="M-62 -192 q10 -10 26 -6 M34 -192 q10 -10 26 -6" stroke="#bff6ff" stroke-width="5" fill="none"/>
- <!-- ojos (miran hacia arriba/derecha) -->
- <ellipse cx="${-38+look*14}" cy="-70" rx="22" ry="30" fill="#f6f3ea" stroke="none"/>
- <ellipse cx="${42+look*14}" cy="-70" rx="22" ry="30" fill="#f6f3ea" stroke="none"/>
- <!-- cejas preocupadas -->
- <path d="M${-60+look*14} -112 q20 -14 44 -4 M${22+look*14} -116 q24 -10 44 4" stroke="#f6f3ea" stroke-width="7" fill="none"/>
- <!-- boca asombrada -->
- <path d="M${-14+look*14} 4 q24 -26 48 0 q-6 16 -24 16 q-18 0 -24 -16z" fill="#e0525a" stroke="none"/>
- </g>`}
 
 function moon(id,cx,cy,r){return `<g>
  <circle cx="${cx}" cy="${cy}" r="${r*1.25}" fill="#ffe2b0" opacity=".18" filter="url(#blur20${id})"/>
@@ -138,15 +102,15 @@ ${rain(0,1500,0,H,520,21)}
 <!-- copos sobre el lado helado -->
 ${Array.from({length:120}).map((_,i)=>`<circle cx="${1450+R(i,40)*1110}" cy="${R(i,41)*H}" r="${2+R(i,42)*4}" fill="#fff" opacity="${.4+R(i,43)*.5}"/>`).join('')}
 <!-- acantilado en primer plano -->
-<path d="M0 ${H} V1100 q150 -40 330 -30 q150 -10 300 0 q140 10 200 100 q50 70 60 270z" fill="url(#rock${id})" stroke="${OL}" stroke-width="7"/>
+<path d="M0 ${H} V1100 q150 -40 330 -30 q200 -10 420 0 q140 10 220 100 q50 70 60 270z" fill="url(#rock${id})" stroke="${OL}" stroke-width="7"/>
 <path d="M90 1180 l60 40 M300 1130 l40 70 M520 1150 l-30 60" stroke="#5a4d44" stroke-width="5"/>
-${hero(id,560,760,1.0,1)}
+${hero(id,735,815,1.08,1)}
 <rect width="${W}" height="${H}" fill="url(#vig${id})"/>
 <rect width="${W}" height="${H}" filter="url(#grain${id})"/>
 </svg>
-<div class="t" style="left:860px;top:520px;font-size:200px">IMAGINE THIS</div>
-<div class="t" style="left:870px;top:735px;font-size:150px;color:#ffc94a">WHAT IF...?</div>
-<div style="position:absolute;left:1560px;top:770px;font-family:Montserrat;font-weight:900;font-size:40px;color:#0c0a0e;background:#f4f1ea;padding:12px 26px;border:6px solid #0c0a0e;box-shadow:8px 8px 0 #0c0a0e;transform:rotate(-2deg);white-space:nowrap">ANIMATED STORIES</div>`;
+<div class="t" style="left:1035px;top:535px;font-size:182px">IMAGINE THIS</div>
+<div class="t" style="left:1040px;top:745px;font-size:130px;color:#ffc94a">WHAT IF...?</div>
+<div style="position:absolute;left:1675px;top:778px;font-family:Montserrat;font-weight:900;font-size:30px;color:#0c0a0e;background:#f4f1ea;padding:12px 26px;border:6px solid #0c0a0e;box-shadow:8px 8px 0 #0c0a0e;transform:rotate(-2deg);white-space:nowrap">ANIMATED STORIES</div>`;
 document.getElementById('bn').innerHTML=s})();
 
 /* ================= PERFIL 800x800 ================= */
@@ -159,7 +123,7 @@ ${meteor(id,250,120,200,150)}
 ${rain(0,W,0,H,160,9)}
 <rect x="0" y="600" width="${W}" height="200" fill="url(#sea${id})"/>
 ${waves(0,W,610,H,40,3)}
-${hero(id,330,560,1.55,1)}
+${hero(id,370,520,1.28,1)}
 <rect width="${W}" height="${H}" fill="url(#vig${id})"/>
 <rect width="${W}" height="${H}" filter="url(#grain${id})"/>
 </svg>
