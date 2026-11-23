@@ -1,8 +1,8 @@
 /* Motor de tiempos compartido: convierte guion + duraciones de voz en escenas y tiempos de palabra. */
 export const FPS = 30;
 export const LEAD = 10; // frames antes de que empiece la voz en cada escena
-export const TAIL = 18; // frames después
-export const OUTRO_EXTRA = 120;
+export const TAIL = 30; // frames después
+export const OUTRO_EXTRA = 180;
 
 export type Linea = { id: string; texto: string; pantalla: string };
 export type Word = { w: string; start: number; end: number; key: boolean };

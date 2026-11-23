@@ -7,7 +7,9 @@ escenas = json.load(open(f'src/{v}/guion.json'))
 os.makedirs(f'public/{v}/voz', exist_ok=True)
 out = {}
 for e in escenas:
-    audio, sr = k.create(e['texto'], voice=voice, speed=1.0, lang='en-us')
+    if e.get('card'):
+        out[e['id']] = 2.2; continue
+    audio, sr = k.create(e['texto'], voice=voice, speed=0.95, lang='en-us')
     sf.write(f"public/{v}/voz/{e['id']}.wav", audio, sr)
     out[e['id']] = round(len(audio) / sr, 3)
 json.dump(out, open(f'src/{v}/duraciones.json', 'w'), indent=2)
