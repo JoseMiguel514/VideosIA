@@ -1,0 +1,85 @@
+<!doctype html><html><head><meta charset="utf-8">
+<link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@600;700&display=swap" rel="stylesheet">
+<style>body{margin:0;background:#000}.c{position:relative;overflow:hidden}svg{position:absolute;left:0;top:0}
+.t{position:absolute;font-family:Fredoka;font-weight:700;white-space:nowrap;line-height:1}</style></head><body>
+<div class="c" id="pf" style="width:800px;height:800px"></div>
+<div class="c" id="bn" style="width:2560px;height:1440px"></div>
+<script>
+const defs=(id)=>`<defs>
+ <radialGradient id="bg${id}" cx="50%" cy="45%" r="70%"><stop offset="0" stop-color="#2a2466"/><stop offset=".55" stop-color="#151236"/><stop offset="1" stop-color="#07061a"/></radialGradient>
+ <radialGradient id="head${id}" cx="35%" cy="28%" r="75%"><stop offset="0" stop-color="#3a3a44"/><stop offset=".35" stop-color="#121216"/><stop offset="1" stop-color="#050507"/></radialGradient>
+ <linearGradient id="q${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffe14d"/><stop offset="1" stop-color="#ff9a1f"/></linearGradient>
+ <linearGradient id="hood${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ff9a3c"/><stop offset="1" stop-color="#e0661a"/></linearGradient>
+ <linearGradient id="ring${id}" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="#ff9a1f" stop-opacity="0"/><stop offset=".5" stop-color="#ffb347"/><stop offset="1" stop-color="#ff9a1f" stop-opacity="0"/></linearGradient>
+ <radialGradient id="moon${id}" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#fff6dc"/><stop offset=".6" stop-color="#cfc6b0"/><stop offset="1" stop-color="#8a8274"/></radialGradient>
+ <radialGradient id="planet${id}" cx="35%" cy="30%" r="75%"><stop offset="0" stop-color="#9fe0ff"/><stop offset=".6" stop-color="#3f7fe0"/><stop offset="1" stop-color="#1c2f80"/></radialGradient>
+ <filter id="glow${id}" x="-60%" y="-60%" width="220%" height="220%"><feGaussianBlur stdDeviation="14" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
+ <filter id="soft${id}" x="-50%" y="-50%" width="200%" height="200%"><feGaussianBlur stdDeviation="30"/></filter>
+ <filter id="sh${id}" x="-30%" y="-30%" width="160%" height="160%"><feDropShadow dx="0" dy="14" stdDeviation="14" flood-color="#000" flood-opacity=".55"/></filter>
+</defs>`;
+const stars=(w,h,n,s)=>{let o='';for(let i=0;i<n;i++){const r=k=>{let x=Math.sin((i+k)*12.9898+s)*43758.5;return x-Math.floor(x)};o+=`<circle cx="${r(1)*w}" cy="${r(2)*h}" r="${1+r(3)*2.5}" fill="#fff" opacity="${.2+r(4)*.6}"/>`}return o};
+/* anillos de luz alrededor del personaje */
+const rings=(id,cx,cy,r)=>`<g filter="url(#glow${id})" fill="none" stroke-linecap="round">
+ <ellipse cx="${cx}" cy="${cy}" rx="${r}" ry="${r*.92}" stroke="url(#ring${id})" stroke-width="11" transform="rotate(-25 ${cx} ${cy})" stroke-dasharray="${r*2.2} ${r*4}"/>
+ <ellipse cx="${cx}" cy="${cy}" rx="${r*1.12}" ry="${r*1.02}" stroke="#ff9a1f" stroke-opacity=".9" stroke-width="7" transform="rotate(150 ${cx} ${cy})" stroke-dasharray="${r*1.4} ${r*5}"/>
+ <ellipse cx="${cx}" cy="${cy}" rx="${r*.95}" ry="${r*.88}" stroke="#ffd27a" stroke-opacity=".8" stroke-width="5" transform="rotate(80 ${cx} ${cy})" stroke-dasharray="${r*.8} ${r*5}"/></g>`;
+/* personaje: cabeza negra redonda, ojos grandes mirando arriba, sonrisa, sudadera naranja */
+const guy=(id,x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})" filter="url(#sh${id})">
+ <!-- cuerpo / sudadera -->
+ <path d="M-250 720 C-250 420 -175 205 -70 182 Q0 168 70 182 C175 205 250 420 250 720Z" fill="url(#hood${id})"/>
+ <path d="M-55 188 q55 40 110 0" fill="none" stroke="#b84d0f" stroke-width="10" stroke-linecap="round"/>
+ <path d="M-30 205 l-8 60 M30 205 l8 60" stroke="#fff3e0" stroke-width="7" stroke-linecap="round"/>
+ <circle cx="-38" cy="268" r="7" fill="#fff3e0"/><circle cx="38" cy="268" r="7" fill="#fff3e0"/>
+ <path d="M-130 330 q25 -60 -5 -120 M130 330 q-25 -60 5 -120" stroke="#c9561a" stroke-width="6" fill="none" stroke-linecap="round"/>
+ <!-- cuello -->
+ <rect x="-18" y="150" width="36" height="40" rx="10" fill="#08080a"/>
+ <!-- cabeza -->
+ <circle cx="0" cy="20" r="150" fill="url(#head${id})"/>
+ <ellipse cx="-62" cy="-62" rx="48" ry="26" fill="#ffffff" opacity=".10" transform="rotate(-35 -62 -62)"/>
+ <!-- ojos -->
+ <ellipse cx="-50" cy="5" rx="44" ry="54" fill="#fff"/>
+ <ellipse cx="52" cy="5" rx="44" ry="54" fill="#fff"/>
+ <circle cx="-34" cy="-18" r="22" fill="#0a0a0c"/><circle cx="68" cy="-18" r="22" fill="#0a0a0c"/>
+ <circle cx="-27" cy="-26" r="8" fill="#fff"/><circle cx="75" cy="-26" r="8" fill="#fff"/>
+ <!-- cejas -->
+ <path d="M-88 -66 q36 -22 72 -6 M18 -72 q36 -16 72 6" stroke="#2c2c34" stroke-width="9" fill="none" stroke-linecap="round"/>
+ <!-- sonrisa -->
+ <path d="M-10 92 q30 22 58 -6" stroke="#e8e6f0" stroke-width="8" fill="none" stroke-linecap="round"/>
+</g>`;
+const qmark=(id,x,y,size,rot)=>`<g transform="translate(${x} ${y}) rotate(${rot})"><text x="0" y="0" font-family="Fredoka" font-weight="700" font-size="${size}" text-anchor="middle" fill="url(#q${id})" filter="url(#glow${id})" stroke="#7a3a00" stroke-width="${size/40}">?</text></g>`;
+const moon=(id,x,y,r)=>`<g filter="url(#glow${id})"><circle cx="${x}" cy="${y}" r="${r}" fill="url(#moon${id})"/>
+ <circle cx="${x-r*.3}" cy="${y-r*.2}" r="${r*.18}" fill="#a39b88" opacity=".7"/><circle cx="${x+r*.35}" cy="${y+r*.25}" r="${r*.13}" fill="#a39b88" opacity=".7"/><circle cx="${x+r*.1}" cy="${y-r*.45}" r="${r*.08}" fill="#a39b88" opacity=".7"/>
+ <path d="M${x-r*.1} ${y+r*.05} l${r*.18} ${r*.15} l${r*.02} ${r*.28} M${x+r*.08} ${y+r*.2} l${r*.25} -${r*.05}" stroke="#ff8a1f" stroke-width="${r*.05}" fill="none" stroke-linecap="round"/></g>`;
+const meteor=(id,x,y,s,rot)=>`<g transform="translate(${x} ${y}) rotate(${rot}) scale(${s})" filter="url(#glow${id})"><path d="M0 0 L-220 -26 L-220 26z" fill="#ff9a1f" opacity=".75"/><path d="M0 0 L-150 -10 L-150 10z" fill="#fff1b0"/><circle r="30" fill="#7a5a48" stroke="#ffb347" stroke-width="6"/><circle cx="-8" cy="-6" r="7" fill="#5c4234"/></g>`;
+const planet=(id,x,y,r)=>`<g filter="url(#glow${id})"><ellipse cx="${x}" cy="${y}" rx="${r*1.9}" ry="${r*.45}" fill="none" stroke="#ffd27a" stroke-width="${r*.12}" transform="rotate(-18 ${x} ${y})" stroke-dasharray="${r*3.2} ${r*1.2}" stroke-dashoffset="${r*.6}"/><circle cx="${x}" cy="${y}" r="${r}" fill="url(#planet${id})"/><path d="M${x-r} ${y} q${r} ${r*.25} ${2*r} 0" stroke="#9fe0ff" stroke-width="${r*.08}" fill="none" opacity=".6"/></g>`;
+const ufo=(id,x,y,s)=>`<g transform="translate(${x} ${y}) scale(${s})" filter="url(#glow${id})"><path d="M-40 0 L-90 150 H90 L40 0z" fill="#9fffd0" opacity=".18"/><path d="M-45 -10 q45 -70 90 0z" fill="#9fe8ff"/><ellipse cx="0" cy="0" rx="100" ry="28" fill="#c7c2e8"/><circle cx="-55" cy="0" r="8" fill="#ffd27a"/><circle cx="0" cy="8" r="8" fill="#ffd27a"/><circle cx="55" cy="0" r="8" fill="#ffd27a"/></g>`;
+
+// ===== PERFIL =====
+document.getElementById('pf').innerHTML=`<svg width="800" height="800">${defs('p')}
+<rect width="800" height="800" fill="url(#bg${'p'})"/>${stars(800,800,60,3)}
+<circle cx="400" cy="360" r="260" fill="#ff8a1f" opacity=".12" filter="url(#softp)"/>
+${rings('p',380,350,270)}
+${guy('p',360,370,1.3)}
+${qmark('p',600,300,250,14)}
+</svg>`;
+
+// ===== BANNER =====
+document.getElementById('bn').innerHTML=`<svg width="2560" height="1440">${defs('b')}
+<rect width="2560" height="1440" fill="url(#bgb)"/>${stars(2560,1440,260,7)}
+<circle cx="760" cy="700" r="420" fill="#ff8a1f" opacity=".12" filter="url(#softb)"/>
+<!-- "what ifs" flotando -->
+${moon('b',2290,300,150)}
+${meteor('b',330,250,1.2,155)}
+${planet('b',240,1130,95)}
+${ufo('b',2330,1130,1.1)}
+${meteor('b',1950,140,.7,160)}
+${rings('b',760,700,300)}
+${guy('b',760,700,1.15)}
+${qmark('b',1010,640,260,14)}
+<linearGradient id="fade" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#07061a" stop-opacity="0"/><stop offset="1" stop-color="#07061a" stop-opacity=".95"/></linearGradient>
+<rect x="0" y="1050" width="2560" height="390" fill="url(#fade)"/>
+</svg>
+<div class="t" style="left:1120px;top:545px;font-size:190px;color:#fff;text-shadow:0 0 40px #7b6cff,0 10px 0 #1a1440">IMAGINE THIS</div>
+<div class="t" style="left:1128px;top:765px;font-size:110px;color:#ffc23a;text-shadow:0 0 50px #ff9a1f,0 8px 0 #5a2a00">WHAT IF...?</div>
+<div class="t" style="left:1745px;top:788px;font-size:32px;font-weight:600;color:#fff;border:4px solid #fff;border-radius:40px;padding:8px 20px;background:rgba(255,255,255,.08)">Animated stories</div>`;
+</script></body></html>
