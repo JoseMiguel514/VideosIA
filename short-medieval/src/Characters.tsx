@@ -92,7 +92,9 @@ const shade = (hex: string, k: number) => {
 
 /* ---------- humans ---------- */
 export type ToonProps = {
-  hair?: "bowl" | "spiky" | "hood" | "helmet" | "judge" | "lawyer" | "bald" | "kerchief" | "curly";
+  hair?: "bowl" | "spiky" | "hood" | "helmet" | "judge" | "lawyer" | "bald" | "kerchief" | "curly" | "long" | "ponytail" | "buzz" | "plague" | "astro";
+  stubble?: boolean;
+  lashes?: boolean;
   hairColor?: string;
   outfit?: string; // vest / tunic
   outfit2?: string; // shirt strip
@@ -100,7 +102,7 @@ export type ToonProps = {
   beard?: string | null;
   expr?: Expr;
   talking?: boolean;
-  pose?: "idle" | "point" | "up" | "gavel" | "hips" | "shrug" | "hold";
+  pose?: Pose;
   prop?: "spear" | "gavel" | "scroll" | "pitchfork" | "none";
   seed?: number;
   height?: number;
@@ -110,7 +112,7 @@ export type ToonProps = {
   poseT?: number; // 0..1 blend from prevPose to pose
   walking?: boolean;
 };
-export type Pose = "idle" | "point" | "up" | "gavel" | "hips" | "shrug" | "hold";
+export type Pose = "idle" | "point" | "up" | "gavel" | "hips" | "shrug" | "hold" | "fight" | "salute";
 
 /** Smooth wandering eye direction (eye darts) */
 export const gazeAt = (f: number, seed: number, amp: number) => {
@@ -139,6 +141,8 @@ export const Toon: React.FC<ToonProps> = ({
   prevPose,
   poseT = 1,
   walking = false,
+  stubble = false,
+  lashes = false,
 }) => {
   const uid = useId().replace(/:/g, "");
   const f = useCurrentFrame() + seed * 13;
@@ -165,6 +169,8 @@ export const Toon: React.FC<ToonProps> = ({
       hips: [35 + Math.sin(f / 15) * 3, -35 - gest(2) * 2.2 - Math.sin(f / 15) * 3],
       shrug: [75 + Math.sin(f / 8) * 9, -75 - Math.sin(f / 8) * 9],
       hold: [12 + gest(1), -60 + Math.sin(f / 9) * 6 + gest(2) * 0.5],
+      fight: [118 + Math.sin(f / 5) * 8, -95 - Math.max(0, Math.sin(f / 4)) * 45],
+      salute: [12 + Math.sin(f / 12) * 3, -160 + Math.sin(f / 10) * 3],
     }) as Record<Pose, [number, number]>)[p];
   const cur = armsFor(pose);
   const prev = prevPose ? armsFor(prevPose) : cur;
@@ -289,6 +295,15 @@ export const Toon: React.FC<ToonProps> = ({
         )}
         {/* head */}
         <g transform={`translate(0 ${nod}) rotate(${tilt} 200 ${headY + 150})`}>
+          {hair === "long" && (
+            <path d={`M48 ${headY - 10} Q40 ${headY - 175} 200 ${headY - 172} Q360 ${headY - 175} 352 ${headY - 10} Q${372 + Math.sin(f / 9) * 6} ${headY + 140} ${352 + Math.sin(f / 9) * 10} ${headY + 255} Q200 ${headY + 230} ${48 + Math.sin(f / 9 + 1) * 10} ${headY + 255} Q${28 + Math.sin(f / 9 + 1) * 6} ${headY + 140} 48 ${headY - 10} Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+          )}
+          {hair === "ponytail" && (
+            <g transform={`rotate(${Math.sin(f / 8) * 9 + sway * 2} 300 ${headY - 110})`}>
+              <path d={`M290 ${headY - 120} Q400 ${headY - 120} 395 ${headY + 20} Q390 ${headY + 150} 335 ${headY + 210} Q360 ${headY + 90} 320 ${headY - 20} Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+              <path d={`M350 ${headY - 70} Q380 ${headY + 20} 355 ${headY + 140}`} stroke={hairL} strokeWidth="6" fill="none" strokeLinecap="round" />
+            </g>
+          )}
           {hair === "hood" && <path d={`M40 ${headY + 40} Q30 ${headY - 190} 200 ${headY - 195} Q370 ${headY - 190} 360 ${headY + 40} L370 ${headY + 210} L30 ${headY + 210} Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} />}
           {hair === "curly" &&
             Array.from({ length: 9 }).map((_, i) => {
@@ -306,8 +321,67 @@ export const Toon: React.FC<ToonProps> = ({
               strokeWidth={sw}
             />
           )}
-          <Eyes cx={200 + gaze * 0.6} cy={headY + 15} gap={50} size={17} expr={expr} f={f} seed={seed} lid={lid} />
-          <Mouth cx={200 + gaze * 0.5} cy={headY + (beard ? 82 : 78)} w={44} expr={expr} talking={talking} f={f} />
+          {stubble && <path d={`M80 ${headY + 40} Q90 ${headY + 140} 200 ${headY + 148} Q310 ${headY + 140} 320 ${headY + 40} Q300 ${headY + 100} 200 ${headY + 104} Q100 ${headY + 100} 80 ${headY + 40} Z`} fill="#4a3a36" opacity="0.28" />}
+          {hair !== "plague" && <Eyes cx={200 + gaze * 0.6} cy={headY + 15} gap={50} size={17} expr={expr} f={f} seed={seed} lid={lid} />}
+          {lashes && hair !== "plague" && [-1, 1].map((s2) => (
+            <path key={s2} d={`M${200 + gaze * 0.6 + s2 * 62} ${headY + 2} l${s2 * 12} -10 M${200 + gaze * 0.6 + s2 * 64} ${headY + 10} l${s2 * 14} -4`} stroke={INK} strokeWidth="5" strokeLinecap="round" />
+          ))}
+          {hair !== "plague" && <Mouth cx={200 + gaze * 0.5} cy={headY + (beard ? 82 : 78)} w={44} expr={expr} talking={talking} f={f} />}
+          {hair === "long" && (
+            <g>
+              <path d={`M50 ${headY - 5} Q40 ${headY - 175} 200 ${headY - 172} Q345 ${headY - 172} 352 ${headY - 20} Q300 ${headY - 120} 190 ${headY - 110} Q120 ${headY - 70} 50 ${headY - 5} Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+              <path d={`M110 ${headY - 120} Q170 ${headY - 160} 260 ${headY - 150}`} stroke={hairL} strokeWidth="7" fill="none" strokeLinecap="round" />
+            </g>
+          )}
+          {hair === "ponytail" && (
+            <g>
+              <path d={`M52 ${headY - 10} Q40 ${headY - 178} 200 ${headY - 175} Q360 ${headY - 178} 348 ${headY - 10} Q330 ${headY - 95} 290 ${headY - 110} Q200 ${headY - 135} 110 ${headY - 105} Q65 ${headY - 85} 52 ${headY - 10} Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+              <path d={`M200 ${headY - 172} L190 ${headY - 125}`} stroke={hairD} strokeWidth="5" />
+              <path d={`M100 ${headY - 110} Q150 ${headY - 160} 230 ${headY - 160}`} stroke={hairL} strokeWidth="7" fill="none" strokeLinecap="round" />
+              <circle cx="58" cy={headY + 70} r="11" fill="#e6bd55" stroke={INK} strokeWidth="4" />
+              <circle cx="342" cy={headY + 70} r="11" fill="#e6bd55" stroke={INK} strokeWidth="4" />
+            </g>
+          )}
+          {hair === "buzz" && (
+            <g>
+              <path d={`M56 ${headY - 30} Q50 ${headY - 165} 200 ${headY - 162} Q350 ${headY - 165} 344 ${headY - 30} Q330 ${headY - 85} 300 ${headY - 92} Q200 ${headY - 112} 100 ${headY - 92} Q70 ${headY - 85} 56 ${headY - 30} Z`} fill={`url(#hair${uid})`} stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+              {Array.from({ length: 14 }).map((_, i) => (
+                <circle key={i} cx={95 + (i % 7) * 35 + (i > 6 ? 17 : 0)} cy={headY - 125 + (i > 6 ? 22 : 0) + Math.abs(3 - (i % 7)) * 6} r="3.5" fill={hairD} />
+              ))}
+            </g>
+          )}
+          {hair === "plague" && (
+            <g>
+              {/* leather mask covering face */}
+              <ellipse cx="200" cy={headY + 10} rx="150" ry="140" fill="#2b2420" stroke={INK} strokeWidth={sw} />
+              <path d={`M90 ${headY - 40} Q200 ${headY - 60} 310 ${headY - 40}`} stroke="#4a3d34" strokeWidth="8" fill="none" />
+              {/* glass eyes */}
+              {[-1, 1].map((s2) => (
+                <g key={s2}>
+                  <circle cx={200 + s2 * 58} cy={headY + 5} r="32" fill="#b98b3a" stroke={INK} strokeWidth="9" />
+                  <circle cx={200 + s2 * 58} cy={headY + 5} r="20" fill="#f3d27a" opacity={0.75 + 0.25 * Math.sin(f / 7)} />
+                  <circle cx={200 + s2 * 58 - 8} cy={headY - 4} r="6" fill="white" />
+                </g>
+              ))}
+              {/* beak */}
+              <path d={`M150 ${headY + 45} Q200 ${headY + 30} 250 ${headY + 45} Q320 ${headY + 140} ${355 + Math.sin(f / 10) * 3} ${headY + 255} Q270 ${headY + 170} 200 ${headY + 150} Q160 ${headY + 120} 150 ${headY + 45} Z`} fill="#e9dcc0" stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+              <path d={`M215 ${headY + 70} Q280 ${headY + 140} 330 ${headY + 225}`} stroke="#b9a785" strokeWidth="6" fill="none" />
+              <circle cx="222" cy={headY + 82} r="5" fill={INK} />
+              {/* wide-brim hat */}
+              <ellipse cx="200" cy={headY - 105} rx="215" ry="40" fill="#1c1a1f" stroke={INK} strokeWidth={sw} />
+              <path d={`M90 ${headY - 110} L105 ${headY - 255} Q200 ${headY - 275} 295 ${headY - 255} L310 ${headY - 110} Z`} fill="#1c1a1f" stroke={INK} strokeWidth={sw} strokeLinejoin="round" />
+              <rect x="95" y={headY - 150} width="210" height="22" fill="#4a3d34" />
+              <path d={`M120 ${headY - 230} L130 ${headY - 150}`} stroke="#3a363f" strokeWidth="8" strokeLinecap="round" />
+            </g>
+          )}
+          {hair === "astro" && (
+            <g>
+              <circle cx="200" cy={headY} r="185" fill="rgba(180,220,255,0.15)" stroke={INK} strokeWidth={sw + 2} />
+              <path d={`M75 ${headY - 70} Q110 ${headY - 150} 190 ${headY - 168}`} stroke="white" strokeWidth="14" fill="none" strokeLinecap="round" opacity="0.85" />
+              <circle cx="300" cy={headY - 110} r="10" fill="white" opacity="0.8" />
+              <rect x="70" y={headY + 150} width="260" height="46" rx="20" fill="#d9dee6" stroke={INK} strokeWidth={sw} />
+            </g>
+          )}
           {hair === "bald" && (
             <g stroke={INK} strokeWidth="5" fill="none" strokeLinecap="round">
               <path d={`M150 ${headY - 135} q30 -25 60 -5`} />

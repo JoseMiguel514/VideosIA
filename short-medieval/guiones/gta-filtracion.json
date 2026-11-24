@@ -1,0 +1,12 @@
+{"pronunciacion": {"GTA": "ge te a", "2022": "dos mil veintidós", "2023": "dos mil veintitrés", "2026": "dos mil veintiséis", "Kurtaj": "Kúrtach", "Arion": "Árion", "Lapsus": "Lápsus", "Fire": "Fáier", "Stick": "Estík", "Amazon": "Ámazon", "Rockstar": "Rókstar"},
+ "escenas": [
+ {"id": "hook", "texto": "Antes de salir, GTA 6 sufrió una de las mayores filtraciones de la historia. Y el culpable... era un adolescente."},
+ {"id": "leak", "texto": "Septiembre de 2022. Aparecen en internet unos noventa vídeos del juego, todavía en desarrollo."},
+ {"id": "hacker", "texto": "El responsable: Arion Kurtaj, un británico de diecisiete años, miembro del grupo de hackers Lapsus."},
+ {"id": "hotel", "texto": "Lo más loco: en ese momento estaba vigilado por la policía en un hotel, y sin su ordenador."},
+ {"id": "firestick", "texto": "Así que hackeó a Rockstar usando la tele del hotel, su móvil... y un Amazon Fire Stick."},
+ {"id": "juicio", "texto": "En 2023, un tribunal decidió que seguía siendo un peligro, y lo envió a un hospital de seguridad por tiempo indefinido."},
+ {"id": "record", "texto": "¿Y Rockstar? Su primer tráiler rompió récords: más de noventa millones de vistas en un solo día."},
+ {"id": "salida", "texto": "Y por fin, el diecinueve de noviembre de 2026, GTA 6 llegó a las tiendas."},
+ {"id": "outro", "texto": "¿Tú ya lo estás jugando? Cuéntamelo en los comentarios."}
+]}

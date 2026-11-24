@@ -1,0 +1,11 @@
+{"pronunciacion": {},
+ "escenas": [
+ {"id": "hook", "texto": "Hay un planeta donde un día dura más que un año. Y está aquí al lado."},
+ {"id": "venus", "texto": "Es Venus. Tarda doscientos veinticinco días en dar una vuelta completa al Sol..."},
+ {"id": "giro", "texto": "pero doscientos cuarenta y tres en girar sobre sí mismo. ¡Su día es más largo que su año!"},
+ {"id": "reves", "texto": "Y encima gira al revés que casi todos los planetas: allí, el Sol sale por el oeste."},
+ {"id": "calor", "texto": "Pero no hagas las maletas: su superficie está a unos cuatrocientos sesenta grados. Más que Mercurio, aunque esté más lejos del Sol."},
+ {"id": "presion", "texto": "La presión es noventa veces la de la Tierra. Como estar a casi un kilómetro bajo el mar."},
+ {"id": "nubes", "texto": "Y sus nubes no son de agua... sino de ácido sulfúrico."},
+ {"id": "outro", "texto": "¿Te irías de vacaciones a Venus? Te leo en los comentarios."}
+]}
