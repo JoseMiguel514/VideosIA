@@ -4,7 +4,7 @@ from kokoro_onnx import Kokoro
 k = Kokoro('/home/user/tts/kokoro.onnx', '/home/user/tts/voices.bin')
 LANG = sys.argv[1] if len(sys.argv) > 1 else 'es'
 CFG = {
-    'es': dict(guion='scripts/guion.json', out='voz', json='src/voz.json', voice='em_alex', lang='es', speed=1.12,
+    'es': dict(guion='scripts/guion.json', out='voz', json='src/voz.json', voice='am_michael', lang='es', speed=1.1,
                rep={'1386': 'mil trescientos ochenta y seis', '1522': 'mil quinientos veintidós', 'Chassenée': 'Chasané', 'Autun': 'Otán', 'Falaise': 'Faléz'}),
     'en': dict(guion='scripts/guion_en.json', out='voz_en', json='src/voz_en.json', voice='am_michael', lang='en-us', speed=1.08,
                rep={'1386': 'thirteen eighty-six', '1522': 'fifteen twenty-two', 'Chassenée': 'Shass-nay', 'Autun': 'Oh-tan', 'Falaise': 'Fa-lez'}),
