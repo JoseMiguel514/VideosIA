@@ -5,7 +5,7 @@ import { Backdrop, bodyFont, C, Chip, ease, Glow, headFont, Headline, pop, Vigne
 import { Cake } from "./Scenes1";
 
 /* 8 ---------------- JELLYFISH ---------------- */
-const Jelly: React.FC<{ f: number; polyp: number }> = ({ f, polyp }) => {
+export const Jelly: React.FC<{ f: number; polyp: number }> = ({ f, polyp }) => {
   const pulse = 1 + 0.06 * Math.sin(f / 7);
   const bell = 1 - polyp;
   return (
@@ -155,7 +155,7 @@ export const Lifespan: React.FC = () => {
   const f = useCurrentFrame();
   const sev = at("lifespan", "several");
   const th = at("lifespan", "thousand");
-  const avg = at("lifespan", "average");
+  const avg = at("lifespan", "average", 1);
   const years = interpolate(f, [0, 20, sev, sev + 45, th - 5, th + 30], [0, 80, 80, 500, 500, 1000], {
     extrapolateLeft: "clamp",
     extrapolateRight: "clamp",
@@ -281,7 +281,7 @@ const Warn: React.FC = () => (
     <text x={0} y={80} textAnchor="middle" fontFamily={headFont} fontSize={170} fill={C.red}>!</text>
   </g>
 );
-const Moto: React.FC<{ f: number }> = ({ f }) => (
+export const Moto: React.FC<{ f: number }> = ({ f }) => (
   <g>
     <circle cx={-120} cy={50} r={60} fill="none" stroke="#ddd" strokeWidth={14} />
     <circle cx={120} cy={50} r={60} fill="none" stroke="#ddd" strokeWidth={14} />
@@ -428,7 +428,7 @@ export const Root: React.FC = () => {
 };
 
 /* 15 ---------------- LAB: senolytics ---------------- */
-const Mouse: React.FC = () => (
+export const Mouse: React.FC = () => (
   <g>
     <ellipse cx={0} cy={0} rx={130} ry={75} fill="#c9cbd6" />
     <circle cx={110} cy={-30} r={50} fill="#c9cbd6" />

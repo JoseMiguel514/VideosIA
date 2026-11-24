@@ -2,6 +2,8 @@ import React from "react";
 import { AbsoluteFill, Audio, Composition, interpolate, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { at, FPS, H, LEAD, ORDER, SceneId, sceneFrames, STARTS, TOTAL, voiceDur, W, wordTimes } from "./timing";
 import { bodyFont, C } from "./kit";
+import { Sheet } from "./stick/Sheet";
+import * as ST from "./stick/StickScenes";
 import { Hook1, Hook2, Same, Setup1, Setup2, Telomeres, Years } from "./Scenes1";
 import { JellyScene, Lab, Lifespan, MathScene, Outro1, Outro2, Risk, Root, Twist, Year200 } from "./Scenes2";
 
@@ -25,6 +27,26 @@ const SCENES: Record<SceneId, React.FC> = {
   lab: Lab,
   outro1: Outro1,
   outro2: () => <Outro2 voiceEnd={voiceEnd("outro2")} />,
+};
+
+const STICK: Record<SceneId, React.FC> = {
+  hook1: ST.S_Hook1,
+  hook2: ST.S_Hook2,
+  setup1: ST.S_Setup1,
+  setup2: ST.S_Setup2,
+  years: ST.S_Years,
+  same: ST.S_Same,
+  telomeres: ST.S_Telomeres,
+  jelly: ST.S_Jelly,
+  math: ST.S_Math,
+  lifespan: ST.S_Lifespan,
+  year200: ST.S_Year200,
+  risk: ST.S_Risk,
+  twist: ST.S_Twist,
+  root: ST.S_Root,
+  lab: ST.S_Lab,
+  outro1: ST.S_Outro1,
+  outro2: () => <ST.S_Outro2 voiceEnd={voiceEnd("outro2")} />,
 };
 
 /* Subtitles: chunks of up to 6 words, never crossing a sentence; active word highlighted. */
@@ -71,10 +93,10 @@ const Captions: React.FC<{ id: SceneId }> = ({ id }) => {
   );
 };
 
-const SceneShell: React.FC<{ id: SceneId }> = ({ id }) => {
+const SceneShell: React.FC<{ id: SceneId; stick?: boolean }> = ({ id, stick }) => {
   const f = useCurrentFrame();
   const dur = sceneFrames(id);
-  const Scene = SCENES[id];
+  const Scene = (stick ? STICK : SCENES)[id];
   const op = interpolate(f, [0, 10, dur - 8, dur], [0, 1, 1, id === "outro2" ? 1 : 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
     <AbsoluteFill style={{ opacity: op }}>
@@ -90,12 +112,12 @@ const Sfx: React.FC<{ from: number; src: string; volume?: number }> = ({ from, s
   </Sequence>
 );
 
-export const Video: React.FC = () => {
+export const Video: React.FC<{ stick?: boolean }> = ({ stick }) => {
   return (
     <AbsoluteFill style={{ background: C.bg0 }}>
       {ORDER.map((id) => (
         <Sequence key={id} from={STARTS[id]} durationInFrames={sceneFrames(id)}>
-          <SceneShell id={id} />
+          <SceneShell id={id} stick={stick} />
           <Sequence from={LEAD} layout="none">
             <Audio src={staticFile(`voz/${id}.wav`)} volume={1} />
           </Sequence>
@@ -122,5 +144,9 @@ export const Video: React.FC = () => {
 };
 
 export const MyComposition: React.FC = () => (
-  <Composition id="WhatIfAging" component={Video} durationInFrames={TOTAL} fps={FPS} width={W} height={H} />
+  <>
+    <Composition id="WhatIfAging" component={Video} durationInFrames={TOTAL} fps={FPS} width={W} height={H} />
+    <Composition id="WhatIfAgingStick" component={Video} defaultProps={{ stick: true }} durationInFrames={TOTAL} fps={FPS} width={W} height={H} />
+    <Composition id="CharacterSheet" component={Sheet} durationInFrames={1} fps={FPS} width={W} height={H} />
+  </>
 );

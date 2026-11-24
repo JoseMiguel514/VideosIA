@@ -214,7 +214,7 @@ export const Setup1: React.FC = () => {
 };
 
 /* 4 ---------------- SETUP 2: DNA / proteins / zombie cells ---------------- */
-const Helix: React.FC<{ f: number }> = ({ f }) => {
+export const Helix: React.FC<{ f: number }> = ({ f }) => {
   const pts = new Array(40).fill(0).map((_, i) => i);
   return (
     <g>
@@ -234,7 +234,7 @@ const Helix: React.FC<{ f: number }> = ({ f }) => {
     </g>
   );
 };
-const Protein: React.FC<{ f: number }> = ({ f }) => {
+export const Protein: React.FC<{ f: number }> = ({ f }) => {
   let d = "M 0 0";
   for (let i = 0; i < 60; i++) {
     const a = i * 0.9 + f / 40;
@@ -243,7 +243,7 @@ const Protein: React.FC<{ f: number }> = ({ f }) => {
   }
   return <path d={d} fill="none" stroke="#ff9f6b" strokeWidth={8} strokeLinejoin="round" strokeLinecap="round" opacity={0.9} />;
 };
-const ZombieCell: React.FC<{ f: number }> = ({ f }) => (
+export const ZombieCell: React.FC<{ f: number }> = ({ f }) => (
   <g transform={`scale(${1 + 0.03 * Math.sin(f / 10)})`}>
     <circle r={140} fill="rgba(125,255,155,0.15)" stroke={C.green} strokeWidth={6} />
     <circle r={55} fill="rgba(125,255,155,0.35)" />
@@ -470,7 +470,7 @@ export const Same: React.FC = () => {
 };
 
 /* 7 ---------------- TELOMERES ---------------- */
-const Chromosome: React.FC<{ capR: number; capColor: string; glow?: boolean }> = ({ capR, capColor, glow }) => {
+export const Chromosome: React.FC<{ capR: number; capColor: string; glow?: boolean }> = ({ capR, capColor, glow }) => {
   const arm = (rot: number) => (
     <g transform={`rotate(${rot})`}>
       <rect x={-26} y={-150} width={52} height={300} rx={26} fill="#7b8fd6" />
