@@ -64,6 +64,9 @@ export type StickProps = {
   seed?: number;
   shadow?: boolean;
   rim?: string;
+  talk?: number; // 0..1 speaking gestures + mouth flap
+  pops?: number[]; // frames that trigger a squash-and-stretch reaction
+  still?: boolean; // disable secondary motion (frozen moments)
 };
 
 const INK = "#0b0a0c";
@@ -93,13 +96,14 @@ export const RimFilter: React.FC<{ id?: string; color?: string; r?: number }> = 
   </filter>
 );
 
-const Face: React.FC<{ expr: Expr; blink: number; lx: number; ly: number; glasses?: boolean; f: number }> = ({
+const Face: React.FC<{ expr: Expr; blink: number; lx: number; ly: number; glasses?: boolean; f: number; talk?: number }> = ({
   expr,
   blink,
   lx,
   ly,
   glasses,
   f,
+  talk = 0,
 }) => {
   const ex = 24;
   const ox = lx * 14;
@@ -190,6 +194,10 @@ const Face: React.FC<{ expr: Expr; blink: number; lx: number; ly: number; glasse
     default:
       mouth = <path d={`M ${mx - 12} ${my} L ${mx + 12} ${my}`} {...st} />;
   }
+  if (talk > 0 && (expr === "neutral" || expr === "happy" || expr === "bored")) {
+    const open = Math.max(0, Math.sin(f / 2.6) * Math.sin(f / 7.3)) * 10 * talk;
+    if (open > 1.5) mouth = <ellipse cx={mx} cy={my + 2} rx={11} ry={open / 2 + 1} fill={EYE} />;
+  }
   return (
     <g>
       {[-1, 1].map(eye)}
@@ -233,9 +241,22 @@ export const Stick: React.FC<StickProps> = ({
   seed = 0,
   shadow = true,
   rim = "rim",
+  talk = 0,
+  pops = [],
+  still,
 }) => {
   const o = c.outfit;
+  const sm = still ? 0 : 1; // secondary motion amount
   const breathe = Math.sin(f / 22 + seed) * 2.5;
+  // reaction squash & stretch (damped)
+  let sq = 0;
+  for (const p of pops) {
+    const t = f - p;
+    if (t >= 0 && t < 24) sq += Math.sin(t * 0.55) * Math.exp(-t / 7) * 0.09;
+  }
+  const sway = sm * (Math.sin(f / 37 + seed) * 1.6 + Math.sin(f / 13 + seed * 2) * 0.5);
+  const talkBeat = talk * (0.5 + 0.5 * Math.sin(f / 6.5 + seed)) * (0.6 + 0.4 * Math.sin(f / 17));
+  const nod = sm * (Math.sin(f / 41 + seed) * 2.5) + talk * Math.sin(f / 5.5) * 3;
   const tr = tremble ? Math.sin(f * 2.7 + seed) * 3 * tremble : 0;
   const bob = walk !== undefined ? Math.abs(Math.sin(walk)) * -8 : 0;
   const hipY = (sit ? -150 : -235) + bob;
@@ -271,17 +292,17 @@ export const Stick: React.FC<StickProps> = ({
   // arms (walking swing)
   const swing = walk !== undefined ? Math.sin(walk) * 18 : 0;
   const arms = [
-    { side: -1, a: [pose.l[0] + swing, pose.l[1]] as Arm },
-    { side: 1, a: [pose.r[0] - swing, pose.r[1]] as Arm },
+    { side: -1, a: [pose.l[0] + swing + sm * Math.sin(f / 29 + seed) * 3, pose.l[1] + sm * Math.sin(f / 23 + seed) * 4] as Arm },
+    { side: 1, a: [pose.r[0] - swing + sm * Math.sin(f / 31 + seed + 1) * 3 + talkBeat * 22, pose.r[1] + sm * Math.sin(f / 21 + seed) * 4 - talkBeat * 30] as Arm },
   ].map(({ side, a }) => ({ side, ...limb(side * 42, shY + 14, side, a) }));
 
   const sleeveLen = o.kind === "tee" ? 0.42 : 1;
   const torsoBottom = o.kind === "coat" ? hipY + 120 : hipY + 18;
 
   return (
-    <g transform={`translate(${x + tr} ${y}) scale(${s})`}>
+    <g transform={`translate(${x + tr} ${y}) scale(${s * (1 - sq * 0.6)} ${s * (1 + sq)})`}>
       {shadow && <ellipse cx={0} cy={4} rx={70} ry={12} fill="#000" opacity={0.35} />}
-      <g filter={`url(#${rim})`} transform={`rotate(${lean + hunch * 0.6} 0 ${hipY})`}>
+      <g filter={`url(#${rim})`} transform={`rotate(${lean + hunch * 0.6 + sway} 0 ${hipY})`}>
         {/* legs */}
         {legs.map((l) => (
           <g key={l.side}>
@@ -344,7 +365,7 @@ export const Stick: React.FC<StickProps> = ({
           );
         })}
         {/* head */}
-        <g transform={`rotate(${tilt} 0 ${headY + 40}) translate(${hunch * 2.2} 0) translate(0 ${headY}) scale(1.16) translate(0 ${-headY})`}>
+        <g transform={`rotate(${tilt + nod} 0 ${headY + 40}) translate(${hunch * 2.2} 0) translate(0 ${headY}) scale(1.16) translate(0 ${-headY})`}>
           <circle cx={0} cy={headY} r={64} fill={INK} />
           {c.hair === "tuft" && <path d={`M -14 ${headY - 60} Q -6 ${headY - 92} 14 ${headY - 86} Q 2 ${headY - 76} 10 ${headY - 62} Z`} fill={hairCol} />}
           {c.hair === "buns" && (
@@ -362,7 +383,7 @@ export const Stick: React.FC<StickProps> = ({
             </g>
           )}
           <g transform={`translate(0 ${headY + (c.hair === "cap" ? 8 : 0)})`}>
-            <Face expr={expr} blink={blink} lx={look} ly={lookY} glasses={c.glasses} f={f} />
+            <Face expr={expr} blink={blink} lx={look} ly={lookY} glasses={c.glasses} f={f} talk={talk} />
           </g>
         </g>
       </g>

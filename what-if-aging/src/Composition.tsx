@@ -4,6 +4,7 @@ import { at, FPS, H, LEAD, ORDER, SceneId, sceneFrames, STARTS, TOTAL, voiceDur,
 import { bodyFont, C } from "./kit";
 import { Sheet } from "./stick/Sheet";
 import * as ST from "./stick/StickScenes";
+import { Grain, Progress } from "./stick/Hud";
 import { Hook1, Hook2, Same, Setup1, Setup2, Telomeres, Years } from "./Scenes1";
 import { JellyScene, Lab, Lifespan, MathScene, Outro1, Outro2, Risk, Root, Twist, Year200 } from "./Scenes2";
 
@@ -139,6 +140,34 @@ export const Video: React.FC<{ stick?: boolean }> = ({ stick }) => {
       <Sfx from={STARTS.twist + at("twist", "age") - 4} src="boom" volume={0.4} />
       <Sfx from={STARTS.lab + at("lab", "yet") - 4} src="freeze" volume={0.3} />
       <Sfx from={STARTS.outro2 + at("outro2", "subscribe") + 12} src="pop" volume={0.5} />
+      {stick && (
+        <>
+          {/* extra impact sounds synced to camera punch-ins */}
+          {(
+            [
+              ["setup2", "DNA", "pop"],
+              ["setup2", "Worn", "pop"],
+              ["setup2", "Cells", "pop"],
+              ["same", "exactly", "boom"],
+              ["telomeres", "Eventually", "whoosh"],
+              ["telomeres", "clock", "freeze"],
+              ["jelly", "eaten", "whoosh"],
+              ["math", "Accidents", "boom"],
+              ["lifespan", "promise", "boom"],
+              ["risk", "centuries", "boom"],
+              ["risk", "motorcycle", "whoosh"],
+              ["root", "root", "freeze"],
+              ["outro1", "tomorrow", "boom"],
+              ["years", "notice", "pop"],
+            ] as [SceneId, string, string][]
+          ).map(([id, w, s], i) => (
+            <Sfx key={i} from={STARTS[id] + at(id, w) - 3} src={s} volume={s === "boom" ? 0.35 : 0.3} />
+          ))}
+          <Sfx from={STARTS.outro2 + at("outro2", "subscribe") + 14} src="boom" volume={0.25} />
+          <Grain />
+          <Progress segs={ORDER.map(sceneFrames)} total={TOTAL} />
+        </>
+      )}
     </AbsoluteFill>
   );
 };
