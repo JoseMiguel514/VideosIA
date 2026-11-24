@@ -299,93 +299,88 @@ export const Stick: React.FC<StickProps> = ({
   const sleeveLen = o.kind === "tee" ? 0.42 : 1;
   const torsoBottom = o.kind === "coat" ? hipY + 120 : hipY + 18;
 
-  return (
-    <g transform={`translate(${x + tr} ${y}) scale(${s * (1 - sq * 0.6)} ${s * (1 + sq)})`}>
-      {shadow && <ellipse cx={0} cy={4} rx={70} ry={12} fill="#000" opacity={0.35} />}
-      <g filter={`url(#${rim})`} transform={`rotate(${lean + hunch * 0.6 + sway} 0 ${hipY})`}>
-        {/* legs */}
-        {legs.map((l) => (
-          <g key={l.side}>
-            <path d={`M ${l.side * 16} ${hipY} L ${l.kx} ${l.ky} L ${l.fx} ${l.fy - 6}`} stroke={o.pants} strokeWidth={22} fill="none" strokeLinejoin="round" />
-            <path d={`M ${l.kx} ${l.ky} L ${l.fx} ${l.fy - 6}`} stroke={INK} strokeWidth={11} strokeLinecap="round" fill="none" opacity={o.pants === INK ? 1 : 0} />
-            <ellipse cx={l.fx + l.side * 10} cy={l.fy - 4} rx={20} ry={9} fill={INK} />
-          </g>
-        ))}
-        {/* long hair behind head */}
-        {c.hair === "long" && (
-          <path d={`M ${-62} ${headY} Q ${-70} ${headY + 90} ${-50} ${headY + 120} L 50 ${headY + 120} Q 70 ${headY + 90} 62 ${headY} Z`} fill={hairCol} />
-        )}
-        {/* torso clothing */}
-        <g>
-          {o.kind === "coat" && <path d={`M -40 ${shY + 4} L 40 ${shY + 4} L 34 ${hipY + 10} L -34 ${hipY + 10} Z`} fill={o.inner ?? "#2f8f9a"} />}
-          <path
-            d={
-              o.kind === "coat"
-                ? `M -48 ${shY + 10} Q -46 ${shY - 6} -24 ${shY - 6} L -10 ${shY + 60} L -10 ${torsoBottom} L -54 ${torsoBottom} Z M 48 ${shY + 10} Q 46 ${shY - 6} 24 ${shY - 6} L 10 ${shY + 60} L 10 ${torsoBottom} L 54 ${torsoBottom} Z`
-                : `M -48 ${shY + 14} Q -46 ${shY - 8} -22 ${shY - 8} L 22 ${shY - 8} Q 46 ${shY - 8} 48 ${shY + 14} L 42 ${torsoBottom - 10} Q 40 ${torsoBottom} 30 ${torsoBottom} L -30 ${torsoBottom} Q -40 ${torsoBottom} -42 ${torsoBottom - 10} Z`
-            }
-            fill={o.color}
-            stroke={INK}
-            strokeWidth={4}
-          />
-          {o.kind === "hoodie" && (
-            <g>
-              <path d={`M -34 ${shY - 6} Q 0 ${shY + 34} 34 ${shY - 6}`} stroke={INK} strokeWidth={4} fill="none" opacity={0.55} />
-              <line x1={-9} y1={shY + 10} x2={-11} y2={shY + 60} stroke="#fff" strokeWidth={3} opacity={0.8} />
-              <line x1={9} y1={shY + 10} x2={11} y2={shY + 60} stroke="#fff" strokeWidth={3} opacity={0.8} />
-              <path d={`M -26 ${hipY - 40} L 26 ${hipY - 40} L 21 ${hipY - 6} L -21 ${hipY - 6} Z`} fill="none" stroke={INK} strokeWidth={3} opacity={0.4} />
-            </g>
-          )}
+  // Outline is drawn as an enlarged cream copy of the silhouette underneath (deterministic, no SVG filter).
+  const RC = rim === "rimIce" ? "#7fe6ff" : RIM;
+  const P = (ol: boolean, fill?: string, stroke?: string, sw = 0) =>
+    ol ? { fill: fill && fill !== "none" ? RC : "none", stroke: RC, strokeWidth: sw + 10 } : { fill: fill ?? "none", stroke, strokeWidth: sw };
+  const headT = `rotate(${tilt + nod} 0 ${headY + 40}) translate(${hunch * 2.2} 0) translate(0 ${headY}) scale(1.16) translate(0 ${-headY})`;
+  const geo = (ol: boolean) => (
+    <g strokeLinecap="round" strokeLinejoin="round">
+      {legs.map((l) => (
+        <g key={l.side}>
+          <path d={`M ${l.side * 16} ${hipY} L ${l.kx} ${l.ky} L ${l.fx} ${l.fy - 6}`} {...P(ol, "none", o.pants, 22)} />
+          {!ol && o.pants === INK && <path d={`M ${l.kx} ${l.ky} L ${l.fx} ${l.fy - 6}`} stroke={INK} strokeWidth={11} fill="none" />}
+          <ellipse cx={l.fx + l.side * 10} cy={l.fy - 4} rx={20} ry={9} {...P(ol, INK)} />
         </g>
-        {/* neck */}
-        <rect x={-6} y={headY + 40} width={12} height={shY - headY - 34} fill={INK} />
-        {/* arms */}
-        {arms.map((a) => {
-          const sx = a.side * 42;
-          const sy = shY + 14;
-          const midx = sx + (a.ex - sx) * sleeveLen;
-          const midy = sy + (a.ey - sy) * sleeveLen;
-          return (
-            <g key={a.side}>
-              <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${a.hx} ${a.hy}`} stroke={INK} strokeWidth={11} strokeLinecap="round" strokeLinejoin="round" fill="none" />
-              {o.kind === "tee" ? (
-                <path d={`M ${sx} ${sy} L ${midx} ${midy}`} stroke={o.color} strokeWidth={26} strokeLinecap="round" fill="none" />
-              ) : (
-                <path
-                  d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${sx + (a.hx - sx) * 1 - (a.hx - a.ex) * 0.18} ${a.hy - (a.hy - a.ey) * 0.18}`}
-                  stroke={o.color}
-                  strokeWidth={24}
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  fill="none"
-                />
-              )}
-              <circle cx={a.hx} cy={a.hy} r={11} fill={INK} />
-            </g>
-          );
-        })}
-        {/* head */}
-        <g transform={`rotate(${tilt + nod} 0 ${headY + 40}) translate(${hunch * 2.2} 0) translate(0 ${headY}) scale(1.16) translate(0 ${-headY})`}>
-          <circle cx={0} cy={headY} r={64} fill={INK} />
-          {c.hair === "tuft" && <path d={`M -14 ${headY - 60} Q -6 ${headY - 92} 14 ${headY - 86} Q 2 ${headY - 76} 10 ${headY - 62} Z`} fill={hairCol} />}
-          {c.hair === "buns" && (
-            <g fill={hairCol}>
-              <circle cx={-44} cy={headY - 50} r={20} />
-              <circle cx={44} cy={headY - 50} r={20} />
-            </g>
-          )}
-          {c.hair === "bun" && <circle cx={6} cy={headY - 70} r={22} fill={hairCol} />}
-          {c.hair === "long" && <path d={`M -64 ${headY} Q -64 ${headY - 66} 0 ${headY - 66} Q 64 ${headY - 66} 64 ${headY} Q 40 ${headY - 40} 0 ${headY - 44} Q -40 ${headY - 40} -64 ${headY} Z`} fill={hairCol} />}
-          {c.hair === "cap" && (
-            <g>
-              <path d={`M -62 ${headY - 12} Q -60 ${headY - 70} 0 ${headY - 70} Q 60 ${headY - 70} 62 ${headY - 12} Z`} fill={c.capColor ?? "#c98a3a"} stroke={INK} strokeWidth={4} />
-              <path d={`M 10 ${headY - 16} Q 60 ${headY - 26} 92 ${headY - 8} L 60 ${headY - 6} Z`} fill={c.capColor ?? "#c98a3a"} stroke={INK} strokeWidth={4} />
-            </g>
-          )}
+      ))}
+      {c.hair === "long" && <path d={`M ${-62} ${headY} Q ${-70} ${headY + 90} ${-50} ${headY + 120} L 50 ${headY + 120} Q 70 ${headY + 90} 62 ${headY} Z`} {...P(ol, hairCol)} />}
+      {o.kind === "coat" && <path d={`M -40 ${shY + 4} L 40 ${shY + 4} L 34 ${hipY + 10} L -34 ${hipY + 10} Z`} {...P(ol, o.inner ?? "#2f8f9a")} />}
+      <path
+        d={
+          o.kind === "coat"
+            ? `M -48 ${shY + 10} Q -46 ${shY - 6} -24 ${shY - 6} L -10 ${shY + 60} L -10 ${torsoBottom} L -54 ${torsoBottom} Z M 48 ${shY + 10} Q 46 ${shY - 6} 24 ${shY - 6} L 10 ${shY + 60} L 10 ${torsoBottom} L 54 ${torsoBottom} Z`
+            : `M -48 ${shY + 14} Q -46 ${shY - 8} -22 ${shY - 8} L 22 ${shY - 8} Q 46 ${shY - 8} 48 ${shY + 14} L 42 ${torsoBottom - 10} Q 40 ${torsoBottom} 30 ${torsoBottom} L -30 ${torsoBottom} Q -40 ${torsoBottom} -42 ${torsoBottom - 10} Z`
+        }
+        {...P(ol, o.color, INK, 4)}
+      />
+      {!ol && o.kind === "hoodie" && (
+        <g>
+          <path d={`M -34 ${shY - 6} Q 0 ${shY + 34} 34 ${shY - 6}`} stroke={INK} strokeWidth={4} fill="none" opacity={0.55} />
+          <line x1={-9} y1={shY + 10} x2={-11} y2={shY + 60} stroke="#fff" strokeWidth={3} opacity={0.8} />
+          <line x1={9} y1={shY + 10} x2={11} y2={shY + 60} stroke="#fff" strokeWidth={3} opacity={0.8} />
+          <path d={`M -26 ${hipY - 40} L 26 ${hipY - 40} L 21 ${hipY - 6} L -21 ${hipY - 6} Z`} fill="none" stroke={INK} strokeWidth={3} opacity={0.4} />
+        </g>
+      )}
+      <rect x={-6} y={headY + 40} width={12} height={shY - headY - 34} {...P(ol, INK)} />
+      {arms.map((a) => {
+        const sx = a.side * 42;
+        const sy = shY + 14;
+        const midx = sx + (a.ex - sx) * sleeveLen;
+        const midy = sy + (a.ey - sy) * sleeveLen;
+        return (
+          <g key={a.side}>
+            <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${a.hx} ${a.hy}`} {...P(ol, "none", INK, 11)} />
+            {o.kind === "tee" ? (
+              <path d={`M ${sx} ${sy} L ${midx} ${midy}`} {...P(ol, "none", o.color, 26)} />
+            ) : (
+              <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${a.hx - (a.hx - a.ex) * 0.18} ${a.hy - (a.hy - a.ey) * 0.18}`} {...P(ol, "none", o.color, 24)} />
+            )}
+            <circle cx={a.hx} cy={a.hy} r={11} {...P(ol, INK)} />
+          </g>
+        );
+      })}
+      <g transform={headT}>
+        <circle cx={0} cy={headY} r={64} {...P(ol, INK)} />
+        {c.hair === "tuft" && <path d={`M -14 ${headY - 60} Q -6 ${headY - 92} 14 ${headY - 86} Q 2 ${headY - 76} 10 ${headY - 62} Z`} {...P(ol, hairCol)} />}
+        {c.hair === "buns" && (
+          <g>
+            <circle cx={-44} cy={headY - 50} r={20} {...P(ol, hairCol)} />
+            <circle cx={44} cy={headY - 50} r={20} {...P(ol, hairCol)} />
+          </g>
+        )}
+        {c.hair === "bun" && <circle cx={6} cy={headY - 70} r={22} {...P(ol, hairCol)} />}
+        {c.hair === "long" && <path d={`M -64 ${headY} Q -64 ${headY - 66} 0 ${headY - 66} Q 64 ${headY - 66} 64 ${headY} Q 40 ${headY - 40} 0 ${headY - 44} Q -40 ${headY - 40} -64 ${headY} Z`} {...P(ol, hairCol)} />}
+        {c.hair === "cap" && (
+          <g>
+            <path d={`M -62 ${headY - 12} Q -60 ${headY - 70} 0 ${headY - 70} Q 60 ${headY - 70} 62 ${headY - 12} Z`} {...P(ol, c.capColor ?? "#c98a3a", INK, 4)} />
+            <path d={`M 10 ${headY - 16} Q 60 ${headY - 26} 92 ${headY - 8} L 60 ${headY - 6} Z`} {...P(ol, c.capColor ?? "#c98a3a", INK, 4)} />
+          </g>
+        )}
+        {!ol && (
           <g transform={`translate(0 ${headY + (c.hair === "cap" ? 8 : 0)})`}>
             <Face expr={expr} blink={blink} lx={look} ly={lookY} glasses={c.glasses} f={f} talk={talk} />
           </g>
-        </g>
+        )}
+      </g>
+    </g>
+  );
+
+  return (
+    <g transform={`translate(${x + tr} ${y}) scale(${s * (1 - sq * 0.6)} ${s * (1 + sq)})`}>
+      {shadow && <ellipse cx={0} cy={4} rx={70} ry={12} fill="#000" opacity={0.35} />}
+      <g transform={`rotate(${lean + hunch * 0.6 + sway} 0 ${hipY})`}>
+        {geo(true)}
+        {geo(false)}
       </g>
       {sweat && (
         <path
