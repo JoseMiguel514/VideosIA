@@ -5,13 +5,29 @@ import { random } from "remotion";
  * Every environment has: a blurred far layer, a mid layer with props, animated details,
  * practical light cones and a dark floor band for subtitles. */
 
-const Full: React.FC<{ children: React.ReactNode; blur?: number; style?: React.CSSProperties }> = ({ children, blur = 0, style }) => (
-  <div style={{ position: "absolute", inset: 0, filter: blur ? `blur(${blur}px)` : undefined, ...style }}>
-    <svg width={1920} height={1080} style={{ position: "absolute", inset: 0, overflow: "visible" }}>
-      {children}
-    </svg>
-  </div>
-);
+// Depth blur is done with an in-SVG Gaussian filter (CSS filter:blur on large zoomed layers
+// caused intermittent tiled/garbled frames in headless Chrome).
+const Full: React.FC<{ children: React.ReactNode; blur?: number; style?: React.CSSProperties }> = ({ children, blur = 0, style }) => {
+  const id = `fb${String(blur).replace(".", "_")}`;
+  return (
+    <div style={{ position: "absolute", inset: 0, ...style }}>
+      <svg width={1920} height={1080} style={{ position: "absolute", inset: 0, overflow: "visible" }}>
+        {blur ? (
+          <>
+            <defs>
+              <filter id={id} x="-5%" y="-5%" width="110%" height="110%">
+                <feGaussianBlur stdDeviation={blur} />
+              </filter>
+            </defs>
+            <g filter={`url(#${id})`}>{children}</g>
+          </>
+        ) : (
+          children
+        )}
+      </svg>
+    </div>
+  );
+};
 
 export const Cone: React.FC<{ x: number; y: number; w: number; h: number; color?: string; o?: number; id: string; flicker?: number }> = ({
   x,
