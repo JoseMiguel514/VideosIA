@@ -23,7 +23,7 @@ loadOswald("normal", { weights: ["700"] });
 loadMontserrat("normal", { weights: ["800"] });
 
 const FPS = 30;
-const LEAD = 5;
+const LEAD = 3;
 type Lang = "es" | "en";
 type Id = keyof typeof vozEs;
 const VOZ = { es: vozEs, en: vozEn as typeof vozEs };
@@ -31,8 +31,8 @@ const VOZ = { es: vozEs, en: vozEn as typeof vozEs };
 let LANG: Lang = "es";
 const voz = () => VOZ[LANG];
 const ORDER: Id[] = ["hook", "falaise", "arresto", "juicio", "ropa", "ratas", "abogado", "gatos", "final", "outro"];
-const TAIL: Partial<Record<Id, number>> = { outro: 30, gatos: 4, hook: 4 };
-const framesFor = (l: Lang, id: Id) => Math.ceil(VOZ[l][id].dur * FPS) + LEAD + 8 + (TAIL[id] ?? 0);
+const TAIL: Partial<Record<Id, number>> = { outro: 26 };
+const framesFor = (l: Lang, id: Id) => Math.ceil(VOZ[l][id].dur * FPS) + LEAD + 3 + (TAIL[id] ?? 0);
 const sceneFrames = (id: Id) => framesFor(LANG, id);
 const startsFor = (l: Lang) => {
   const st = {} as Record<Id, number>;
