@@ -10,6 +10,7 @@ import React from "react";
 export type Expr = "neutral" | "bored" | "happy" | "sad" | "surprised" | "worried" | "angry" | "confused" | "blow";
 export type Arm = [number, number]; // [shoulder angle, elbow extra angle] in degrees; 0 = hanging down, + = outward
 export type Pose = { l: Arm; r: Arm };
+export type HandMode = "relaxed" | "grip" | "open" | "point" | "fist";
 
 export const POSES = {
   idle: { l: [8, 6], r: [8, 6] },
@@ -77,6 +78,9 @@ export type StickProps = {
   dy?: number;
   /** Draw hands (and held items) in front of the head, e.g. hand on chin / over mouth. */
   handsFront?: boolean;
+  /** Hand shapes; default: grip when holding an item, otherwise relaxed. */
+  handR?: HandMode;
+  handL?: HandMode;
 };
 
 const INK = "#0b0a0c";
@@ -244,6 +248,66 @@ const Face: React.FC<{ expr: Expr; blink: number; lx: number; ly: number; glasse
   );
 };
 
+
+/** Darken / lighten a #rrggbb colour. */
+const shade = (hex: string, k: number) => {
+  const n = parseInt(hex.slice(1), 16);
+  const ch = (v: number) => Math.max(0, Math.min(255, Math.round(k < 0 ? v * (1 + k) : v + (255 - v) * k)));
+  return `rgb(${ch((n >> 16) & 255)},${ch((n >> 8) & 255)},${ch(n & 255)})`;
+};
+
+type PFn = (ol: boolean, fill?: string, stroke?: string, sw?: number) => Record<string, unknown>;
+/**
+ * Hand with simple readable fingers, drawn in a frame where +y points along the forearm.
+ * `side` puts the thumb on the inner side. `item` is drawn between palm and fingers (so fingers wrap it).
+ */
+const Hand: React.FC<{ mode: HandMode; side: number; ol: boolean; P: PFn; item?: React.ReactNode; rc: string }> = ({ mode, side, ol, P, item, rc }) => {
+  const sep = !ol ? { stroke: rc, strokeWidth: 1.6, fill: "none", opacity: 0.85 } : null;
+  const t = -side; // thumb side
+  if (mode === "grip" || mode === "fist" || mode === "point") {
+    return (
+      <g>
+        <ellipse cx={0} cy={6} rx={10} ry={11} {...P(ol, INK)} />
+        {!ol && item}
+        {/* curled fingers wrapping */}
+        {[-7, -2.4, 2.4, 7].map((fx, i) => (
+          <circle key={i} cx={fx} cy={14 + (i === 0 || i === 3 ? -1 : 0)} r={3.8} {...P(ol, INK)} />
+        ))}
+        {sep && [-4.7, 0, 4.7].map((fx, i) => <line key={i} x1={fx} y1={11} x2={fx} y2={17} {...sep} />)}
+        {mode === "point" && <path d={`M ${t * -2} 12 L ${t * -2} 34`} {...P(ol, "none", INK, 5.5)} />}
+        <ellipse cx={t * 10} cy={4} rx={4} ry={8} transform={`rotate(${t * 25} ${t * 10} 4)`} {...P(ol, INK)} />
+        {sep && <path d={`M ${t * 7} -2 q ${t * 4} 6 ${t * 1} 12`} {...sep} />}
+      </g>
+    );
+  }
+  if (mode === "open") {
+    return (
+      <g>
+        <ellipse cx={0} cy={6} rx={10} ry={9} {...P(ol, INK)} />
+        {[-14, -5, 5, 14].map((a, i) => {
+          const r = (a * Math.PI) / 180;
+          const L = i === 1 || i === 2 ? 17 : 14;
+          return <path key={i} d={`M ${-6 + i * 4} 12 L ${-6 + i * 4 + Math.sin(r) * L} ${12 + Math.cos(r) * L}`} {...P(ol, "none", INK, 4.6)} />;
+        })}
+        <path d={`M ${t * 8} 6 L ${t * 19} 12`} {...P(ol, "none", INK, 5)} />
+        {!ol && item}
+      </g>
+    );
+  }
+  // relaxed
+  return (
+    <g>
+      <ellipse cx={0} cy={7} rx={8.5} ry={11} {...P(ol, INK)} />
+      {[-4.2, 0, 4.2].map((fx, i) => (
+        <path key={i} d={`M ${fx} 12 Q ${fx * 1.05} ${i === 1 ? 21 : 19.5} ${fx * 0.7 + t * 1.5} ${i === 1 ? 23 : 21.5}`} {...P(ol, "none", INK, 4.4)} />
+      ))}
+      {sep && [-2.1, 2.1].map((fx, i) => <line key={i} x1={fx} y1={15} x2={fx * 0.9} y2={21} {...sep} />)}
+      <ellipse cx={t * 8} cy={5} rx={3.4} ry={6.5} transform={`rotate(${t * 14} ${t * 8} 5)`} {...P(ol, INK)} />
+      {!ol && item}
+    </g>
+  );
+};
+
 export const Stick: React.FC<StickProps> = ({
   c,
   x,
@@ -273,6 +337,8 @@ export const Stick: React.FC<StickProps> = ({
   itemL,
   dy = 0,
   handsFront,
+  handR,
+  handL,
 }) => {
   const o = c.outfit;
   const sm = still ? 0 : 1; // secondary motion amount
@@ -326,10 +392,10 @@ export const Stick: React.FC<StickProps> = ({
   ].map(({ side, a }) => {
     const tgt = side > 0 ? reachR : reachL;
     if (tgt && tgt.w > 0) {
-      const k = ik(side * 42, shY + 14, side, tgt.x, tgt.y - dy);
+      const k = ik(side * 36, shY + 14, side, tgt.x, tgt.y - dy);
       a = [a[0] + (k[0] - a[0]) * tgt.w, a[1] + (k[1] - a[1]) * tgt.w];
     }
-    return { side, ...limb(side * 42, shY + 14, side, a) };
+    return { side, ...limb(side * 36, shY + 14, side, a) };
   });
 
   const sleeveLen = o.kind === "tee" ? 0.42 : 1;
@@ -340,49 +406,122 @@ export const Stick: React.FC<StickProps> = ({
   const P = (ol: boolean, fill?: string, stroke?: string, sw = 0) =>
     ol ? { fill: fill && fill !== "none" ? RC : "none", stroke: RC, strokeWidth: sw + 10 } : { fill: fill ?? "none", stroke, strokeWidth: sw };
   const headT = `rotate(${tilt + nod} 0 ${headY + 40}) translate(${hunch * 2.2} 0) translate(0 ${headY}) scale(1.16) translate(0 ${-headY})`;
+  const SW = 36; // shoulder half-width (slimmer build)
+  const dark = shade(o.color, -0.28);
+  const pantsDark = o.pants === INK ? INK : shade(o.pants, -0.3);
+  const handFor = (side: number, item: React.ReactNode): HandMode => (side > 0 ? handR : handL) ?? (item ? "grip" : "relaxed");
+  const drawHand = (a: (typeof arms)[number], ol: boolean, front = false) => {
+    const item = a.side > 0 ? itemR : itemL;
+    const ang = (Math.atan2(-(a.hx - a.ex), a.hy - a.ey) * 180) / Math.PI;
+    const mode = handFor(a.side, item);
+    return (
+      <g transform={`translate(${a.hx} ${a.hy - 4})`}>
+        {/* the held item keeps its own orientation; only the hand rotates with the forearm */}
+        <g transform={`rotate(${ang})`}>
+          <Hand mode={mode} side={a.side} ol={ol} P={P as PFn} rc={RC} item={undefined} />
+        </g>
+        {!ol && item && <g transform="translate(0 4)">{item}</g>}
+        {!ol && item && mode === "grip" && (
+          <g transform={`rotate(${ang})`}>
+            {[-7, -2.4, 2.4, 7].map((fx, i) => (
+              <circle key={i} cx={fx} cy={14 + (i === 0 || i === 3 ? -1 : 0)} r={3.8} fill={INK} stroke={front ? RC : "none"} strokeWidth={front ? 1.4 : 0} />
+            ))}
+            {[-4.7, 0, 4.7].map((fx, i) => (
+              <line key={i} x1={fx} y1={11} x2={fx} y2={17} stroke={RC} strokeWidth={1.6} opacity={0.85} />
+            ))}
+          </g>
+        )}
+      </g>
+    );
+  };
   const geo = (ol: boolean) => (
     <g strokeLinecap="round" strokeLinejoin="round">
+      {/* legs: slim trousers, hem, crease and two-tone shoes */}
       {legs.map((l) => (
         <g key={l.side}>
-          <path d={`M ${l.side * 16} ${hipY} L ${l.kx} ${l.ky} L ${l.fx} ${l.fy - 6}`} {...P(ol, "none", o.pants, 22)} />
-          {!ol && o.pants === INK && <path d={`M ${l.kx} ${l.ky} L ${l.fx} ${l.fy - 6}`} stroke={INK} strokeWidth={11} fill="none" />}
-          <ellipse cx={l.fx + l.side * 10} cy={l.fy - 4} rx={20} ry={9} {...P(ol, INK)} />
+          <path d={`M ${l.side * 14} ${hipY} L ${l.kx * 0.9} ${l.ky} L ${l.fx * 0.95} ${l.fy - 10}`} {...P(ol, "none", o.pants, 17)} />
+          {!ol && o.pants !== INK && <path d={`M ${l.side * 14} ${hipY + 10} L ${l.kx * 0.9} ${l.ky} L ${l.fx * 0.95} ${l.fy - 14}`} stroke={pantsDark} strokeWidth={2} fill="none" opacity={0.6} />}
+          {!ol && o.pants !== INK && <path d={`M ${l.fx * 0.95 - 8} ${l.fy - 18} L ${l.fx * 0.95 + 8} ${l.fy - 18}`} stroke={pantsDark} strokeWidth={3} />}
+          {!ol && o.pants === INK && <path d={`M ${l.kx * 0.9} ${l.ky} L ${l.fx * 0.95} ${l.fy - 10}`} stroke={INK} strokeWidth={9} fill="none" />}
+          <path d={`M ${l.fx * 0.95 - l.side * 6} ${l.fy - 12} Q ${l.fx * 0.95 + l.side * 24} ${l.fy - 16} ${l.fx * 0.95 + l.side * 26} ${l.fy - 2} L ${l.fx * 0.95 - l.side * 8} ${l.fy - 1} Z`} {...P(ol, INK)} />
+          {!ol && <path d={`M ${l.fx * 0.95 - l.side * 8} ${l.fy - 2} L ${l.fx * 0.95 + l.side * 25} ${l.fy - 3}`} stroke="#e9e2d4" strokeWidth={3} />}
         </g>
       ))}
-      {c.hair === "long" && <path d={`M ${-62} ${headY} Q ${-70} ${headY + 90} ${-50} ${headY + 120} L 50 ${headY + 120} Q 70 ${headY + 90} 62 ${headY} Z`} {...P(ol, hairCol)} />}
-      {o.kind === "coat" && <path d={`M -40 ${shY + 4} L 40 ${shY + 4} L 34 ${hipY + 10} L -34 ${hipY + 10} Z`} {...P(ol, o.inner ?? "#2f8f9a")} />}
+      {c.hair === "long" && <path d={`M ${-62} ${headY} Q ${-70} ${headY + 90} ${-46} ${headY + 120} L 46 ${headY + 120} Q 70 ${headY + 90} 62 ${headY} Z`} {...P(ol, hairCol)} />}
+      {/* hood behind the neck */}
+      {o.kind === "hoodie" && <path d={`M -30 ${shY - 2} Q -34 ${shY - 30} 0 ${shY - 32} Q 34 ${shY - 30} 30 ${shY - 2} Z`} {...P(ol, dark, INK, 3)} />}
+      {o.kind === "coat" && <path d={`M -32 ${shY + 4} L 32 ${shY + 4} L 28 ${hipY + 10} L -28 ${hipY + 10} Z`} {...P(ol, o.inner ?? "#2f8f9a")} />}
       <path
         d={
           o.kind === "coat"
-            ? `M -48 ${shY + 10} Q -46 ${shY - 6} -24 ${shY - 6} L -10 ${shY + 60} L -10 ${torsoBottom} L -54 ${torsoBottom} Z M 48 ${shY + 10} Q 46 ${shY - 6} 24 ${shY - 6} L 10 ${shY + 60} L 10 ${torsoBottom} L 54 ${torsoBottom} Z`
-            : `M -48 ${shY + 14} Q -46 ${shY - 8} -22 ${shY - 8} L 22 ${shY - 8} Q 46 ${shY - 8} 48 ${shY + 14} L 42 ${torsoBottom - 10} Q 40 ${torsoBottom} 30 ${torsoBottom} L -30 ${torsoBottom} Q -40 ${torsoBottom} -42 ${torsoBottom - 10} Z`
+            ? `M -${SW + 4} ${shY + 10} Q -${SW + 2} ${shY - 6} -20 ${shY - 6} L -8 ${shY + 60} L -8 ${torsoBottom} L -${SW + 8} ${torsoBottom} Z M ${SW + 4} ${shY + 10} Q ${SW + 2} ${shY - 6} 20 ${shY - 6} L 8 ${shY + 60} L 8 ${torsoBottom} L ${SW + 8} ${torsoBottom} Z`
+            : `M -${SW + 4} ${shY + 14} Q -${SW + 2} ${shY - 8} -18 ${shY - 8} L 18 ${shY - 8} Q ${SW + 2} ${shY - 8} ${SW + 4} ${shY + 14} L ${SW - 2} ${hipY - 40} Q ${SW} ${torsoBottom - 4} ${SW - 6} ${torsoBottom} L -${SW - 6} ${torsoBottom} Q -${SW} ${torsoBottom - 4} -${SW - 2} ${hipY - 40} Z`
         }
-        {...P(ol, o.color, INK, 4)}
+        {...P(ol, o.color, INK, 3.5)}
       />
-      {!ol && o.kind === "hoodie" && (
+      {!ol && (
         <g>
-          <path d={`M -34 ${shY - 6} Q 0 ${shY + 34} 34 ${shY - 6}`} stroke={INK} strokeWidth={4} fill="none" opacity={0.55} />
-          <line x1={-9} y1={shY + 10} x2={-11} y2={shY + 60} stroke="#fff" strokeWidth={3} opacity={0.8} />
-          <line x1={9} y1={shY + 10} x2={11} y2={shY + 60} stroke="#fff" strokeWidth={3} opacity={0.8} />
-          <path d={`M -26 ${hipY - 40} L 26 ${hipY - 40} L 21 ${hipY - 6} L -21 ${hipY - 6} Z`} fill="none" stroke={INK} strokeWidth={3} opacity={0.4} />
+          {/* soft side shading for volume */}
+          <path d={`M ${SW - 8} ${shY + 6} L ${SW + 2} ${shY + 16} L ${SW - 4} ${torsoBottom - 6} L ${SW - 14} ${torsoBottom - 6} Z`} fill="#000" opacity={0.13} />
+          {o.kind === "hoodie" && (
+            <g>
+              <path d={`M -16 ${shY - 6} Q 0 ${shY + 26} 16 ${shY - 6}`} stroke={INK} strokeWidth={3} fill="none" opacity={0.6} />
+              <path d={`M -7 ${shY + 8} L -8 ${shY + 52}`} stroke="#fff" strokeWidth={2.5} opacity={0.85} />
+              <path d={`M 7 ${shY + 8} L 8 ${shY + 52}`} stroke="#fff" strokeWidth={2.5} opacity={0.85} />
+              <circle cx={-8} cy={shY + 54} r={2.6} fill="#fff" />
+              <circle cx={8} cy={shY + 54} r={2.6} fill="#fff" />
+              <path d={`M -22 ${hipY - 40} L 22 ${hipY - 40} L 18 ${hipY - 8} L -18 ${hipY - 8} Z`} fill={dark} opacity={0.45} stroke={INK} strokeWidth={2.5} />
+              <path d={`M -${SW - 5} ${torsoBottom - 8} L ${SW - 5} ${torsoBottom - 8}`} stroke={dark} strokeWidth={6} />
+            </g>
+          )}
+          {o.kind === "tee" && (
+            <g>
+              <path d={`M -15 ${shY - 7} Q 0 ${shY + 10} 15 ${shY - 7}`} stroke={dark} strokeWidth={4} fill="none" />
+              <path d={`M -${SW - 6} ${torsoBottom - 6} L ${SW - 6} ${torsoBottom - 6}`} stroke={dark} strokeWidth={3} opacity={0.6} />
+            </g>
+          )}
+          {o.kind === "coat" && (
+            <g>
+              <path d={`M -20 ${shY - 6} L -8 ${shY + 30} L -20 ${shY + 18} Z`} fill={shade(o.color, -0.12)} stroke={INK} strokeWidth={2} />
+              <path d={`M 20 ${shY - 6} L 8 ${shY + 30} L 20 ${shY + 18} Z`} fill={shade(o.color, -0.12)} stroke={INK} strokeWidth={2} />
+              <rect x={14} y={shY + 50} width={18} height={18} rx={2} fill="none" stroke={shade(o.color, -0.3)} strokeWidth={2} />
+              <path d={`M 19 ${shY + 44} L 19 ${shY + 62}`} stroke="#3a6fd8" strokeWidth={3} />
+              <rect x={-36} y={hipY + 40} width={22} height={20} rx={2} fill="none" stroke={shade(o.color, -0.3)} strokeWidth={2} />
+              {[0, 1, 2].map((i) => (
+                <circle key={i} cx={0} cy={shY + 26 + i * 34} r={2.6} fill={shade(o.inner ?? "#2f8f9a", -0.4)} />
+              ))}
+            </g>
+          )}
+          {/* belt */}
+          {o.kind !== "coat" && <rect x={-SW + 6} y={torsoBottom - 1} width={(SW - 6) * 2} height={6} fill={pantsDark === INK ? "#2a2420" : pantsDark} />}
         </g>
       )}
-      <rect x={-6} y={headY + 40} width={12} height={shY - headY - 34} {...P(ol, INK)} />
+      <rect x={-4.5} y={headY + 40} width={9} height={shY - headY - 34} {...P(ol, INK)} />
       {arms.map((a) => {
-        const sx = a.side * 42;
+        const sx = a.side * SW;
         const sy = shY + 14;
         const midx = sx + (a.ex - sx) * sleeveLen;
         const midy = sy + (a.ey - sy) * sleeveLen;
+        const cuffX = a.hx - (a.hx - a.ex) * 0.2;
+        const cuffY = a.hy - (a.hy - a.ey) * 0.2;
+        const cuff2X = a.hx - (a.hx - a.ex) * 0.3;
+        const cuff2Y = a.hy - (a.hy - a.ey) * 0.3;
         return (
           <g key={a.side}>
-            <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${a.hx} ${a.hy}`} {...P(ol, "none", INK, 11)} />
+            <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${a.hx} ${a.hy}`} {...P(ol, "none", INK, 9)} />
             {o.kind === "tee" ? (
-              <path d={`M ${sx} ${sy} L ${midx} ${midy}`} {...P(ol, "none", o.color, 26)} />
+              <>
+                <path d={`M ${sx} ${sy} L ${midx} ${midy}`} {...P(ol, "none", o.color, 21)} />
+                {!ol && <path d={`M ${sx + (midx - sx) * 0.82} ${sy + (midy - sy) * 0.82} L ${midx} ${midy}`} stroke={dark} strokeWidth={21} strokeLinecap="butt" />}
+              </>
             ) : (
-              <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${a.hx - (a.hx - a.ex) * 0.18} ${a.hy - (a.hy - a.ey) * 0.18}`} {...P(ol, "none", o.color, 24)} />
+              <>
+                <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${cuffX} ${cuffY}`} {...P(ol, "none", o.color, 19)} />
+                {!ol && <path d={`M ${cuff2X} ${cuff2Y} L ${cuffX} ${cuffY}`} stroke={o.kind === "coat" ? shade(o.color, -0.15) : dark} strokeWidth={19} />}
+                {!ol && <path d={`M ${sx + 4 * a.side} ${sy + 6} L ${a.ex} ${a.ey}`} stroke="#000" strokeWidth={6} opacity={0.1} />}
+              </>
             )}
-            {!handsFront && <circle cx={a.hx} cy={a.hy} r={11} {...P(ol, INK)} />}
-            {!handsFront && !ol && (a.side > 0 ? itemR : itemL) && <g transform={`translate(${a.hx} ${a.hy})`}>{a.side > 0 ? itemR : itemL}</g>}
+            {!handsFront && drawHand(a, ol)}
           </g>
         );
       })}
@@ -401,6 +540,7 @@ export const Stick: React.FC<StickProps> = ({
           <g>
             <path d={`M -62 ${headY - 12} Q -60 ${headY - 70} 0 ${headY - 70} Q 60 ${headY - 70} 62 ${headY - 12} Z`} {...P(ol, c.capColor ?? "#c98a3a", INK, 4)} />
             <path d={`M 10 ${headY - 16} Q 60 ${headY - 26} 92 ${headY - 8} L 60 ${headY - 6} Z`} {...P(ol, c.capColor ?? "#c98a3a", INK, 4)} />
+            {!ol && <circle cx={0} cy={headY - 70} r={5} fill={shade(c.capColor ?? "#c98a3a", -0.3)} />}
           </g>
         )}
         {!ol && (
@@ -409,13 +549,7 @@ export const Stick: React.FC<StickProps> = ({
           </g>
         )}
       </g>
-      {handsFront &&
-        arms.map((a) => (
-          <g key={`hf${a.side}`}>
-            {ol ? <circle cx={a.hx} cy={a.hy} r={11} {...P(ol, INK)} /> : <circle cx={a.hx} cy={a.hy} r={12} fill={INK} stroke={RC} strokeWidth={5} />}
-            {!ol && (a.side > 0 ? itemR : itemL) && <g transform={`translate(${a.hx} ${a.hy})`}>{a.side > 0 ? itemR : itemL}</g>}
-          </g>
-        ))}
+      {handsFront && arms.map((a) => <g key={`hf${a.side}`}>{drawHand(a, ol, true)}</g>)}
     </g>
   );
 
