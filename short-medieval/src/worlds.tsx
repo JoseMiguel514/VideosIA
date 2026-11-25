@@ -216,7 +216,7 @@ export const ReefPro: React.FC<{ children?: React.ReactNode; dark?: number; burr
       </Depth>
       {children}
       {!noFg && (
-        <Depth d={1.4} blur={5} z={8800}>
+        <Depth d={1.4} z={8800}>
           <Full>
             {[-260, 1350].map((x, i) => (
               <g key={i}>
@@ -418,7 +418,7 @@ export const MossWorld: React.FC<{ children?: React.ReactNode; dry?: number }> =
         </Full>
       </Depth>
       {children}
-      <Depth d={1.45} blur={7} z={8800}>
+      <Depth d={1.45} z={8800}>
         <Full>
           {[-300, 1380].map((x, i) => (
             <MossStalk key={i} x={x} y={H + 200} h={1500} c={c1} seed={i + 11} />

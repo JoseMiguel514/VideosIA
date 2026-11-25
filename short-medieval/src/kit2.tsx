@@ -118,7 +118,7 @@ export const Depth: React.FC<{ d: number; children: React.ReactNode; blur?: numb
   const tx = W / 2 + c.x - k * (W / 2 + d * c.x);
   const ty = H / 2 + c.y - k * (H / 2 + d * c.y);
   return (
-    <AbsoluteFill style={{ transform: `translate(${tx}px, ${ty}px) scale(${k})`, transformOrigin: "0 0", filter: blur ? `blur(${blur}px)` : undefined, zIndex: z, pointerEvents: "none" }}>
+    <AbsoluteFill style={{ transform: `translate(${tx}px, ${ty}px) scale(${k})`, transformOrigin: "0 0", filter: blur && sd < 1.6 ? `blur(${blur}px)` : undefined, zIndex: z, pointerEvents: "none" }}>
       {children}
     </AbsoluteFill>
   );
