@@ -213,6 +213,7 @@ export const S_Hook2: React.FC = () => {
             reachL={reachL}
             reachR={reachR}
             itemL={dropped ? undefined : <PMirror rot={-15} />}
+            handR={f >= gray - 6 && f < slow ? "open" : undefined}
             dy={jump}
             handsFront
           />
@@ -367,6 +368,7 @@ export const S_Setup1: React.FC = () => {
             reachL={reachL}
             reachR={{ ...reachR, y: reachR.y + tap }}
             itemL={<PTablet glow={f >= dozen ? "#ff8f6b" : "#4fe3ff"} />}
+            handR={f >= dozen - 2 && f < wear ? "point" : f > 50 && f < dozen - 10 ? "point" : undefined}
             talk={f > 40 && f < dozen ? 0.4 : 0}
             pops={[dozen]}
           />
@@ -540,8 +542,8 @@ export const S_Years: React.FC = () => {
         <Street f={f} tint={tint} />
         <Layer>
           <Stick c={MIA} x={xs.MIA} y={Y} s={S} f={f} age={p * 0.85} seed={1} expr={f >= notice + 3 ? "surprised" : p > 0.4 ? "bored" : "happy"} look={0.7} reachR={miaR} itemR={<PCup />} pops={[notice + 3]} />
-          <Stick c={ZOE} x={xs.ZOE} y={Y} s={S} f={f} age={p * 0.85} seed={2} expr={f >= notice + 6 ? "confused" : "happy"} look={0.7} reachR={zoeR} talk={f < notice ? 0.4 : 0} pops={[notice + 6]} />
-          <Stick c={YOU} x={xs.YOU} y={Y} s={S} f={f} expr="happy" pose={poseAt(f, [[0, POSES.wave], [notice + 30, POSES.shrug]])} look={-0.4} talk={f < notice ? 0.3 : 0} />
+          <Stick c={ZOE} x={xs.ZOE} y={Y} s={S} f={f} age={p * 0.85} seed={2} expr={f >= notice + 6 ? "confused" : "happy"} look={0.7} reachR={zoeR} handR={f >= notice + 8 ? "point" : undefined} talk={f < notice ? 0.4 : 0} pops={[notice + 6]} />
+          <Stick c={YOU} x={xs.YOU} y={Y} s={S} f={f} expr="happy" pose={poseAt(f, [[0, POSES.wave], [notice + 30, POSES.shrug]])} handR={f < notice + 30 ? "open" : "open"} handL="open" look={-0.4} talk={f < notice ? 0.3 : 0} />
           <Stick
             c={SAM}
             x={xs.SAM}
@@ -555,6 +557,7 @@ export const S_Years: React.FC = () => {
             lookY={f < notice + 9 ? 0.6 : 0}
             reachL={samL}
             reachR={samR}
+            handR={f >= notice + 12 ? "relaxed" : undefined}
             itemL={<PPhone />}
             pops={[notice + 9]}
           />
@@ -700,6 +703,8 @@ export const S_Same: React.FC = () => {
             ])}
             lookY={f >= young ? -0.4 : 0}
             pose={f >= ex + 40 ? POSES.shrug : POSES.idle}
+            handR={f >= ex + 40 ? "open" : undefined}
+            handL={f >= ex + 40 ? "open" : undefined}
             pops={[ex + 40]}
           />
           <Stick
@@ -714,6 +719,8 @@ export const S_Same: React.FC = () => {
             lookY={f >= young + 20 ? -0.5 : 0}
             reachL={f < young ? drL : { x: -40, y: -280, w: 0 }}
             reachR={f < young + 20 ? drR : photoPoint}
+            handL={f >= skin - 4 && f < young ? "open" : undefined}
+            handR={f >= young + 24 ? "point" : undefined}
             itemR={f < young + 20 ? <PClipboard /> : undefined}
             pops={[ex]}
           />
@@ -850,6 +857,7 @@ export const S_Telomeres: React.FC = () => {
             lookY={-0.4}
             reachR={youR}
             handsFront
+            handR={f < frozen ? "fist" : undefined}
             sweat={f >= stop && f < frozen}
             pops={[stop, frozen, clock]}
           />
@@ -980,11 +988,13 @@ export const S_Jelly: React.FC = () => {
             reachR={youR}
             reachL={youL}
             handsFront
+            handR={f >= jel - 6 && f < juv - 8 ? "open" : f >= juv - 8 && f < eaten ? "point" : f >= sick ? "open" : undefined}
+            handL={f >= sick ? "open" : undefined}
             dy={jump}
             lean={f > eaten && f < eaten + 20 ? -8 : 0}
             pops={[jel, eaten, sick]}
           />
-          <Stick c={DR} x={1660} y={950} s={1.05} f={f} expr={f >= imm ? "bored" : "neutral"} look={-0.7} reachL={{ x: -30, y: -340, w: 1 }} itemL={<PTablet />} reachR={drR} talk={f < catchW ? 0.4 : 0} />
+          <Stick c={DR} x={1660} y={950} s={1.05} f={f} expr={f >= imm ? "bored" : "neutral"} look={-0.7} reachL={{ x: -30, y: -340, w: 1 }} itemL={<PTablet />} reachR={drR} handR={f >= imm - 6 ? "point" : undefined} talk={f < catchW ? 0.4 : 0} />
           <Emote kind="heart" x={yhx + 100} y={yhy - 120} start={juv} end={catchW - 6} s={0.7} />
           <Emote kind="!" x={yhx + 100} y={yhy - 140} start={eaten} end={sick - 4} />
           <Emote kind="sweat" x={yhx + 100} y={yhy - 110} start={sick} end={imm - 4} />
@@ -1105,7 +1115,7 @@ export const S_Math: React.FC = () => {
         </Screen>
         <Layer>
           <Stick c={DR} x={DX} y={DY} s={DS} f={f} expr="neutral" look={0.6} talk={0.4} reachR={{ x: hand[0], y: hand[1], w: 1 }} itemR={<PLaser bx={beam[0]} by={beam[1]} on={f >= long - 4} />} />
-          <Stick c={YOU} x={YX} y={YY} s={YS} f={f} expr={f >= acc ? "worried" : "neutral"} sweat={f >= acc} tremble={f >= acc ? 0.4 : 0} look={-0.6} lookY={-0.3} reachR={nails} reachL={f >= acc ? { x: -10, y: -330, w: 1 } : undefined} handsFront pops={[acc]} />
+          <Stick c={YOU} x={YX} y={YY} s={YS} f={f} expr={f >= acc ? "worried" : "neutral"} sweat={f >= acc} tremble={f >= acc ? 0.4 : 0} look={-0.6} lookY={-0.3} reachR={nails} reachL={f >= acc ? { x: -10, y: -330, w: 1 } : undefined} handsFront handR={f >= acc ? "fist" : undefined} pops={[acc]} />
           <Emote kind="sweat" x={yhx - 100} y={yhy - 120} start={acc} />
         </Layer>
         <Pill text="Disease" start={kills + 15} struck={at("math", "disease")} x={1210} y={260} size={34} color="#7f93a8" />
@@ -1174,6 +1184,8 @@ export const S_Lifespan: React.FC = () => {
             look={walking ? Math.sin(f / 22) * 0.7 : 0}
             sweat={f >= prom}
             reachR={scratch}
+            handR={f >= avg && f < prom ? "relaxed" : f >= prom ? "open" : undefined}
+            handL={f >= prom ? "open" : undefined}
             pose={f >= prom ? POSES.shrug : POSES.idle}
             pops={[th, avg, prom]}
           />
@@ -1319,7 +1331,7 @@ export const S_Risk: React.FC = () => {
             <ellipse cx={1150} cy={830} rx={60} ry={10} fill="#ffcf7a" opacity={0.3 + 0.2 * Math.sin(f / 3)} />
           </svg>
           <Layer>
-            <Stick c={YOU} x={X} y={Y} s={S} f={f} expr={f >= moto + 46 ? "surprised" : "worried"} sweat pose={POSES.idle} look={f >= moto + 46 ? 0 : 0.7} tremble={0.5} lean={f >= moto + 46 ? -6 : 3} reachR={reachR} pops={[moto + 46]} />
+            <Stick c={YOU} x={X} y={Y} s={S} f={f} expr={f >= moto + 46 ? "surprised" : "worried"} sweat pose={POSES.idle} look={f >= moto + 46 ? 0 : 0.7} tremble={0.5} lean={f >= moto + 46 ? -6 : 3} reachR={reachR} handR={f < moto + 46 ? "open" : "fist"} pops={[moto + 46]} />
             <Emote kind="!" x={hx + 110} y={hy - 140} start={moto + 46} />
           </Layer>
         </CamK>
@@ -1351,7 +1363,7 @@ export const S_Risk: React.FC = () => {
         <Layer>
           <rect x={790} y={260} width={290} height={760} rx={50} fill="#1b2430" stroke="#0b0a0c" strokeWidth={6} />
           <rect x={835} y={180} width={200} height={110} rx={30} fill="#1b2430" stroke="#0b0a0c" strokeWidth={6} />
-          <Stick c={YOU} x={X} y={Y} s={S} f={f} sit expr={f >= at("risk", "car") ? "worried" : "neutral"} sweat={f >= at("risk", "car")} tremble={f >= cent ? 0.8 : 0.3} look={Math.sin(f / 9) * 0.6} reachR={gripR} reachL={gripL} pops={[cent]} />
+          <Stick c={YOU} x={X} y={Y} s={S} f={f} sit expr={f >= at("risk", "car") ? "worried" : "neutral"} sweat={f >= at("risk", "car")} tremble={f >= cent ? 0.8 : 0.3} look={Math.sin(f / 9) * 0.6} reachR={gripR} reachL={gripL} handR="fist" handL="fist" pops={[cent]} />
           <path d={`M ${X - 55} ${Y - 420} L ${X + 40} ${Y - 160}`} stroke="#c9a640" strokeWidth={26} />
           <path d={`M ${X + 55} ${Y - 420} L ${X - 40} ${Y - 160}`} stroke="#c9a640" strokeWidth={26} />
           <rect x={X - 20} y={Y - 185} width={40} height={30} rx={4} fill="#c9ced6" />
@@ -1437,6 +1449,7 @@ export const S_Twist: React.FC = () => {
             tilt={shakeHead}
             reachL={readL}
             reachR={finger}
+            handR={f >= age - 2 ? "point" : undefined}
             itemL={f < age + 4 ? <PClipboard flip={ease(f, great, great + 12)} /> : undefined}
             pops={[great, age]}
           />
@@ -1537,8 +1550,8 @@ export const S_Root: React.FC = () => {
           </g>
         </svg>
         <Layer>
-          <Stick c={YOU} x={300} y={950} s={0.95} f={f} expr={f >= many ? "surprised" : f >= root ? "happy" : "neutral"} look={0.6} lookY={f >= many ? -0.6 : 0.3} pops={[root, many]} pose={f >= many ? POSES.pointUp : POSES.idle} />
-          <Stick c={DR} x={DX} y={DY} s={DS} f={f} walk={drWalk} expr="neutral" look={-0.6} lookY={f >= root && f < many ? 0.6 : 0} talk={0.4} reachL={touch} dy={kneel} />
+          <Stick c={YOU} x={300} y={950} s={0.95} f={f} expr={f >= many ? "surprised" : f >= root ? "happy" : "neutral"} look={0.6} lookY={f >= many ? -0.6 : 0.3} pops={[root, many]} pose={f >= many ? POSES.pointUp : POSES.idle} handR={f >= many ? "point" : undefined} />
+          <Stick c={DR} x={DX} y={DY} s={DS} f={f} walk={drWalk} expr="neutral" look={-0.6} lookY={f >= root && f < many ? 0.6 : 0} talk={0.4} reachL={touch} handL={f >= root - 2 && f < many + 4 ? "open" : f >= many + 4 ? "point" : undefined} dy={kneel} />
           <Emote kind="idea" x={yhx + 100} y={yhy - 140} start={root} end={many - 4} s={0.85} />
           <Emote kind="!" x={yhx + 100} y={yhy - 140} start={many} s={0.85} />
         </Layer>
@@ -1641,6 +1654,7 @@ export const S_Lab: React.FC = () => {
             reachR={tubeR}
             reachL={f < hum ? { x: -30, y: -300, w: 0 } : { x: -10, y: -330, w: 1 }}
             itemR={f < hum ? <PTube /> : undefined}
+            handR={f >= yet ? "point" : f >= hum ? "fist" : undefined}
             handsFront
             pops={[mice, yet]}
           />
@@ -1699,7 +1713,7 @@ export const S_Outro1: React.FC = () => {
       >
         <NightWindow f={f} />
         <Layer>
-          <Stick c={YOU} x={X} y={Y} s={S} f={f} sit expr={f >= tom ? "worried" : "sad"} sweat={f >= tom} look={0.4} lookY={0.4} reachR={reachR} reachL={{ x: -20, y: -330, w: 0.6 }} handsFront tilt={-5} pops={[time, tom]} />
+          <Stick c={YOU} x={X} y={Y} s={S} f={f} sit expr={f >= tom ? "worried" : "sad"} sweat={f >= tom} look={0.4} lookY={0.4} reachR={reachR} reachL={{ x: -20, y: -330, w: 0.6 }} handsFront handR={f >= time - 12 && f < time + 20 ? "grip" : "fist"} tilt={-5} pops={[time, tom]} />
           <rect x={420} y={760} width={760} height={30} rx={6} fill="#5a3a26" stroke="#0b0a0c" strokeWidth={5} />
           <rect x={450} y={790} width={20} height={200} fill="#3d281a" />
           <rect x={1130} y={790} width={20} height={200} fill="#3d281a" />
@@ -1798,9 +1812,9 @@ export const S_Outro2: React.FC<{ voiceEnd: number }> = ({ voiceEnd }) => {
       >
         <PartyRoom f={f} confetti={sub + 14} />
         <Layer>
-          <Stick c={MIA} x={MX} y={MY} s={0.85} f={f} expr="happy" look={0.5} seed={1} reachR={miaR} pops={[fiveT]} />
+          <Stick c={MIA} x={MX} y={MY} s={0.85} f={f} expr="happy" look={0.5} seed={1} reachR={miaR} handR={f >= deal - 6 && f < fiveT + 20 ? "open" : undefined} pops={[fiveT]} />
           <Stick c={SAM} x={1690} y={870} s={0.8} f={f} expr="happy" look={-0.5} seed={3} reachR={samR} itemR={<PPopper />} pops={[sub + 14]} />
-          <Stick c={ZOE} x={1450} y={890} s={0.88} f={f} expr="happy" look={-0.5} seed={2} pose={poseAt(f, [[0, POSES.idle], [sub + 14, POSES.clap]])} />
+          <Stick c={ZOE} x={1450} y={890} s={0.88} f={f} expr="happy" look={-0.5} seed={2} pose={poseAt(f, [[0, POSES.idle], [sub + 14, POSES.clap]])} handR={f >= sub + 14 ? "open" : undefined} handL={f >= sub + 14 ? "open" : undefined} />
           <Stick
             c={YOU}
             x={YX}
@@ -1817,6 +1831,8 @@ export const S_Outro2: React.FC<{ voiceEnd: number }> = ({ voiceEnd }) => {
             talk={0.35}
             reachL={youL}
             reachR={youR}
+            handL={f >= deal - 6 && f < fiveT + 20 ? "open" : undefined}
+            handR={f >= com && f < sub - 6 ? "fist" : f >= next + 6 ? "open" : undefined}
             itemR={f >= sub - 6 && f < next + 6 ? <PPhone lit={!clicked} /> : undefined}
             handsFront
             pops={[fiveT, sub + 14]}

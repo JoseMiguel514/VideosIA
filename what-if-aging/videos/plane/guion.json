@@ -1,0 +1,198 @@
+[
+ {
+  "id": "p01",
+  "texto": "You're thirty-five thousand feet above the ground. Seat twenty-three B. Drinks are coming down the aisle. And then, the sound you never notice... stops. Both engines. Gone."
+ },
+ {
+  "id": "p02",
+  "texto": "No roar. No hum. Just the hiss of air sliding past the windows. And a cabin full of people, slowly realizing the same thing you are. So what actually happens next?"
+ },
+ {
+  "id": "p03",
+  "texto": "Most people imagine the plane dropping like a stone. That's the movie version. The real version is stranger, quieter, and in many ways, a lot more hopeful. Let's go second by second."
+ },
+ {
+  "id": "p04",
+  "texto": "Zero seconds. The engines flame out. On the flight deck, the first thing pilots learn is a simple rule. Aviate. Navigate. Communicate. In that order. Fly the plane first. Everything else comes after."
+ },
+ {
+  "id": "p05",
+  "texto": "Five seconds. The nose tilts gently down. Not because the plane is falling, but because the pilots are trading height for speed. Without engines, altitude becomes your fuel. Every foot you lose buys you distance."
+ },
+ {
+  "id": "p06",
+  "texto": "Here's the secret most passengers never learn. An airliner is, at its heart, a giant glider. Those wings don't stop working when the engines do. As long as air keeps flowing over them, they keep lifting."
+ },
+ {
+  "id": "p06b",
+  "texto": "Think of a paper airplane. It has no engine at all, and it still flies across the room. A jet works the same way, just heavier, faster, and with two highly trained people steering it."
+ },
+ {
+  "id": "p07",
+  "texto": "And from cruising altitude, a big jet can glide a surprisingly long way. Often well over a hundred kilometers, depending on the aircraft, the weight, and the wind. That's not a fall. That's a runway search."
+ },
+ {
+  "id": "p08",
+  "texto": "Ten seconds. The lights flicker. Some screens go dark. But the plane isn't dead. A small backup turbine can drop out of the belly, spinning in the wind like a pinwheel, to make emergency power."
+ },
+ {
+  "id": "p09",
+  "texto": "Many jets also carry a tiny extra engine in the tail, called an A P U. If the crew can start it, they get electricity and air pressure back. Quietly, the airplane is fighting to stay alive."
+ },
+ {
+  "id": "p10",
+  "texto": "Thirty seconds. The checklists come out. And these aren't guesses. Pilots train for this exact moment, again and again, in simulators. Restart the engines. Check the fuel. Find somewhere to land."
+ },
+ {
+  "id": "p11",
+  "texto": "Meanwhile, back in seat twenty-three B, your heart is pounding. You look around. Nobody is screaming yet. Most people freeze, waiting for someone, anyone, to tell them what to do."
+ },
+ {
+  "id": "p12",
+  "texto": "One minute. A calm voice comes over the speakers. Please remain seated, and keep your seatbelt fastened. It sounds ordinary. It's not. That calm is trained, and it's deliberate."
+ },
+ {
+  "id": "p13",
+  "texto": "Now, you might expect the oxygen masks to drop. But here's a twist. They usually won't. Those masks are for when the cabin loses pressure, not when the engines lose power."
+ },
+ {
+  "id": "p14",
+  "texto": "And if they do drop, the rule matters. Put yours on first. At cruising altitude, without oxygen, you may have only seconds of clear thinking before you can't help anyone. Not even yourself."
+ },
+ {
+  "id": "p15",
+  "texto": "Those masks are fed by small chemical generators. Each one usually lasts around twelve to fifteen minutes. That sounds short, but it's enough, because the pilots will dive to thicker, breathable air."
+ },
+ {
+  "id": "p15b",
+  "texto": "And remember, this situation is rare. Modern jet engines are astonishingly reliable. Losing all of them at once almost always takes something from outside. Running out of fuel. A flock of birds. Or volcanic ash."
+ },
+ {
+  "id": "p16",
+  "texto": "Three minutes. The cabin tilts as the plane turns. Out the window, the ground is closer now. And this is where a story from nineteen eighty-three becomes very, very important."
+ },
+ {
+  "id": "p17",
+  "texto": "July nineteen eighty-three. Air Canada Flight 143, a brand new Boeing seven sixty-seven, is cruising at forty-one thousand feet over Canada. Then the warning alarms start. One engine stops. Then the other."
+ },
+ {
+  "id": "p18",
+  "texto": "The plane hadn't been hit by anything. It had simply run out of fuel. A mix-up between metric and imperial units meant the jet took off with less than half the fuel it actually needed."
+ },
+ {
+  "id": "p19",
+  "texto": "Now, a seven sixty-seven with no engines and no power for most of its instruments. But Captain Robert Pearson had a strange hobby. He was an experienced glider pilot."
+ },
+ {
+  "id": "p20",
+  "texto": "His first officer remembered an old air force base nearby, at a town called Gimli. What he didn't know? Part of it had become a racetrack. And that day, people were there, racing go-karts."
+ },
+ {
+  "id": "p21",
+  "texto": "Coming in too high and too fast, Pearson did something you'd normally see in a tiny sport plane. He turned the jet sideways in the air, a slip, to bleed off height without gaining speed."
+ },
+ {
+  "id": "p22",
+  "texto": "The jet hit the runway. The nose gear collapsed, and the plane scraped to a stop, well short of the people on the track. A small fire in the nose was put out by racers with hand extinguishers."
+ },
+ {
+  "id": "p23",
+  "texto": "No one died. Today, the plane is remembered as the Gimli Glider. And it proved something important. A big jet with zero engines is not doomed. It's a very heavy glider with a very determined crew."
+ },
+ {
+  "id": "p23b",
+  "texto": "After the investigation, the airline and the authorities looked hard at how the fuel had been calculated. The mistake wasn't one person's. It was a chain of small errors that nobody caught in time."
+ },
+ {
+  "id": "p24",
+  "texto": "But what if you're not over flat Canadian farmland? What if you're over the ocean, at night? That happened too. One year earlier, to a jumbo jet."
+ },
+ {
+  "id": "p25",
+  "texto": "June nineteen eighty-two. British Airways Flight 9, a Boeing seven forty-seven, is crossing Indonesia at night. Passengers notice a strange smoke in the cabin. Outside, the engines are glowing with an eerie blue light."
+ },
+ {
+  "id": "p26",
+  "texto": "Then, one by one, all four engines shut down. The plane had flown straight into an invisible cloud of volcanic ash from Mount Galunggung. Nobody on board knew it was there."
+ },
+ {
+  "id": "p27",
+  "texto": "The captain made one of the calmest announcements in aviation history. He told passengers that all four engines had stopped, that the crew was doing their best, and that he trusted they weren't in too much distress."
+ },
+ {
+  "id": "p28",
+  "texto": "The jumbo jet glided for many minutes, sinking through the dark. The crew tried to restart the engines, again and again. Nothing. Below them, mountains."
+ },
+ {
+  "id": "p29",
+  "texto": "And then, as the plane dropped out of the ash cloud into clean air, the melted ash inside the engines cooled, hardened, and broke away. One engine coughed back to life. Then another. Then all four."
+ },
+ {
+  "id": "p30",
+  "texto": "They had glided down from thirty-seven thousand feet to roughly twelve or thirteen thousand before the engines came back. The plane landed safely in Jakarta. Everyone survived."
+ },
+ {
+  "id": "p31",
+  "texto": "And then, there's the most famous one. January two thousand nine. US Airways Flight 1549 takes off from New York. Barely a couple of minutes later, it flies into a flock of Canada geese."
+ },
+ {
+  "id": "p32",
+  "texto": "Both engines lose almost all their power. The jet is only around three thousand feet up, over one of the most crowded cities on Earth. There's no time to glide for a hundred kilometers. There are only a few minutes."
+ },
+ {
+  "id": "p33",
+  "texto": "Captain Chesley Sullenberger and first officer Jeffrey Skiles ran their checklist and looked for options. The airports were too far. So he chose the only long, flat, open space left. The Hudson River."
+ },
+ {
+  "id": "p34",
+  "texto": "About three and a half minutes after the bird strike, the plane touched down on the water. Passengers stood on the wings as ferries raced in. All one hundred and fifty-five people on board survived."
+ },
+ {
+  "id": "p35",
+  "texto": "So, if it ever happens to you, what should you actually do? First, the boring stuff that saves lives. Listen to the crew. They know the plan. You don't. Not yet."
+ },
+ {
+  "id": "p35b",
+  "texto": "While you listen, the pilots are scanning for a place to land. A runway first, if they can reach one. If not, anything long, flat, and clear. A highway. A field. A beach. Or calm water."
+ },
+ {
+  "id": "p36",
+  "texto": "Second, brace. Feet flat on the floor. Lean forward. Head down against the seat in front, or tucked toward your knees. It looks strange, but it protects you from the worst of the impact."
+ },
+ {
+  "id": "p37",
+  "texto": "Third, before you ever take off, count the rows to your nearest exit. In darkness or smoke, you may not see the signs. But you can still feel the seats, and count."
+ },
+ {
+  "id": "p38",
+  "texto": "If you're heading for water, put on your life vest, but don't inflate it inside the cabin. An inflated vest can trap you as water rises. Inflate it as you leave the plane."
+ },
+ {
+  "id": "p39",
+  "texto": "And when the plane stops, leave everything. Your bag. Your laptop. Your phone. Every second you spend in the aisle is a second someone behind you can't get out."
+ },
+ {
+  "id": "p39b",
+  "texto": "Airliners are designed with this moment in mind. Before a new model is certified, the manufacturer has to show that a full load of passengers can get out in ninety seconds, using only half of the exits."
+ },
+ {
+  "id": "p39c",
+  "texto": "Ninety seconds. In the dark, maybe with smoke. That's why counting rows, and leaving your bag behind, matter so much. They are the small choices that make those ninety seconds work."
+ },
+ {
+  "id": "p40",
+  "texto": "Here's what might surprise you most. An American safety study looked at serious airline accidents between nineteen eighty-three and two thousand. More than ninety-five percent of the people on board survived."
+ },
+ {
+  "id": "p41",
+  "texto": "Not every accident is survivable. And losing both engines is rare and genuinely dangerous. But it's not the instant death sentence movies make it look like. Planes glide. Crews train. People live."
+ },
+ {
+  "id": "p42",
+  "texto": "So the next time you're in seat twenty-three B, and the engines hum beneath you, maybe you'll hear them a little differently. Not as the thing keeping you alive. Just as one part of a very well planned system."
+ },
+ {
+  "id": "p43",
+  "texto": "Now, tell me in the comments. Would you stay calm? Or would you be the first one in the aisle? And subscribe, because next time, we're asking what happens if you never slept again."
+ }
+]

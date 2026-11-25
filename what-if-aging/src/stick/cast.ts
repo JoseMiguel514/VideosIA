@@ -12,3 +12,9 @@ export const DR: CharDef = {
   glasses: true,
 };
 export const CAST = [YOU, MIA, ZOE, SAM, DR];
+
+// --- extra cast for the long-form videos ---
+export const CAPT: CharDef = { name: "Captain", outfit: { kind: "coat", color: "#1f2a4a", inner: "#e9edf2", pants: "#1f2a4a" }, hair: "cap", capColor: "#1f2a4a" };
+export const FO: CharDef = { name: "First officer", outfit: { kind: "coat", color: "#1f2a4a", inner: "#e9edf2", pants: "#1f2a4a" }, hair: "tuft" };
+export const FA: CharDef = { name: "Flight attendant", outfit: { kind: "tee", color: "#2f5aa8", pants: "#1f2a4a" }, hair: "bun" };
+export const RANDY: CharDef = { name: "Randy (1964)", outfit: { kind: "tee", color: "#4a8ad8", pants: "#3a2c22" }, hair: "tuft" };
