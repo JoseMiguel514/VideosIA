@@ -148,3 +148,47 @@ Años después, hasta engañó a Al Capone. Pero acabó sus días en Alcatraz.
 ¿Tú habrías caído en la estafa? Te leo en los comentarios.
 ```
 
+
+
+## 8. Camarón mantis: puñetazos con la aceleración de una bala
+
+```
+Este animal da puñetazos con la aceleración de una bala... y puede romper el cristal de un acuario.
+
+Es el camarón mantis, primo lejano del camarón pistola. Y en lugar de pinzas, esconde dos mazas plegadas bajo el cuerpo.
+
+Las dispara a más de ochenta kilómetros por hora, en apenas unas milésimas de segundo.
+
+Es tan rápido, que el agua no puede seguirlo: se forman burbujas que revientan... y la presa recibe un segundo golpe.
+
+Con eso destroza caparazones de cangrejos y caracoles, que para otros animales serían imposibles de abrir.
+
+Y sus ojos son todavía más raros: tiene hasta doce tipos de receptores de color. Tú solo tienes tres.
+
+Pero lo más loco: aun así, distingue los colores peor que tú. Los científicos creen que no los compara... los reconoce al instante, como un escáner.
+
+Y su maza es tan resistente, que hoy la estudian para crear cascos y chalecos más duros.
+
+¿Quién ganaría: el camarón pistola, o el camarón mantis? Te leo en los comentarios.
+```
+
+## 9. Tardígrado: el animal casi indestructible
+
+```
+Este animal sobrevivió al espacio... y casi nada en la Tierra puede matarlo.
+
+Es el tardígrado, u oso de agua. Mide menos de un milímetro, tiene ocho patas... y vive en el musgo. Quizá en el de tu jardín.
+
+Cuando las cosas se ponen feas, expulsa casi toda el agua de su cuerpo, se encoge como una bolita... y se pone en pausa.
+
+Gracias a eso, ha aguantado temperaturas cerca del cero absoluto, calor de más de cien grados, y presiones seis veces mayores que en el fondo del océano.
+
+En 2007, los científicos los mandaron al espacio, sin ninguna protección. Y muchos volvieron vivos... y hasta tuvieron crías.
+
+En 2016, lograron revivir a unos que llevaban más de treinta años congelados.
+
+Pero lo más loco: en 2019, una nave se estrelló en la Luna... y llevaba miles de tardígrados dentro.
+
+¿Crees que siguen vivos allí arriba? Te leo en los comentarios.
+```
+

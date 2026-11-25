@@ -1,0 +1,11 @@
+{"pronunciacion": {"2007": "dos mil siete", "2016": "dos mil dieciséis", "2019": "dos mil diecinueve"},
+ "escenas": [
+ {"id": "hook", "texto": "Este animal sobrevivió al espacio... y casi nada en la Tierra puede matarlo."},
+ {"id": "conoce", "texto": "Es el tardígrado, u oso de agua. Mide menos de un milímetro, tiene ocho patas... y vive en el musgo. Quizá en el de tu jardín."},
+ {"id": "bolita", "texto": "Cuando las cosas se ponen feas, expulsa casi toda el agua de su cuerpo, se encoge como una bolita... y se pone en pausa."},
+ {"id": "extremos", "texto": "Gracias a eso, ha aguantado temperaturas cerca del cero absoluto, calor de más de cien grados, y presiones seis veces mayores que en el fondo del océano."},
+ {"id": "espacio", "texto": "En 2007, los científicos los mandaron al espacio, sin ninguna protección. Y muchos volvieron vivos... y hasta tuvieron crías."},
+ {"id": "hielo", "texto": "En 2016, lograron revivir a unos que llevaban más de treinta años congelados."},
+ {"id": "luna", "texto": "Pero lo más loco: en 2019, una nave se estrelló en la Luna... y llevaba miles de tardígrados dentro."},
+ {"id": "outro", "texto": "¿Crees que siguen vivos allí arriba? Te leo en los comentarios."}
+]}

@@ -1,0 +1,12 @@
+{"pronunciacion": {},
+ "escenas": [
+ {"id": "hook", "texto": "Este animal da puñetazos con la aceleración de una bala... y puede romper el cristal de un acuario."},
+ {"id": "conoce", "texto": "Es el camarón mantis, primo lejano del camarón pistola. Y en lugar de pinzas, esconde dos mazas plegadas bajo el cuerpo."},
+ {"id": "golpe", "texto": "Las dispara a más de ochenta kilómetros por hora, en apenas unas milésimas de segundo."},
+ {"id": "doble", "texto": "Es tan rápido, que el agua no puede seguirlo: se forman burbujas que revientan... y la presa recibe un segundo golpe."},
+ {"id": "caparazon", "texto": "Con eso destroza caparazones de cangrejos y caracoles, que para otros animales serían imposibles de abrir."},
+ {"id": "ojos", "texto": "Y sus ojos son todavía más raros: tiene hasta doce tipos de receptores de color. Tú solo tienes tres."},
+ {"id": "giro", "texto": "Pero lo más loco: aun así, distingue los colores peor que tú. Los científicos creen que no los compara... los reconoce al instante, como un escáner."},
+ {"id": "ciencia", "texto": "Y su maza es tan resistente, que hoy la estudian para crear cascos y chalecos más duros."},
+ {"id": "outro", "texto": "¿Quién ganaría: el camarón pistola, o el camarón mantis? Te leo en los comentarios."}
+]}

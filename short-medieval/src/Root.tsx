@@ -7,6 +7,8 @@ import { Venus, VENUS_FRAMES } from "./videos/Venus";
 import { Camaron, CAMARON_FRAMES } from "./videos/Camaron";
 import { Baile, BAILE_FRAMES } from "./videos/Baile";
 import { EiffelVideo, EIFFEL_FRAMES } from "./videos/Eiffel";
+import { MantisVideo, MANTIS_FRAMES } from "./videos/Mantis";
+import { TardigradoVideo, TARDIGRADO_FRAMES } from "./videos/Tardigrado";
 
 const V = { fps: 30, width: 1080, height: 1920 };
 
@@ -20,6 +22,8 @@ export const RemotionRoot: React.FC = () => {
       <Composition id="Camaron" component={Camaron} durationInFrames={CAMARON_FRAMES} {...V} />
       <Composition id="Baile" component={Baile} durationInFrames={BAILE_FRAMES} {...V} />
       <Composition id="Eiffel" component={EiffelVideo} durationInFrames={EIFFEL_FRAMES} {...V} />
+      <Composition id="Mantis" component={MantisVideo} durationInFrames={MANTIS_FRAMES} {...V} />
+      <Composition id="Tardigrado" component={TardigradoVideo} durationInFrames={TARDIGRADO_FRAMES} {...V} />
       <Composition id="Venus" component={Venus} durationInFrames={VENUS_FRAMES} {...V} />
     </>
   );

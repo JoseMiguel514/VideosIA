@@ -31,3 +31,22 @@ Fórmula de retención aplicada en los tres:
 - Camarón pistola: el chorro ronda los 100 km/h y la burbuja alcanza más de 4700 °C durante un instante (estudio de 2001 sobre "shrimpoluminescencia"); el ruido de sus colonias interfería en los sonares durante la Segunda Guerra Mundial. La reversión de pinzas ocurre en varias especies de *Alpheus*.
 - Plaga del baile: las cifras (unas 30 en una semana, unas 400 en un mes) vienen de crónicas de la época; las muertes son discutidas, por eso el guion dice "según algunas crónicas".
 - Torre Eiffel: el "segundo intento" fracasó (la víctima fue a la policía); Lustig acabó en Alcatraz por falsificar dinero. La anécdota de Al Capone procede de relatos posteriores.
+
+
+---
+
+# Serie "animales extremos" (continuación del camarón pistola)
+
+## 4. `out/camaron-mantis.mp4`
+**Título:** Su puñetazo tiene la aceleración de una bala 🦐💥 (el primo del camarón pistola)
+**Descripción:** El camarón mantis golpea a más de 80 km/h, rompe caparazones y hasta el cristal de un acuario. ¿Quién gana: pistola o mantis? #camaronmantis #camaronpistola #animales #datoscuriosos #oceano #ciencia #shorts #fyp
+**Comentario fijado:** "Equipo PISTOLA 🔫 o equipo MANTIS 🥊 👇"
+
+## 5. `out/tardigrado-indestructible.mp4`
+**Título:** Este animal sobrevivió al ESPACIO… y puede estar en tu jardín 🐻‍❄️🚀
+**Descripción:** El tardígrado aguanta el cero absoluto, más de 100 °C, el vacío del espacio… y en 2019 se estrellaron miles en la Luna. #tardigrado #osodeagua #animales #espacio #datoscuriosos #ciencia #shorts #fyp
+**Comentario fijado:** "¿Siguen vivos en la Luna? 🌕👇"
+
+## Notas de exactitud
+- Mantis: golpe de unos 80 km/h con aceleraciones del orden de 10.000 g (Patek et al., 2004); el colapso de las burbujas de cavitación da un segundo impacto; hasta 12 tipos de fotorreceptores de color (estudio de 2014 que sugiere que reconoce colores en vez de compararlos); su maza (estructura helicoidal) inspira materiales para cascos y blindajes. Lo del cristal del acuario está documentado por acuaristas.
+- Tardígrado: misión FOTON-M3 (2007) al espacio abierto; revividos tras ~30 años congelados (muestra de 1983, publicado en 2016); la sonda Beresheet se estrelló en la Luna en 2019 con tardígrados deshidratados a bordo (si sobrevivieron al impacto es dudoso, por eso el vídeo lo deja como pregunta).
