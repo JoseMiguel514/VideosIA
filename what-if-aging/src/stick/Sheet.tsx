@@ -17,7 +17,7 @@ export const Sheet: React.FC = () => (
   <AbsoluteFill style={{ background: "linear-gradient(#2a2433, #141018)" }}>
     <svg width={1920} height={1080}>
       <text x={50} y={70} fontFamily={headFont} fontSize={56} fill="#f0d29a">
-        CAST — SLIMMER, MORE DETAILED BUILD
+        CAST — DETAILED BUILD · FINGERS ONLY WHEN USED
       </text>
       {CAST.map((c, i) => (
         <g key={c.name}>

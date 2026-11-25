@@ -10,7 +10,7 @@ import React from "react";
 export type Expr = "neutral" | "bored" | "happy" | "sad" | "surprised" | "worried" | "angry" | "confused" | "blow";
 export type Arm = [number, number]; // [shoulder angle, elbow extra angle] in degrees; 0 = hanging down, + = outward
 export type Pose = { l: Arm; r: Arm };
-export type HandMode = "relaxed" | "grip" | "open" | "point" | "fist";
+export type HandMode = "ball" | "relaxed" | "grip" | "open" | "point" | "fist";
 
 export const POSES = {
   idle: { l: [8, 6], r: [8, 6] },
@@ -294,6 +294,14 @@ const Hand: React.FC<{ mode: HandMode; side: number; ol: boolean; P: PFn; item?:
       </g>
     );
   }
+  if (mode === "ball") {
+    return (
+      <g>
+        <circle cx={0} cy={6} r={11.5} {...P(ol, INK)} />
+        {!ol && item}
+      </g>
+    );
+  }
   // relaxed
   return (
     <g>
@@ -392,10 +400,10 @@ export const Stick: React.FC<StickProps> = ({
   ].map(({ side, a }) => {
     const tgt = side > 0 ? reachR : reachL;
     if (tgt && tgt.w > 0) {
-      const k = ik(side * 36, shY + 14, side, tgt.x, tgt.y - dy);
+      const k = ik(side * 40, shY + 14, side, tgt.x, tgt.y - dy);
       a = [a[0] + (k[0] - a[0]) * tgt.w, a[1] + (k[1] - a[1]) * tgt.w];
     }
-    return { side, ...limb(side * 36, shY + 14, side, a) };
+    return { side, ...limb(side * 40, shY + 14, side, a) };
   });
 
   const sleeveLen = o.kind === "tee" ? 0.42 : 1;
@@ -406,10 +414,10 @@ export const Stick: React.FC<StickProps> = ({
   const P = (ol: boolean, fill?: string, stroke?: string, sw = 0) =>
     ol ? { fill: fill && fill !== "none" ? RC : "none", stroke: RC, strokeWidth: sw + 10 } : { fill: fill ?? "none", stroke, strokeWidth: sw };
   const headT = `rotate(${tilt + nod} 0 ${headY + 40}) translate(${hunch * 2.2} 0) translate(0 ${headY}) scale(1.16) translate(0 ${-headY})`;
-  const SW = 36; // shoulder half-width (slimmer build)
+  const SW = 40; // shoulder half-width
   const dark = shade(o.color, -0.28);
   const pantsDark = o.pants === INK ? INK : shade(o.pants, -0.3);
-  const handFor = (side: number, item: React.ReactNode): HandMode => (side > 0 ? handR : handL) ?? (item ? "grip" : "relaxed");
+  const handFor = (side: number, item: React.ReactNode): HandMode => (side > 0 ? handR : handL) ?? (item ? "grip" : "ball");
   const drawHand = (a: (typeof arms)[number], ol: boolean, front = false) => {
     const item = a.side > 0 ? itemR : itemL;
     const ang = (Math.atan2(-(a.hx - a.ex), a.hy - a.ey) * 180) / Math.PI;
@@ -439,10 +447,10 @@ export const Stick: React.FC<StickProps> = ({
       {/* legs: slim trousers, hem, crease and two-tone shoes */}
       {legs.map((l) => (
         <g key={l.side}>
-          <path d={`M ${l.side * 14} ${hipY} L ${l.kx * 0.9} ${l.ky} L ${l.fx * 0.95} ${l.fy - 10}`} {...P(ol, "none", o.pants, 17)} />
+          <path d={`M ${l.side * 14} ${hipY} L ${l.kx * 0.9} ${l.ky} L ${l.fx * 0.95} ${l.fy - 10}`} {...P(ol, "none", o.pants, 20)} />
           {!ol && o.pants !== INK && <path d={`M ${l.side * 14} ${hipY + 10} L ${l.kx * 0.9} ${l.ky} L ${l.fx * 0.95} ${l.fy - 14}`} stroke={pantsDark} strokeWidth={2} fill="none" opacity={0.6} />}
           {!ol && o.pants !== INK && <path d={`M ${l.fx * 0.95 - 8} ${l.fy - 18} L ${l.fx * 0.95 + 8} ${l.fy - 18}`} stroke={pantsDark} strokeWidth={3} />}
-          {!ol && o.pants === INK && <path d={`M ${l.kx * 0.9} ${l.ky} L ${l.fx * 0.95} ${l.fy - 10}`} stroke={INK} strokeWidth={9} fill="none" />}
+          {!ol && o.pants === INK && <path d={`M ${l.kx * 0.9} ${l.ky} L ${l.fx * 0.95} ${l.fy - 10}`} stroke={INK} strokeWidth={10.5} fill="none" />}
           <path d={`M ${l.fx * 0.95 - l.side * 6} ${l.fy - 12} Q ${l.fx * 0.95 + l.side * 24} ${l.fy - 16} ${l.fx * 0.95 + l.side * 26} ${l.fy - 2} L ${l.fx * 0.95 - l.side * 8} ${l.fy - 1} Z`} {...P(ol, INK)} />
           {!ol && <path d={`M ${l.fx * 0.95 - l.side * 8} ${l.fy - 2} L ${l.fx * 0.95 + l.side * 25} ${l.fy - 3}`} stroke="#e9e2d4" strokeWidth={3} />}
         </g>
@@ -496,7 +504,7 @@ export const Stick: React.FC<StickProps> = ({
           {o.kind !== "coat" && <rect x={-SW + 6} y={torsoBottom - 1} width={(SW - 6) * 2} height={6} fill={pantsDark === INK ? "#2a2420" : pantsDark} />}
         </g>
       )}
-      <rect x={-4.5} y={headY + 40} width={9} height={shY - headY - 34} {...P(ol, INK)} />
+      <rect x={-5.5} y={headY + 40} width={11} height={shY - headY - 34} {...P(ol, INK)} />
       {arms.map((a) => {
         const sx = a.side * SW;
         const sy = shY + 14;
@@ -508,16 +516,16 @@ export const Stick: React.FC<StickProps> = ({
         const cuff2Y = a.hy - (a.hy - a.ey) * 0.3;
         return (
           <g key={a.side}>
-            <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${a.hx} ${a.hy}`} {...P(ol, "none", INK, 9)} />
+            <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${a.hx} ${a.hy}`} {...P(ol, "none", INK, 10.5)} />
             {o.kind === "tee" ? (
               <>
-                <path d={`M ${sx} ${sy} L ${midx} ${midy}`} {...P(ol, "none", o.color, 21)} />
-                {!ol && <path d={`M ${sx + (midx - sx) * 0.82} ${sy + (midy - sy) * 0.82} L ${midx} ${midy}`} stroke={dark} strokeWidth={21} strokeLinecap="butt" />}
+                <path d={`M ${sx} ${sy} L ${midx} ${midy}`} {...P(ol, "none", o.color, 24)} />
+                {!ol && <path d={`M ${sx + (midx - sx) * 0.82} ${sy + (midy - sy) * 0.82} L ${midx} ${midy}`} stroke={dark} strokeWidth={24} strokeLinecap="butt" />}
               </>
             ) : (
               <>
-                <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${cuffX} ${cuffY}`} {...P(ol, "none", o.color, 19)} />
-                {!ol && <path d={`M ${cuff2X} ${cuff2Y} L ${cuffX} ${cuffY}`} stroke={o.kind === "coat" ? shade(o.color, -0.15) : dark} strokeWidth={19} />}
+                <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${cuffX} ${cuffY}`} {...P(ol, "none", o.color, 22)} />
+                {!ol && <path d={`M ${cuff2X} ${cuff2Y} L ${cuffX} ${cuffY}`} stroke={o.kind === "coat" ? shade(o.color, -0.15) : dark} strokeWidth={22} />}
                 {!ol && <path d={`M ${sx + 4 * a.side} ${sy + 6} L ${a.ex} ${a.ey}`} stroke="#000" strokeWidth={6} opacity={0.1} />}
               </>
             )}
