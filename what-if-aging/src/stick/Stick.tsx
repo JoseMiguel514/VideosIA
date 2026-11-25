@@ -67,6 +67,16 @@ export type StickProps = {
   talk?: number; // 0..1 speaking gestures + mouth flap
   pops?: number[]; // frames that trigger a squash-and-stretch reaction
   still?: boolean; // disable secondary motion (frozen moments)
+  /** IK hand targets in the character's local unscaled space (origin between feet, y up negative). w = blend weight 0..1 */
+  reachR?: { x: number; y: number; w: number };
+  reachL?: { x: number; y: number; w: number };
+  /** Objects held in the hands (drawn in hand-local coordinates). */
+  itemR?: React.ReactNode;
+  itemL?: React.ReactNode;
+  /** Extra vertical offset (e.g. crouch / jump), local units. */
+  dy?: number;
+  /** Draw hands (and held items) in front of the head, e.g. hand on chin / over mouth. */
+  handsFront?: boolean;
 };
 
 const INK = "#0b0a0c";
@@ -74,6 +84,19 @@ const EYE = "#f6efdf";
 const RIM = "#f0d29a";
 const toRad = (d: number) => (d * Math.PI) / 180;
 
+/** Two-bone IK: arm angles (in this file's convention) that place the hand at (tx, ty). */
+export const ik = (sx: number, sy: number, side: number, tx: number, ty: number, L1 = 95, L2 = 90): Arm => {
+  const dx = tx - sx;
+  const dyy = ty - sy;
+  const d = Math.min(L1 + L2 - 2, Math.max(8, Math.hypot(dx, dyy)));
+  const at = Math.atan2(side * dx, dyy);
+  const alpha = Math.acos(Math.max(-1, Math.min(1, (L1 * L1 + d * d - L2 * L2) / (2 * L1 * d))));
+  const a1 = at + alpha;
+  const ex = sx + side * L1 * Math.sin(a1);
+  const ey = sy + L1 * Math.cos(a1);
+  const a2 = Math.atan2(side * (tx - ex), ty - ey);
+  return [(a1 * 180) / Math.PI, ((a2 - a1) * 180) / Math.PI];
+};
 const limb = (sx: number, sy: number, side: number, a: Arm, L1 = 95, L2 = 90) => {
   const a1 = toRad(a[0]);
   const a2 = toRad(a[0] + a[1]);
@@ -244,6 +267,12 @@ export const Stick: React.FC<StickProps> = ({
   talk = 0,
   pops = [],
   still,
+  reachR,
+  reachL,
+  itemR,
+  itemL,
+  dy = 0,
+  handsFront,
 }) => {
   const o = c.outfit;
   const sm = still ? 0 : 1; // secondary motion amount
@@ -294,7 +323,14 @@ export const Stick: React.FC<StickProps> = ({
   const arms = [
     { side: -1, a: [pose.l[0] + swing + sm * Math.sin(f / 29 + seed) * 3, pose.l[1] + sm * Math.sin(f / 23 + seed) * 4] as Arm },
     { side: 1, a: [pose.r[0] - swing + sm * Math.sin(f / 31 + seed + 1) * 3 + talkBeat * 22, pose.r[1] + sm * Math.sin(f / 21 + seed) * 4 - talkBeat * 30] as Arm },
-  ].map(({ side, a }) => ({ side, ...limb(side * 42, shY + 14, side, a) }));
+  ].map(({ side, a }) => {
+    const tgt = side > 0 ? reachR : reachL;
+    if (tgt && tgt.w > 0) {
+      const k = ik(side * 42, shY + 14, side, tgt.x, tgt.y - dy);
+      a = [a[0] + (k[0] - a[0]) * tgt.w, a[1] + (k[1] - a[1]) * tgt.w];
+    }
+    return { side, ...limb(side * 42, shY + 14, side, a) };
+  });
 
   const sleeveLen = o.kind === "tee" ? 0.42 : 1;
   const torsoBottom = o.kind === "coat" ? hipY + 120 : hipY + 18;
@@ -345,7 +381,8 @@ export const Stick: React.FC<StickProps> = ({
             ) : (
               <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${a.hx - (a.hx - a.ex) * 0.18} ${a.hy - (a.hy - a.ey) * 0.18}`} {...P(ol, "none", o.color, 24)} />
             )}
-            <circle cx={a.hx} cy={a.hy} r={11} {...P(ol, INK)} />
+            {!handsFront && <circle cx={a.hx} cy={a.hy} r={11} {...P(ol, INK)} />}
+            {!handsFront && !ol && (a.side > 0 ? itemR : itemL) && <g transform={`translate(${a.hx} ${a.hy})`}>{a.side > 0 ? itemR : itemL}</g>}
           </g>
         );
       })}
@@ -372,13 +409,20 @@ export const Stick: React.FC<StickProps> = ({
           </g>
         )}
       </g>
+      {handsFront &&
+        arms.map((a) => (
+          <g key={`hf${a.side}`}>
+            {ol ? <circle cx={a.hx} cy={a.hy} r={11} {...P(ol, INK)} /> : <circle cx={a.hx} cy={a.hy} r={12} fill={INK} stroke={RC} strokeWidth={5} />}
+            {!ol && (a.side > 0 ? itemR : itemL) && <g transform={`translate(${a.hx} ${a.hy})`}>{a.side > 0 ? itemR : itemL}</g>}
+          </g>
+        ))}
     </g>
   );
 
   return (
     <g transform={`translate(${x + tr} ${y}) scale(${s * (1 - sq * 0.6)} ${s * (1 + sq)})`}>
       {shadow && <ellipse cx={0} cy={4} rx={70} ry={12} fill="#000" opacity={0.35} />}
-      <g transform={`rotate(${lean + hunch * 0.6 + sway} 0 ${hipY})`}>
+      <g transform={`translate(0 ${dy}) rotate(${lean + hunch * 0.6 + sway} 0 ${hipY})`}>
         {geo(true)}
         {geo(false)}
       </g>

@@ -164,6 +164,10 @@ export const Video: React.FC<{ stick?: boolean }> = ({ stick }) => {
             <Sfx key={i} from={STARTS[id] + at(id, w) - 3} src={s} volume={s === "boom" ? 0.35 : 0.3} />
           ))}
           <Sfx from={STARTS.outro2 + at("outro2", "subscribe") + 14} src="boom" volume={0.25} />
+          {/* character emotion / foley cues */}
+          {ST.stickSfx().map(([id, fr, s, v], i) => (
+            <Sfx key={`c${i}`} from={STARTS[id] + fr} src={s} volume={v} />
+          ))}
           <Grain />
           <Progress segs={ORDER.map(sceneFrames)} total={TOTAL} />
         </>
