@@ -96,18 +96,11 @@ export const CamPro: React.FC<{ moves: Move[]; children: React.ReactNode; shake?
   const vz = Math.abs(Math.log(c.s / p.s)) * 900;
   const bx = blur ? Math.min(16, vx * 0.1 + vz * 0.06) : 0;
   const by = blur ? Math.min(16, vy * 0.1 + vz * 0.06) : 0;
-  const fid = `mb${Math.round(bx)}_${Math.round(by)}`;
   const isImpact = impact.some((t) => f >= t && f < t + 2);
-  const filters = [bx + by > 3 ? `url(#${fid})` : "", isImpact ? "grayscale(1) contrast(4) invert(1)" : ""].filter(Boolean).join(" ");
+  const mb = Math.min(7, Math.max(bx, by) * 0.45);
+  const filters = [mb > 1.2 ? `blur(${mb.toFixed(1)}px)` : "", isImpact ? "grayscale(1) contrast(4) invert(1)" : ""].filter(Boolean).join(" ");
   return (
     <AbsoluteFill style={{ overflow: "hidden" }}>
-      {bx + by > 3 && (
-        <svg width={0} height={0} style={{ position: "absolute" }}>
-          <filter id={fid} x="-10%" y="-10%" width="120%" height="120%">
-            <feGaussianBlur stdDeviation={`${bx.toFixed(1)} ${by.toFixed(1)}`} />
-          </filter>
-        </svg>
-      )}
       <AbsoluteFill style={{ filter: filters || undefined }}>
         <AbsoluteFill style={{ transform: `translate(${sx}px, ${sy}px) rotate(${rot}deg) scale(${c.s * 1.02}) translate(${-c.x}px, ${-c.y}px)`, transformOrigin: "50% 50%" }}>
           <CamCtx.Provider value={c}>{children}</CamCtx.Provider>
