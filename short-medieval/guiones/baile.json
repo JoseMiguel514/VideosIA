@@ -1,0 +1,11 @@
+{"pronunciacion": {"1518": "mil quinientos dieciocho", "Troffea": "Trofea", "Estrasburgo": "Estrasburgo"},
+ "escenas": [
+ {"id": "hook", "texto": "En 1518, cientos de personas empezaron a bailar sin poder parar. Y nadie sabe por qué."},
+ {"id": "troffea", "texto": "Todo empezó en Estrasburgo, con una mujer: Frau Troffea. Salió a la calle y bailó durante días, sin música y sin descanso."},
+ {"id": "contagio", "texto": "En una semana, ya eran más de treinta. En un mes, unas cuatrocientas personas bailaban por las calles."},
+ {"id": "idea", "texto": "Y las autoridades tuvieron una idea brillante: si querían bailar... que bailaran más."},
+ {"id": "escenario", "texto": "Contrataron músicos, abrieron salones, y hasta construyeron un escenario. Pero la música solo lo empeoró."},
+ {"id": "caidos", "texto": "Según algunas crónicas, hubo gente que cayó agotada... y no volvió a levantarse."},
+ {"id": "causa", "texto": "¿La causa? Sigue siendo un misterio. La teoría más aceptada: una histeria colectiva, provocada por el hambre y el miedo."},
+ {"id": "outro", "texto": "¿Tú cuánto aguantarías bailando? Te leo en los comentarios."}
+]}

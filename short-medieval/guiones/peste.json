@@ -1,0 +1,11 @@
+{"pronunciacion": {"1347": "mil trescientos cuarenta y siete", "1656": "mil seiscientos cincuenta y seis", "Lorme": "Lorm", "Charles": "Charl"},
+ "escenas": [
+ {"id": "hook", "texto": "Seguro que conoces al médico de la peste, con su máscara de pájaro. Pero hay un problema: no es medieval."},
+ {"id": "peste", "texto": "En 1347, la peste negra llegó a Europa. En pocos años, mató a entre un tercio y la mitad de la población."},
+ {"id": "medicos", "texto": "Los médicos de aquella época atendían a los enfermos... con su ropa de siempre. Sin picos, ni máscaras."},
+ {"id": "lorme", "texto": "El famoso traje aparece casi trescientos años después, en el siglo diecisiete. Se le atribuye a Charles de Lorme, médico de los reyes de Francia."},
+ {"id": "pico", "texto": "¿Y para qué era el pico? Lo rellenaban de hierbas y perfumes, porque creían que la enfermedad viajaba por el aire podrido."},
+ {"id": "grabado", "texto": "Su imagen se hizo famosa en 1656, gracias a un grabado satírico: el Doctor Pico de Roma."},
+ {"id": "verdad", "texto": "Hoy sabemos que la peste la transmitían sobre todo las pulgas de las ratas. Así que el perfume... no servía de mucho."},
+ {"id": "outro", "texto": "¿Tú también creías que era medieval? Dímelo en los comentarios."}
+]}

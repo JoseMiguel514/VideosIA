@@ -1,0 +1,45 @@
+{
+ "pronunciacion": {
+  "1925": "mil novecientos veinticinco",
+  "Poisson": "Puasón",
+  "Capone": "Capóne"
+ },
+ "escenas": [
+  {
+   "id": "hook",
+   "texto": "Este hombre vendió la Torre Eiffel. Y como le salió bien... intentó venderla otra vez."
+  },
+  {
+   "id": "periodico",
+   "texto": "París, 1925. Víctor Lustig lee en el periódico que la torre está oxidada, y que mantenerla cuesta una fortuna."
+  },
+  {
+   "id": "plan",
+   "texto": "Entonces, se hace pasar por un alto funcionario del gobierno, y reúne en secreto a cinco chatarreros en un hotel de lujo."
+  },
+  {
+   "id": "oferta",
+   "texto": "Y les cuenta que van a desmontar la torre... y que se venderá como chatarra al mejor postor."
+  },
+  {
+   "id": "soborno",
+   "texto": "Elige a su víctima, André Poisson. Y le pide un soborno. Poisson pensó: si es corrupto, tiene que ser un funcionario de verdad."
+  },
+  {
+   "id": "huida",
+   "texto": "Lustig huyó con el dinero. Y Poisson, muerto de vergüenza, nunca lo denunció."
+  },
+  {
+   "id": "otra",
+   "texto": "Poco después, Lustig volvió a París para venderla otra vez. Esta vez la víctima fue a la policía... pero él escapó."
+  },
+  {
+   "id": "final",
+   "texto": "Años después, hasta engañó a Al Capone. Pero acabó sus días en Alcatraz."
+  },
+  {
+   "id": "outro",
+   "texto": "¿Tú habrías caído en la estafa? Te leo en los comentarios."
+  }
+ ]
+}

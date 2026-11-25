@@ -1,0 +1,12 @@
+{"pronunciacion": {"GTA": "ge te a", "Duval": "Duvál", "Leonida": "Leonída", "Vice": "Váis"},
+ "escenas": [
+ {"id": "hook", "texto": "GTA 6 ya salió. Pero, ¿sabes quiénes son de verdad Lucía y Jason?"},
+ {"id": "lucia1", "texto": "Ficha número uno: Lucía Caminos. Su padre le enseñó a pelear desde que aprendió a caminar."},
+ {"id": "lucia2", "texto": "Y la vida no dejó de darle golpes. Por defender a su familia, acabó en la Penitenciaría de Leonida."},
+ {"id": "lucia3", "texto": "Salió de ahí por pura suerte. Y se prometió una cosa: a partir de ahora, solo jugadas inteligentes."},
+ {"id": "jason1", "texto": "Ficha número dos: Jason Duval. Creció rodeado de estafadores, y se metió al ejército para escapar de sus problemas."},
+ {"id": "jason2", "texto": "Pero al salir, acabó en los Cayos de Leonida, haciendo lo que mejor sabe: trabajar para traficantes locales."},
+ {"id": "jason3", "texto": "Jason solo quiere una vida tranquila... pero todo se le complica cada vez más."},
+ {"id": "juntos", "texto": "Y cuando sus caminos se cruzan, nace la pareja criminal más buscada de Vice City."},
+ {"id": "outro", "texto": "¿Con quién vas a jugar primero: Lucía, o Jason? Te leo en los comentarios."}
+]}

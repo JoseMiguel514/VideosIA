@@ -1,0 +1,11 @@
+{"pronunciacion": {"4700": "cuatro mil setecientos", "100": "cien"},
+ "escenas": [
+ {"id": "hook", "texto": "Este animal mide menos que tu dedo... y dispara burbujas casi tan calientes como el Sol."},
+ {"id": "pinza", "texto": "Es el camarón pistola. Y su arma es esta pinza gigante, casi tan grande como medio cuerpo."},
+ {"id": "chorro", "texto": "Cuando la cierra de golpe, dispara un chorro de agua a unos cien kilómetros por hora."},
+ {"id": "burbuja", "texto": "Ese chorro crea una burbuja que revienta. Y por un instante, dentro alcanza más de 4700 grados... con un destello de luz."},
+ {"id": "presa", "texto": "La onda de choque deja aturdidos a peces y cangrejos. Así caza, sin tocarlos."},
+ {"id": "sonar", "texto": "Y hace tanto ruido, que en la Segunda Guerra Mundial, sus colonias confundían el sonar de los submarinos."},
+ {"id": "pierde", "texto": "Pero lo más loco: si pierde la pinza grande, la pequeña crece... y se convierte en su nueva pistola."},
+ {"id": "outro", "texto": "¿Qué animal quieres que te cuente ahora? Escríbelo en los comentarios."}
+]}
