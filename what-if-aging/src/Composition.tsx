@@ -5,6 +5,7 @@ import { bodyFont, C } from "./kit";
 import { Sheet } from "./stick/Sheet";
 import * as ST from "./stick/StickScenes";
 import { Grain, Progress } from "./stick/Hud";
+import { StoryCompositions } from "./story/videos";
 import { Hook1, Hook2, Same, Setup1, Setup2, Telomeres, Years } from "./Scenes1";
 import { JellyScene, Lab, Lifespan, MathScene, Outro1, Outro2, Risk, Root, Twist, Year200 } from "./Scenes2";
 
@@ -180,6 +181,7 @@ export const MyComposition: React.FC = () => (
   <>
     <Composition id="WhatIfAging" component={Video} durationInFrames={TOTAL} fps={FPS} width={W} height={H} />
     <Composition id="WhatIfAgingStick" component={Video} defaultProps={{ stick: true }} durationInFrames={TOTAL} fps={FPS} width={W} height={H} />
+    <StoryCompositions />
     <Composition id="CharacterSheet" component={Sheet} durationInFrames={1} fps={FPS} width={W} height={H} />
   </>
 );

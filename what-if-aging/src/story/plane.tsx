@@ -310,7 +310,7 @@ export const PLANE: Record<string, Spec> = {
       { c: MIA, x: 560, expr: [[0, "happy"]], act: [[0, "clap"]], s: 0.8, y: 950 },
     ],
     ov: [
-      { t: "punch", w: "died", text: "NO ONE DIED", color: GOLD, y: 230 },
+      { t: "punch", w: "died", text: "NO ONE DIED", color: GOLD, y: 230, end: "Glider" },
       { t: "punch", w: "Glider", text: "THE GIMLI GLIDER", color: ICE, y: 230 },
     ],
     sfx: [["died", "sparkle", 0.35]],

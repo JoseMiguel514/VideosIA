@@ -14,6 +14,14 @@ const hrs = (from: number, to: number, a: W = 0, b: W = 400) => (f: number, A: (
   <AwakeClock hours={interpolate(f, [A(a), A(b)], [from, to], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} />
 );
 export const both = (...fs: ((f: number, A: (w: W) => number) => React.ReactNode)[]) => (f: number, A: (w: W) => number) => <>{fs.map((g, i) => <React.Fragment key={i}>{g(f, A)}</React.Fragment>)}</>;
+const chair = (x: number, y: number, s: number) => (
+  <g transform={`translate(${x} ${y}) scale(${s})`}>
+    <rect x={-80} y={-420} width={160} height={250} rx={30} fill="#3a2c52" stroke="#0b0a0c" strokeWidth={5} />
+    <rect x={-100} y={-175} width={200} height={40} rx={14} fill="#4a3a66" stroke="#0b0a0c" strokeWidth={5} />
+    <rect x={-8} y={-135} width={16} height={110} fill="#22202a" />
+    <rect x={-70} y={-30} width={140} height={14} rx={7} fill="#22202a" />
+  </g>
+);
 const bed = (clock: string, morning = 0) => (f: number) => <Bedroom f={f} clock={clock} morning={morning} />;
 const inBed = (o: Partial<Who> = {}): Who => ({ c: YOU, x: 700, y: 860, s: 0.95, sit: true, look: 0.5, ...o });
 const desk = (x: number) => (
@@ -57,7 +65,7 @@ export const SLEEP: Record<string, Spec> = {
   },
   s02b: {
     env: (f) => <NightWindow f={f} />,
-    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, act: [[0, "think"]], expr: [[0, "neutral"], ["mattered", "surprised"]] }],
+    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, behind: chair(620, 920, 1.05), act: [[0, "think"]], expr: [[0, "neutral"], ["mattered", "surprised"]] }],
     ui: (f, A) => <BigStat value={25} label="YEARS ASLEEP · IF YOU LIVE TO ~80" start={A("twenty-five")} y={200} color={ICE} />,
     ov: [{ t: "pill", w: "third", text: "≈ 1/3 OF YOUR LIFE", x: 1350, y: 620, color: GOLD }],
   },
@@ -81,7 +89,7 @@ export const SLEEP: Record<string, Spec> = {
   },
   s04b: {
     env: (f) => <NightWindow f={f} />,
-    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, act: [[0, "idle"], ["wind", "yawn"]], expr: [[0, "neutral"], ["wind", "bored"]] }],
+    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, behind: chair(620, 920, 1.05), act: [[0, "idle"], ["wind", "yawn"]], expr: [[0, "neutral"], ["wind", "bored"]] }],
     ui: (f, A) => <BigStat value={24} prefix="~" suffix="H" label="YOUR INTERNAL CLOCK" start={A("clock")} y={160} color={ICE} />,
     ov: [{ t: "pill", w: "melatonin", text: "MELATONIN ↑ WHEN IT'S DARK", x: 1300, y: 620, color: GOLD }],
   },
@@ -171,7 +179,7 @@ export const SLEEP: Record<string, Spec> = {
           ))}
         </g>
       ) : null,
-    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, act: [[0, "idle"], ["hungrier", "reach"]], expr: [[0, "bored"], ["hungrier", "happy"]] }],
+    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, behind: chair(620, 920, 1.05), act: [[0, "idle"], ["hungrier", "reach"]], expr: [[0, "bored"], ["hungrier", "happy"]] }],
     ui: hrs(28, 29),
     ov: [
       { t: "pill", w: "appetite", text: "APPETITE HORMONES SHIFT", x: 1300, y: 260, color: GOLD },
@@ -267,7 +275,7 @@ export const SLEEP: Record<string, Spec> = {
             ))}
         </g>
       ) : null,
-    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, act: [[0, "rub"], ["Voices", "headHands"]], expr: [[0, "bored"], ["see", "surprised"], ["Voices", "worried"]], look: -0.6 }],
+    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, behind: chair(620, 920, 1.05), act: [[0, "rub"], ["Voices", "headHands"]], expr: [[0, "bored"], ["see", "surprised"], ["Voices", "worried"]], look: -0.6 }],
     ui: (f, A) => <DayCalendar day={3} start={0} />,
     ov: [{ t: "punch", w: "aren't", text: "THINGS THAT AREN'T THERE", color: GOLD, y: 300 }],
     chapter: ["05", "THE MIND BREAKS"],
@@ -285,7 +293,7 @@ export const SLEEP: Record<string, Spec> = {
   },
   s18b: {
     env: (f) => <NightWindow f={f} />,
-    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, act: [[0, "cross"], ["hands", "headHands"], ["eyelids", "rub"]], expr: [[0, "worried"], ["eyelids", "bored"]] }],
+    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, behind: chair(620, 920, 1.05), act: [[0, "cross"], ["hands", "headHands"], ["eyelids", "rub"]], expr: [[0, "worried"], ["eyelids", "bored"]] }],
     ov: [
       { t: "pill", w: "cold", text: "COLD → HOT", x: 1350, y: 240, color: ICE },
       { t: "pill", w: "tremble", text: "TREMBLING HANDS", x: 1350, y: 340, color: GOLD },
@@ -295,7 +303,7 @@ export const SLEEP: Record<string, Spec> = {
   s19: {
     env: (f) => <Gym f={f} />,
     who: [{ c: RANDY, x: [[0, -100], ["seventeen", 820]], expr: [[0, "happy"]], act: [[0, "idle"], ["science", "wave"]] }],
-    ui: (f, A) => <BigStat value={1964} label="RANDY GARDNER · AGE 17" start={A("nineteen")} y={160} color={GOLD} dur={20} />,
+    ui: (f, A) => <BigStat value={1964} label="RANDY GARDNER · AGE 17" start={A("nineteen")} y={20} color={GOLD} dur={20} />,
     chapter: ["06", "THE RECORD"],
   },
   s20: {
@@ -305,7 +313,7 @@ export const SLEEP: Record<string, Spec> = {
       { c: MIA, x: 1200, s: 0.9, expr: [[0, "happy"]], act: [[0, "clap"]], talk: [["Friends", "moving"]] },
       { c: SAM, x: 1450, s: 0.85, expr: [[0, "happy"]], act: [[0, "idle"], ["basketball", "wave"]] },
     ],
-    ui: (f, A) => <BigStat value={264} label="HOURS AWAKE · 11 DAYS" start={A("two")} y={140} color={ICE} />,
+    ui: (f, A) => <BigStat value={264} label="HOURS AWAKE · 11 DAYS" start={A("two")} y={20} color={ICE} />,
   },
   s21: {
     env: (f) => <Gym f={f} />,
@@ -411,7 +419,7 @@ export const SLEEP: Record<string, Spec> = {
   },
   s29: {
     env: (f) => <NightWindow f={f} />,
-    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, act: [[0, "headHands"], ["seven", "idle"]], expr: [[0, "worried"], ["seven", "bored"]], lookY: 0.3 }],
+    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, behind: chair(620, 920, 1.05), act: [[0, "headHands"], ["seven", "idle"]], expr: [[0, "worried"], ["seven", "bored"]], lookY: 0.3 }],
     ui: (f, A) => <DayCalendar day={f >= A("seven") ? 7 : 5} start={0} />,
     ov: [{ t: "pill", w: "barely", text: "TECHNICALLY AWAKE. BARELY THERE.", x: 1300, y: 640, color: ICE }],
     chapter: ["08", "DAY SEVEN"],
@@ -459,7 +467,7 @@ export const SLEEP: Record<string, Spec> = {
   },
   s34b: {
     env: (f) => <NightWindow f={f} />,
-    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, act: [[0, "think"]], expr: [[0, "neutral"], ["blurrier", "sad"]] }],
+    who: [{ c: YOU, x: 620, y: 920, s: 1.05, sit: true, behind: chair(620, 920, 1.05), act: [[0, "think"]], expr: [[0, "neutral"], ["blurrier", "sad"]] }],
     ov: [{ t: "punch", w: "owed", text: "SLEEP ISN'T WASTED TIME", color: ICE, y: 300 }],
   },
   s35: {
