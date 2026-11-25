@@ -1,0 +1,1187 @@
+{
+ "s01": {
+  "dur": 13.812,
+  "sents": [
+   {
+    "t": "Imagine you go to bed tonight...",
+    "s": 0.0,
+    "e": 1.991
+   },
+   {
+    "t": "and nothing happens.",
+    "s": 2.371,
+    "e": 3.665
+   },
+   {
+    "t": "No drifting.",
+    "s": 4.045,
+    "e": 5.09
+   },
+   {
+    "t": "No dreams.",
+    "s": 5.47,
+    "e": 6.497
+   },
+   {
+    "t": "Your eyes stay open until morning.",
+    "s": 6.877,
+    "e": 9.153
+   },
+   {
+    "t": "And the next night.",
+    "s": 9.533,
+    "e": 10.552
+   },
+   {
+    "t": "And the next.",
+    "s": 10.932,
+    "e": 11.829
+   },
+   {
+    "t": "You will never sleep again.",
+    "s": 12.21,
+    "e": 13.812
+   }
+  ]
+ },
+ "s02": {
+  "dur": 13.61,
+  "sents": [
+   {
+    "t": "At first, it sounds like a superpower.",
+    "s": 0.0,
+    "e": 2.34
+   },
+   {
+    "t": "Eight extra hours every single day.",
+    "s": 2.72,
+    "e": 5.094
+   },
+   {
+    "t": "More time to work, to play, to live.",
+    "s": 5.474,
+    "e": 7.627
+   },
+   {
+    "t": "But your brain has a very different opinion.",
+    "s": 8.007,
+    "e": 10.566
+   },
+   {
+    "t": "Let's watch what happens, hour by hour.",
+    "s": 10.946,
+    "e": 13.61
+   }
+  ]
+ },
+ "s02b": {
+  "dur": 14.348,
+  "sents": [
+   {
+    "t": "Think about it.",
+    "s": 0.0,
+    "e": 0.948
+   },
+   {
+    "t": "If you live to around eighty, you'll spend something like twenty-five years of your life asleep.",
+    "s": 1.328,
+    "e": 6.947
+   },
+   {
+    "t": "A third of everything.",
+    "s": 7.327,
+    "e": 8.856
+   },
+   {
+    "t": "Surely evolution wouldn't waste that much time unless it really, really mattered.",
+    "s": 9.236,
+    "e": 14.348
+   }
+  ]
+ },
+ "s03": {
+  "dur": 13.999,
+  "sents": [
+   {
+    "t": "Hour sixteen.",
+    "s": 0.0,
+    "e": 1.092
+   },
+   {
+    "t": "This is a normal day.",
+    "s": 1.472,
+    "e": 2.993
+   },
+   {
+    "t": "You woke up at seven, it's eleven at night, and you feel a little tired.",
+    "s": 3.373,
+    "e": 7.753
+   },
+   {
+    "t": "Totally fine.",
+    "s": 8.133,
+    "e": 9.268
+   },
+   {
+    "t": "Your body is building up a pressure to sleep, like air filling a balloon.",
+    "s": 9.648,
+    "e": 13.999
+   }
+  ]
+ },
+ "s04": {
+  "dur": 10.976,
+  "sents": [
+   {
+    "t": "That pressure comes partly from a chemical called adenosine.",
+    "s": 0.0,
+    "e": 3.708
+   },
+   {
+    "t": "It slowly builds up in your brain the longer you're awake.",
+    "s": 4.088,
+    "e": 7.667
+   },
+   {
+    "t": "Coffee works by blocking it.",
+    "s": 8.047,
+    "e": 9.685
+   },
+   {
+    "t": "For a while.",
+    "s": 10.065,
+    "e": 10.976
+   }
+  ]
+ },
+ "s04b": {
+  "dur": 13.9,
+  "sents": [
+   {
+    "t": "Your body also runs on an internal clock, roughly twenty-four hours long.",
+    "s": 0.0,
+    "e": 4.959
+   },
+   {
+    "t": "As it gets dark, your brain releases a hormone called melatonin, a signal that says, it's night, time to wind down.",
+    "s": 5.339,
+    "e": 13.9
+   }
+  ]
+ },
+ "s05": {
+  "dur": 18.56,
+  "sents": [
+   {
+    "t": "Hour seventeen.",
+    "s": 0.0,
+    "e": 1.173
+   },
+   {
+    "t": "You keep going.",
+    "s": 1.553,
+    "e": 2.573
+   },
+   {
+    "t": "And something sneaky happens.",
+    "s": 2.953,
+    "e": 4.623
+   },
+   {
+    "t": "A study in Australia found that after seventeen to nineteen hours awake, people performed some tasks as badly, or worse, than someone at a blood alcohol level of point zero five percent.",
+    "s": 5.003,
+    "e": 18.56
+   }
+  ]
+ },
+ "s06": {
+  "dur": 9.179,
+  "sents": [
+   {
+    "t": "In many countries, that's close to the legal limit for driving.",
+    "s": 0.0,
+    "e": 3.91
+   },
+   {
+    "t": "You haven't had a single drink.",
+    "s": 4.29,
+    "e": 6.035
+   },
+   {
+    "t": "But your brain is already acting a little drunk.",
+    "s": 6.415,
+    "e": 9.179
+   }
+  ]
+ },
+ "s06b": {
+  "dur": 13.489,
+  "sents": [
+   {
+    "t": "That's why drowsy driving is treated as a serious danger by road safety agencies around the world.",
+    "s": 0.0,
+    "e": 7.19
+   },
+   {
+    "t": "Tired drivers react slower, drift between lanes, and sometimes don't brake at all.",
+    "s": 7.57,
+    "e": 13.489
+   }
+  ]
+ },
+ "s07": {
+  "dur": 13.511,
+  "sents": [
+   {
+    "t": "Hour twenty-four.",
+    "s": 0.0,
+    "e": 1.183
+   },
+   {
+    "t": "One full day.",
+    "s": 1.563,
+    "e": 2.639
+   },
+   {
+    "t": "The sun comes up and you feel a strange second wind.",
+    "s": 3.019,
+    "e": 6.231
+   },
+   {
+    "t": "That's your internal clock, your circadian rhythm, telling your body it's morning.",
+    "s": 6.611,
+    "e": 11.978
+   },
+   {
+    "t": "It's lying to you.",
+    "s": 12.358,
+    "e": 13.511
+   }
+  ]
+ },
+ "s08": {
+  "dur": 13.877,
+  "sents": [
+   {
+    "t": "Your reaction time is slower.",
+    "s": 0.0,
+    "e": 1.818
+   },
+   {
+    "t": "Your mood is shorter.",
+    "s": 2.198,
+    "e": 3.516
+   },
+   {
+    "t": "You read the same sentence three times.",
+    "s": 3.896,
+    "e": 6.205
+   },
+   {
+    "t": "Your emotions get louder, because the part of your brain that keeps them in check is the part getting tired first.",
+    "s": 6.585,
+    "e": 13.877
+   }
+  ]
+ },
+ "s09": {
+  "dur": 15.977,
+  "sents": [
+   {
+    "t": "And here's something that happens at night that you never see.",
+    "s": 0.0,
+    "e": 3.139
+   },
+   {
+    "t": "While you sleep, your brain seems to rinse itself.",
+    "s": 3.519,
+    "e": 6.575
+   },
+   {
+    "t": "Studies in mice found that sleep helps flush away waste products between brain cells, including a protein linked to Alzheimer's disease.",
+    "s": 6.955,
+    "e": 15.977
+   }
+  ]
+ },
+ "s10": {
+  "dur": 4.69,
+  "sents": [
+   {
+    "t": "Tonight, that cleaning crew never shows up.",
+    "s": 0.0,
+    "e": 2.389
+   },
+   {
+    "t": "The trash just keeps piling up.",
+    "s": 2.769,
+    "e": 4.69
+   }
+  ]
+ },
+ "s10b": {
+  "dur": 12.52,
+  "sents": [
+   {
+    "t": "Your hunger starts acting strange, too.",
+    "s": 0.0,
+    "e": 2.257
+   },
+   {
+    "t": "Studies suggest that short sleep can shift the hormones that control appetite.",
+    "s": 2.637,
+    "e": 7.271
+   },
+   {
+    "t": "Many people feel hungrier, especially for sugary, salty, and fatty food.",
+    "s": 7.651,
+    "e": 12.52
+   }
+  ]
+ },
+ "s11": {
+  "dur": 14.14,
+  "sents": [
+   {
+    "t": "Hour thirty-six.",
+    "s": 0.0,
+    "e": 1.256
+   },
+   {
+    "t": "Now it gets weird.",
+    "s": 1.636,
+    "e": 2.896
+   },
+   {
+    "t": "You're sitting at your desk, staring at a screen, and suddenly, you lose a few seconds.",
+    "s": 3.276,
+    "e": 8.346
+   },
+   {
+    "t": "You didn't decide to sleep.",
+    "s": 8.726,
+    "e": 10.322
+   },
+   {
+    "t": "Your brain just took it.",
+    "s": 10.702,
+    "e": 12.064
+   },
+   {
+    "t": "That's called a microsleep.",
+    "s": 12.444,
+    "e": 14.14
+   }
+  ]
+ },
+ "s12": {
+  "dur": 14.498,
+  "sents": [
+   {
+    "t": "A microsleep can last from a fraction of a second to several seconds.",
+    "s": 0.0,
+    "e": 4.54
+   },
+   {
+    "t": "Your eyes might even stay open.",
+    "s": 4.92,
+    "e": 6.925
+   },
+   {
+    "t": "You won't remember it.",
+    "s": 7.305,
+    "e": 8.587
+   },
+   {
+    "t": "And if you're driving at highway speed, a few seconds is the length of a football field.",
+    "s": 8.967,
+    "e": 14.498
+   }
+  ]
+ },
+ "s12b": {
+  "dur": 13.079,
+  "sents": [
+   {
+    "t": "That's one reason pilots, truck drivers, and many other workers have strict limits on how long they can work without rest.",
+    "s": 0.0,
+    "e": 8.187
+   },
+   {
+    "t": "Not because they're weak, but because no human brain is immune to this.",
+    "s": 8.567,
+    "e": 13.079
+   }
+  ]
+ },
+ "s13": {
+  "dur": 12.161,
+  "sents": [
+   {
+    "t": "This is the cruel twist.",
+    "s": 0.0,
+    "e": 1.578
+   },
+   {
+    "t": "You can try to never sleep.",
+    "s": 1.958,
+    "e": 3.627
+   },
+   {
+    "t": "But your brain will start stealing sleep anyway, in tiny pieces, whenever it can.",
+    "s": 4.007,
+    "e": 9.644
+   },
+   {
+    "t": "You are no longer fully in control.",
+    "s": 10.024,
+    "e": 12.161
+   }
+  ]
+ },
+ "s14": {
+  "dur": 17.457,
+  "sents": [
+   {
+    "t": "Hour forty-eight.",
+    "s": 0.0,
+    "e": 1.123
+   },
+   {
+    "t": "Two days.",
+    "s": 1.503,
+    "e": 2.372
+   },
+   {
+    "t": "Your body is struggling too.",
+    "s": 2.752,
+    "e": 4.438
+   },
+   {
+    "t": "Even short-term sleep loss can change how you handle sugar.",
+    "s": 4.818,
+    "e": 8.723
+   },
+   {
+    "t": "In one classic study, healthy young men who slept just four hours a night for six nights processed glucose noticeably worse.",
+    "s": 9.103,
+    "e": 17.457
+   }
+  ]
+ },
+ "s15": {
+  "dur": 13.109,
+  "sents": [
+   {
+    "t": "Your immune system is taking hits as well.",
+    "s": 0.0,
+    "e": 2.801
+   },
+   {
+    "t": "In another study, people who usually slept less than six hours were about four times more likely to catch a cold after being exposed to the virus.",
+    "s": 3.181,
+    "e": 13.109
+   }
+  ]
+ },
+ "s16": {
+  "dur": 12.028,
+  "sents": [
+   {
+    "t": "And your memory?",
+    "s": 0.0,
+    "e": 0.992
+   },
+   {
+    "t": "Sleep is when your brain files away what you learned today.",
+    "s": 1.372,
+    "e": 4.754
+   },
+   {
+    "t": "Skip it, and new information starts slipping through the cracks, like writing on a whiteboard that nobody saves.",
+    "s": 5.134,
+    "e": 12.028
+   }
+  ]
+ },
+ "s16b": {
+  "dur": 11.966,
+  "sents": [
+   {
+    "t": "You try another coffee.",
+    "s": 0.0,
+    "e": 1.57
+   },
+   {
+    "t": "It helps, for an hour.",
+    "s": 1.95,
+    "e": 3.324
+   },
+   {
+    "t": "Then the crash hits harder.",
+    "s": 3.704,
+    "e": 5.416
+   },
+   {
+    "t": "Caffeine can block the sleepy signal, but it can't remove the pressure that keeps building underneath.",
+    "s": 5.796,
+    "e": 11.966
+   }
+  ]
+ },
+ "s17": {
+  "dur": 15.979,
+  "sents": [
+   {
+    "t": "Hour seventy-two.",
+    "s": 0.0,
+    "e": 1.299
+   },
+   {
+    "t": "Three days.",
+    "s": 1.679,
+    "e": 2.648
+   },
+   {
+    "t": "Many people who stay awake this long start to see things that aren't there.",
+    "s": 3.028,
+    "e": 7.395
+   },
+   {
+    "t": "Shadows moving at the corner of the eye.",
+    "s": 7.775,
+    "e": 10.068
+   },
+   {
+    "t": "Patterns crawling on the walls.",
+    "s": 10.448,
+    "e": 12.359
+   },
+   {
+    "t": "Voices that might be real...",
+    "s": 12.739,
+    "e": 14.524
+   },
+   {
+    "t": "or might not.",
+    "s": 14.904,
+    "e": 15.979
+   }
+  ]
+ },
+ "s18": {
+  "dur": 12.609,
+  "sents": [
+   {
+    "t": "Your speech slurs.",
+    "s": 0.0,
+    "e": 1.309
+   },
+   {
+    "t": "Your thoughts slip and loop.",
+    "s": 1.689,
+    "e": 3.314
+   },
+   {
+    "t": "Simple math becomes hard.",
+    "s": 3.694,
+    "e": 5.468
+   },
+   {
+    "t": "You might feel paranoid, like everyone is watching you.",
+    "s": 5.848,
+    "e": 9.273
+   },
+   {
+    "t": "Your brain is running on fumes, and it knows it.",
+    "s": 9.653,
+    "e": 12.609
+   }
+  ]
+ },
+ "s18b": {
+  "dur": 11.72,
+  "sents": [
+   {
+    "t": "Your body starts to feel off, too.",
+    "s": 0.0,
+    "e": 1.912
+   },
+   {
+    "t": "You're cold, then hot.",
+    "s": 2.292,
+    "e": 3.705
+   },
+   {
+    "t": "Your hands might tremble.",
+    "s": 4.085,
+    "e": 5.691
+   },
+   {
+    "t": "Your eyelids feel heavy, as if they're made of sand.",
+    "s": 6.071,
+    "e": 9.229
+   },
+   {
+    "t": "Every blink is a negotiation.",
+    "s": 9.609,
+    "e": 11.72
+   }
+  ]
+ },
+ "s19": {
+  "dur": 12.002,
+  "sents": [
+   {
+    "t": "So how long can a human actually stay awake?",
+    "s": 0.0,
+    "e": 2.841
+   },
+   {
+    "t": "In nineteen sixty-four, a seventeen-year-old student named Randy Gardner tried to find out, for a high school science fair.",
+    "s": 3.221,
+    "e": 12.002
+   }
+  ]
+ },
+ "s20": {
+  "dur": 11.867,
+  "sents": [
+   {
+    "t": "He stayed awake for two hundred and sixty-four hours.",
+    "s": 0.0,
+    "e": 3.189
+   },
+   {
+    "t": "Eleven days.",
+    "s": 3.569,
+    "e": 4.622
+   },
+   {
+    "t": "Friends kept him moving.",
+    "s": 5.002,
+    "e": 6.471
+   },
+   {
+    "t": "Playing basketball.",
+    "s": 6.851,
+    "e": 8.128
+   },
+   {
+    "t": "Playing pinball.",
+    "s": 8.508,
+    "e": 9.543
+   },
+   {
+    "t": "Anything to keep his eyes open.",
+    "s": 9.923,
+    "e": 11.867
+   }
+  ]
+ },
+ "s21": {
+  "dur": 15.084,
+  "sents": [
+   {
+    "t": "By the end, he had trouble with memory, concentration, and his mood.",
+    "s": 0.0,
+    "e": 4.411
+   },
+   {
+    "t": "Then he slept for about fourteen hours, and seemed to recover.",
+    "s": 4.791,
+    "e": 8.612
+   },
+   {
+    "t": "But decades later, he said he struggled with insomnia, and wondered whether the stunt played a part.",
+    "s": 8.992,
+    "e": 15.084
+   }
+  ]
+ },
+ "s22": {
+  "dur": 14.438,
+  "sents": [
+   {
+    "t": "Guinness World Records eventually stopped accepting attempts at this record, because of the health risks.",
+    "s": 0.0,
+    "e": 6.788
+   },
+   {
+    "t": "Think about that.",
+    "s": 7.168,
+    "e": 8.278
+   },
+   {
+    "t": "Even the people who measure the most extreme things on Earth said, please, don't do this one.",
+    "s": 8.658,
+    "e": 14.438
+   }
+  ]
+ },
+ "s22b": {
+  "dur": 12.616,
+  "sents": [
+   {
+    "t": "There have been other claims of people staying awake far longer.",
+    "s": 0.0,
+    "e": 3.516
+   },
+   {
+    "t": "But most were never carefully monitored.",
+    "s": 3.896,
+    "e": 6.33
+   },
+   {
+    "t": "And some may have included microsleeps that nobody noticed, not even the person themselves.",
+    "s": 6.71,
+    "e": 12.616
+   }
+  ]
+ },
+ "s23": {
+  "dur": 13.434,
+  "sents": [
+   {
+    "t": "But Randy slept in the end.",
+    "s": 0.0,
+    "e": 1.667
+   },
+   {
+    "t": "What happens if you truly can't?",
+    "s": 2.047,
+    "e": 3.933
+   },
+   {
+    "t": "Scientists have studied this in animals.",
+    "s": 4.313,
+    "e": 6.595
+   },
+   {
+    "t": "In experiments in the nineteen eighties, rats that were kept from sleeping completely died within a few weeks.",
+    "s": 6.975,
+    "e": 13.434
+   }
+  ]
+ },
+ "s24": {
+  "dur": 14.149,
+  "sents": [
+   {
+    "t": "Their bodies seemed to fall apart from the inside.",
+    "s": 0.0,
+    "e": 2.749
+   },
+   {
+    "t": "They ate more but lost weight.",
+    "s": 3.129,
+    "e": 4.933
+   },
+   {
+    "t": "They struggled to keep warm.",
+    "s": 5.313,
+    "e": 7.075
+   },
+   {
+    "t": "Scientists still debate exactly what killed them.",
+    "s": 7.455,
+    "e": 10.308
+   },
+   {
+    "t": "But the message was clear.",
+    "s": 10.688,
+    "e": 12.227
+   },
+   {
+    "t": "Sleep is not optional.",
+    "s": 12.607,
+    "e": 14.149
+   }
+  ]
+ },
+ "s24b": {
+  "dur": 11.367,
+  "sents": [
+   {
+    "t": "Of course, a rat is not a person.",
+    "s": 0.0,
+    "e": 2.209
+   },
+   {
+    "t": "And experiments like that would never be allowed on humans.",
+    "s": 2.589,
+    "e": 6.308
+   },
+   {
+    "t": "So for people, we have to look somewhere else.",
+    "s": 6.688,
+    "e": 9.316
+   },
+   {
+    "t": "And what we find is chilling.",
+    "s": 9.696,
+    "e": 11.367
+   }
+  ]
+ },
+ "s25": {
+  "dur": 8.12,
+  "sents": [
+   {
+    "t": "And in humans, there's a real disease that comes terrifyingly close to our What If.",
+    "s": 0.0,
+    "e": 5.311
+   },
+   {
+    "t": "It's called fatal familial insomnia.",
+    "s": 5.691,
+    "e": 8.12
+   }
+  ]
+ },
+ "s26": {
+  "dur": 13.662,
+  "sents": [
+   {
+    "t": "It's an extremely rare genetic condition.",
+    "s": 0.0,
+    "e": 2.62
+   },
+   {
+    "t": "A misfolded protein slowly damages the thalamus, a part of the brain that helps control sleep.",
+    "s": 3.0,
+    "e": 9.718
+   },
+   {
+    "t": "Over time, patients lose the ability to sleep properly.",
+    "s": 10.098,
+    "e": 13.662
+   }
+  ]
+ },
+ "s27": {
+  "dur": 14.794,
+  "sents": [
+   {
+    "t": "It usually starts in middle age with insomnia, then spreads to the rest of the body.",
+    "s": 0.0,
+    "e": 5.356
+   },
+   {
+    "t": "Racing heart.",
+    "s": 5.736,
+    "e": 6.846
+   },
+   {
+    "t": "Sweating.",
+    "s": 7.226,
+    "e": 7.986
+   },
+   {
+    "t": "Problems with movement and thinking.",
+    "s": 8.366,
+    "e": 10.393
+   },
+   {
+    "t": "There is no cure yet, and it is fatal, often within a year or two.",
+    "s": 10.773,
+    "e": 14.794
+   }
+  ]
+ },
+ "s28": {
+  "dur": 7.449,
+  "sents": [
+   {
+    "t": "It's one of the strongest pieces of evidence we have.",
+    "s": 0.0,
+    "e": 2.993
+   },
+   {
+    "t": "A human brain that cannot sleep, in the end, cannot survive.",
+    "s": 3.373,
+    "e": 7.449
+   }
+  ]
+ },
+ "s28b": {
+  "dur": 10.457,
+  "sents": [
+   {
+    "t": "Some animals have found clever workarounds.",
+    "s": 0.0,
+    "e": 2.656
+   },
+   {
+    "t": "Dolphins can rest one half of their brain at a time, keeping the other half alert enough to breathe and watch for danger.",
+    "s": 3.036,
+    "e": 10.457
+   }
+  ]
+ },
+ "s28c": {
+  "dur": 12.114,
+  "sents": [
+   {
+    "t": "Scientists have even recorded frigate birds sleeping while flying, in short bursts of just seconds.",
+    "s": 0.0,
+    "e": 6.607
+   },
+   {
+    "t": "Nature never found a way to skip sleep.",
+    "s": 6.987,
+    "e": 9.562
+   },
+   {
+    "t": "Only clever ways to squeeze it in.",
+    "s": 9.942,
+    "e": 12.114
+   }
+  ]
+ },
+ "s29": {
+  "dur": 13.887,
+  "sents": [
+   {
+    "t": "So, back to you.",
+    "s": 0.0,
+    "e": 1.153
+   },
+   {
+    "t": "Day five.",
+    "s": 1.533,
+    "e": 2.485
+   },
+   {
+    "t": "You've stopped trusting your own eyes.",
+    "s": 2.865,
+    "e": 4.95
+   },
+   {
+    "t": "Day seven.",
+    "s": 5.33,
+    "e": 6.293
+   },
+   {
+    "t": "Your microsleeps are now constant.",
+    "s": 6.673,
+    "e": 8.915
+   },
+   {
+    "t": "You might be sitting with your eyes open, technically awake, but barely there.",
+    "s": 9.295,
+    "e": 13.887
+   }
+  ]
+ },
+ "s30": {
+  "dur": 13.639,
+  "sents": [
+   {
+    "t": "And this is the strangest part.",
+    "s": 0.0,
+    "e": 1.985
+   },
+   {
+    "t": "In real life, you almost certainly wouldn't make it this far.",
+    "s": 2.365,
+    "e": 5.968
+   },
+   {
+    "t": "Not because you'd die, but because your brain would win.",
+    "s": 6.348,
+    "e": 9.723
+   },
+   {
+    "t": "At some point, sleep would simply take you, wherever you are.",
+    "s": 10.103,
+    "e": 13.639
+   }
+  ]
+ },
+ "s31": {
+  "dur": 12.689,
+  "sents": [
+   {
+    "t": "That's the real answer to this What If.",
+    "s": 0.0,
+    "e": 2.228
+   },
+   {
+    "t": "You can't actually choose to never sleep.",
+    "s": 2.608,
+    "e": 4.991
+   },
+   {
+    "t": "Sleep isn't a habit.",
+    "s": 5.371,
+    "e": 6.737
+   },
+   {
+    "t": "It's a need, like breathing.",
+    "s": 7.117,
+    "e": 8.695
+   },
+   {
+    "t": "Hold your breath long enough, and your body will breathe for you.",
+    "s": 9.075,
+    "e": 12.689
+   }
+  ]
+ },
+ "s32": {
+  "dur": 12.893,
+  "sents": [
+   {
+    "t": "Which raises a better question.",
+    "s": 0.0,
+    "e": 2.032
+   },
+   {
+    "t": "If sleep is that important, why do so many of us treat it like the first thing to cut?",
+    "s": 2.412,
+    "e": 7.674
+   },
+   {
+    "t": "Most adults need around seven or more hours a night.",
+    "s": 8.054,
+    "e": 11.104
+   },
+   {
+    "t": "Many of us get less.",
+    "s": 11.484,
+    "e": 12.893
+   }
+  ]
+ },
+ "s33": {
+  "dur": 11.459,
+  "sents": [
+   {
+    "t": "Every all-nighter, every late scroll on your phone, is a small version of this experiment.",
+    "s": 0.0,
+    "e": 6.005
+   },
+   {
+    "t": "Not deadly.",
+    "s": 6.385,
+    "e": 7.407
+   },
+   {
+    "t": "But not free, either.",
+    "s": 7.787,
+    "e": 9.077
+   },
+   {
+    "t": "Your brain always collects the debt.",
+    "s": 9.457,
+    "e": 11.459
+   }
+  ]
+ },
+ "s33b": {
+  "dur": 12.03,
+  "sents": [
+   {
+    "t": "The good news is that the basics are simple.",
+    "s": 0.0,
+    "e": 2.707
+   },
+   {
+    "t": "Go to bed and wake up at similar times.",
+    "s": 3.087,
+    "e": 5.749
+   },
+   {
+    "t": "Keep your room dark and cool.",
+    "s": 6.129,
+    "e": 7.887
+   },
+   {
+    "t": "Get some daylight in the morning.",
+    "s": 8.267,
+    "e": 10.034
+   },
+   {
+    "t": "Your clock loves routine.",
+    "s": 10.414,
+    "e": 12.03
+   }
+  ]
+ },
+ "s34": {
+  "dur": 12.138,
+  "sents": [
+   {
+    "t": "So here's your challenge.",
+    "s": 0.0,
+    "e": 1.519
+   },
+   {
+    "t": "Tonight, put the phone down a little earlier.",
+    "s": 1.899,
+    "e": 4.17
+   },
+   {
+    "t": "Let the cleaning crew do its job.",
+    "s": 4.55,
+    "e": 6.444
+   },
+   {
+    "t": "Your future self will think more clearly, feel calmer, and remember more of today.",
+    "s": 6.824,
+    "e": 12.138
+   }
+  ]
+ },
+ "s34b": {
+  "dur": 12.952,
+  "sents": [
+   {
+    "t": "Because in the end, the What If has a simple answer.",
+    "s": 0.0,
+    "e": 3.064
+   },
+   {
+    "t": "A life without sleep isn't a life with more time.",
+    "s": 3.444,
+    "e": 6.803
+   },
+   {
+    "t": "It's a life where every hour gets a little blurrier, until the brain takes back what it's owed.",
+    "s": 7.183,
+    "e": 12.952
+   }
+  ]
+ },
+ "s35": {
+  "dur": 9.882,
+  "sents": [
+   {
+    "t": "Now tell me in the comments.",
+    "s": 0.0,
+    "e": 1.558
+   },
+   {
+    "t": "What's the longest you've ever stayed awake?",
+    "s": 1.938,
+    "e": 4.215
+   },
+   {
+    "t": "And how weird did it get?",
+    "s": 4.595,
+    "e": 6.14
+   },
+   {
+    "t": "Subscribe for more What If stories.",
+    "s": 6.52,
+    "e": 8.587
+   },
+   {
+    "t": "Sleep well.",
+    "s": 8.967,
+    "e": 9.882
+   }
+  ]
+ }
+}
