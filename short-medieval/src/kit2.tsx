@@ -69,7 +69,7 @@ export const CamPro: React.FC<{ moves: Move[]; children: React.ReactNode; shake?
   shake = [],
   impact = [],
   handheld = 1,
-  blur = true,
+  blur = false,
   free = false,
 }) => {
   const f = useCurrentFrame();
