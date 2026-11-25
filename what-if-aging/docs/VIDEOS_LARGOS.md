@@ -5,7 +5,7 @@
 - Referentes: The Paint Explainer (~2 M de suscriptores) y una ola de canales nuevos de "stickman survival".
 - Aviso honesto: ningún nicho garantiza visitas. Lo que más pesa es la miniatura, el título y la constancia (1–3 videos por semana).
 
-## Video 2 — What If Your Plane's Engines Stopped? (~11,7 min)
+## Video 2 — What If Your Plane's Engines Stopped? (12:16)
 Archivo: `out/what-if-plane-engines-stopped.mp4`
 
 Títulos alternativos:
@@ -24,7 +24,7 @@ Datos verificados:
 - Oxígeno de emergencia: 12–15 min
 - NTSB: más del 95 % de supervivencia en accidentes (1983–2000)
 
-## Video 3 — What If You Never Slept Again? (~11,1 min)
+## Video 3 — What If You Never Slept Again? (11:13)
 Archivo: `out/what-if-never-slept-again.mp4`
 
 Títulos alternativos:
