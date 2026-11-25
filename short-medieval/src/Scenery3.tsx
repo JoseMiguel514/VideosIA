@@ -27,7 +27,7 @@ export const HookTitle: React.FC<{ lines: string[]; hi?: number; at?: number; un
               transform: `scale(${s}) rotate(${(i % 2 ? 2 : -2) + wob}deg)`,
               fontFamily: "Montserrat",
               fontWeight: 800,
-              fontSize: i === hi ? Math.min(112, 1250 / l.length) : Math.min(78, 1500 / l.length),
+              fontSize: i === hi ? Math.min(112, 1350 / l.length) : Math.min(78, 1150 / l.length),
               lineHeight: 1.05,
               color: i === hi ? INK : "white",
               background: i === hi ? color : "transparent",
