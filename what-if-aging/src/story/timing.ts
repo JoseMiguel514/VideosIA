@@ -1,6 +1,6 @@
 export const FPS = 30;
-export const LEAD = 10;
-export const TAIL = 20;
+export const LEAD = 6;
+export const TAIL = 10;
 
 export type Sent = { t: string; s: number; e: number };
 export type Guion = { id: string; texto: string }[];
@@ -10,7 +10,7 @@ export type WordT = { w: string; start: number; end: number; sentence: number };
 /** Timing model for one narrated video: scene lengths, starts, word timings and word lookup. */
 export const makeTiming = (guion: Guion, durs: Durs, endPad = 75) => {
   const ORDER = guion.map((g) => g.id);
-  const voiceDur = (id: string) => durs[id].dur;
+  const voiceDur = (id: string) => durs[id]?.dur ?? 4; // fallback while narration is being regenerated
   const voiceEnd = (id: string) => LEAD + Math.ceil(voiceDur(id) * FPS);
   const sceneFrames = (id: string) => voiceEnd(id) + TAIL + (id === ORDER[ORDER.length - 1] ? endPad : 0);
   const STARTS: Record<string, number> = {};
@@ -23,7 +23,7 @@ export const makeTiming = (guion: Guion, durs: Durs, endPad = 75) => {
   const wordTimes = (id: string): WordT[] => {
     if (cache[id]) return cache[id];
     const out: WordT[] = [];
-    durs[id].sents.forEach((s, si) => {
+    (durs[id]?.sents ?? []).forEach((s, si) => {
       const ws = s.t.split(/\s+/).filter(Boolean);
       const weights = ws.map((w) => w.replace(/[^\p{L}\p{N}]/gu, "").length + 2 + (/[,:]$/.test(w) ? 4 : 0));
       const total = weights.reduce((a, b) => a + b, 0);

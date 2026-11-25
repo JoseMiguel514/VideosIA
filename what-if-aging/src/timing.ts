@@ -4,8 +4,8 @@ import duraciones from "./duraciones.json";
 export const FPS = 30;
 export const W = 1920;
 export const H = 1080;
-export const LEAD = 10; // frames before the voice starts in each scene
-export const TAIL = 20; // frames after the voice ends
+export const LEAD = 8; // frames before the voice starts in each scene
+export const TAIL = 12; // frames after the voice ends
 
 export type SceneId =
   | "hook1" | "hook2" | "setup1" | "setup2" | "years" | "same" | "telomeres" | "jelly"

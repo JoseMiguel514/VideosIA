@@ -3,6 +3,8 @@ import { interpolate } from "remotion";
 import { Spec, W, Who } from "./engine";
 import { CabinRow, Cockpit, Jet, PlaneCabin, River, Runway, Seat, SkyView } from "./envs";
 import { Office } from "../stick/Env";
+import { AtcRoom, Boneyard, Classroom, Galley, Museum, Observatory, SimHangar, Terminal } from "./envs2";
+import { hudFont } from "../stick/Hud";
 import { Altimeter, BigStat, Checklist, GlideProfile, OxygenMasks, RouteMap, Timer, Versus, prog } from "./widgets";
 import { CAPT, DR, FA, FO, MIA, SAM, YOU, ZOE } from "../stick/cast";
 import { CharDef } from "../stick/Stick";
@@ -39,7 +41,19 @@ const cabin = (o: { dim?: [W, number]; red?: W; shake?: number } = {}) => (f: nu
 const row = (o: { ground?: number; shake?: number; sky?: string } = {}) => (f: number) => <CabinRow f={f} ground={o.ground} shake={o.shake} skyTint={o.sky} />;
 const sky = (o: { night?: boolean; ground?: number; water?: boolean; ash?: number } = {}) => (f: number) => <SkyView f={f} {...o} />;
 
-/* ---------- the 49 scenes ---------- */
+const chalkT = (x: number, y: number, t: string, size = 64, color = "#f6efdf") => (
+  <text x={x} y={y} fontFamily={hudFont} fontWeight={900} fontSize={size} fill={color} opacity={0.88}>
+    {t}
+  </text>
+);
+const miniPerson = (x: number, y: number, s: number, col: string, k: number, f: number) => (
+  <g key={k} transform={`translate(${x} ${y + Math.sin(f / 9 + k) * 1.5}) scale(${s})`}>
+    <rect x={-9} y={-34} width={18} height={30} rx={6} fill={col} stroke="#0b0a0c" strokeWidth={3} />
+    <circle cx={0} cy={-46} r={13} fill="#0b0a0c" />
+  </g>
+);
+
+/* ---------- the scenes ---------- */
 export const PLANE: Record<string, Spec> = {
   p01: {
     env: (f, A) => <PlaneCabin f={f} dim={f >= A("stops") ? 0.18 + 0.1 * Math.sin(f / 2) : 0} />,
@@ -110,7 +124,7 @@ export const PLANE: Record<string, Spec> = {
     zoom: [["wings", 930, 560, 1.6, 80]],
   },
   p06b: {
-    env: (f) => <Office f={f} />,
+    env: (f) => <Classroom f={f} />,
     who: [{ c: YOU, x: 420, expr: [[0, "happy"]], act: [[0, "hold"], ["flies", "reach"], ["heavier", "idle"]], look: 0.5 }],
     props: (f, A) => {
       const t = prog(f, A("flies"), A("flies") + 70);
@@ -223,7 +237,7 @@ export const PLANE: Record<string, Spec> = {
     ov: [{ t: "tag", w: "dive", text: "PILOTS DIVE TO BREATHABLE AIR", x: 960, y: 760, color: "#1f8fb3" }],
   },
   p15b: {
-    env: (f) => <Office f={f} />,
+    env: (f) => <Terminal f={f} />,
     who: [{ c: FO, x: 520, act: [[0, "talk"], ["fuel", "point"]], expr: [[0, "neutral"]], talk: [[0, "outside"]] }],
     ov: [
       { t: "punch", w: "rare", text: "EXTREMELY RARE", color: ICE, y: 220 },
@@ -251,7 +265,7 @@ export const PLANE: Record<string, Spec> = {
     sfx: [["alarms", "sting", 0.35]],
   },
   p18: {
-    env: (f) => <Office f={f} />,
+    env: (f, A) => <Classroom f={f} chalk={<g opacity={prog(f, A("mix-up"), A("mix-up") + 12)}>{chalkT(640, 260, "KG", 120)}{chalkT(900, 260, "≠", 120, RED)}{chalkT(1080, 260, "LB", 120)}{chalkT(640, 420, "22,300 KG NEEDED", 56, GOLD)}</g>} />,
     who: [{ c: SAM, x: 360, expr: [[0, "neutral"], ["mix-up", "confused"]], act: [[0, "idle"], ["mix-up", "scratch"]], look: 0.6 }],
     ui: (f, A) => <Versus a="100%" la="FUEL IT NEEDED" b="<50%" lb="FUEL IT CARRIED" start={A("less")} />,
     ov: [
@@ -490,7 +504,7 @@ export const PLANE: Record<string, Spec> = {
     ],
   },
   p39b: {
-    env: cabin({}),
+    env: (f) => <SimHangar f={f} dark={0.3} />,
     ui: (f, A) => (
       <>
         <Timer label="EVACUATION TEST" t0={A("ninety")} base={0} x={740} y={60} color={RED} start={A("ninety")} />
@@ -506,7 +520,7 @@ export const PLANE: Record<string, Spec> = {
     ov: [{ t: "punch", w: "Ninety", text: "90 SECONDS", color: RED, y: 260 }],
   },
   p40: {
-    env: (f) => <Office f={f} />,
+    env: (f) => <Classroom f={f} />,
     who: [{ c: DR, x: 420, item: [[0, "tablet"]], act: [[0, "hold"]], expr: [[0, "neutral"], ["ninety-five", "happy"]], talk: [[0, "board"]] }],
     ui: (f, A) => <BigStat value={95} prefix=">" suffix="%" label="SURVIVED · US AIRLINE ACCIDENTS 1983–2000" start={A("ninety-five")} y={180} color={GOLD} />,
     ov: [{ t: "pill", w: "study", text: "NTSB SAFETY STUDY", x: 1300, y: 760, color: ICE }],
@@ -524,7 +538,7 @@ export const PLANE: Record<string, Spec> = {
     ],
   },
   p42: {
-    env: row({}),
+    env: (f) => <Terminal f={f} dusk />,
     who: rowPair({ expr: [[0, "happy"]], act: [[0, "idle"]], look: -0.6 }, { expr: [[0, "happy"]], item: [[0, "cup"]] }),
     ov: [{ t: "punch", w: "planned", text: "A VERY WELL PLANNED SYSTEM", color: ICE, y: 260 }],
     sfx: [["planned", "sparkle", 0.3]],
@@ -537,5 +551,160 @@ export const PLANE: Record<string, Spec> = {
       { t: "hud", w: "next", label: "NEXT VIDEO", value: "NEVER SLEEP AGAIN?", color: ICE, x: 1080, y: 560, wd: 760 },
     ],
     sfx: [["subscribe", "popper", 0.4]],
+  },
+  p07b: {
+    env: (f, A) => (
+      <Classroom
+        f={f}
+        chalk={
+          <g>
+            {f >= A("glide") && chalkT(620, 220, "GLIDE RATIO", 56)}
+            {f >= A("fifteen") && chalkT(1170, 220, "≈ 15 : 1", 72, GOLD)}
+            <path d="M 650 280 L 1540 540" stroke="#f6efdf" strokeWidth={7} fill="none" strokeDasharray="930" strokeDashoffset={930 * (1 - prog(f, A("Drop"), A("forward") + 15))} />
+            {f >= A("kilometer") && (
+              <g>
+                <path d="M 640 290 L 640 380" stroke={ICE} strokeWidth={6} />
+                {chalkT(560, 350, "1", 48, ICE)}
+              </g>
+            )}
+            {f >= A("forward") && (
+              <g>
+                <path d="M 650 570 L 1540 570" stroke={GOLD} strokeWidth={6} />
+                {chalkT(1000, 560, "15 KM", 48, GOLD)}
+              </g>
+            )}
+          </g>
+        }
+      />
+    ),
+    who: [
+      { c: DR, x: 400, expr: [[0, "neutral"], ["map", "happy"]], act: [[0, "talk"], ["glide", "point"], ["Drop", "pointUp"], ["forward", "point"]], talk: [[0, "one."]] },
+      { c: YOU, x: 1730, expr: [[0, "confused"], ["map", "surprised"]], act: [[0, "cross"], ["Drop", "think"], ["map", "cheer"]], look: -0.5 },
+    ],
+    ov: [{ t: "punch", w: "map", text: "10 KM UP ≈ 150 KM OF MAP", color: GOLD, y: 860, size: 84 }],
+    sfx: [["glide", "click", 0.3], ["forward", "whoosh", 0.3]],
+    start: "still",
+  },
+  p10b: {
+    env: (f, A) => <AtcRoom f={f} emergency={f >= A("emergency")} />,
+    who: [{ c: SAM, x: 560, y: 960, s: 1.05, expr: [[0, "neutral"], ["emergency", "surprised"], ["Other", "worried"], ["option", "happy"]], act: [[0, "idle"], ["radar", "point"], ["Other", "talk"], ["runway", "pointUp"]], talk: [["Other", "option."]] }],
+    ov: [
+      { t: "pill", w: "code", text: "SQUAWK 7700", x: 960, y: 190, color: RED, size: 58 },
+      { t: "tag", w: "moved", text: "OTHER TRAFFIC: MOVED AWAY", x: 1340, y: 300, color: ICE },
+      { t: "pill", w: "runway", text: "EVERY RUNWAY = AN OPTION", x: 1340, y: 380, color: GOLD },
+    ],
+    zoom: [["radar", 960, 560, 1.7, 60]],
+    sfx: [["emergency", "sting", 0.3], ["moved", "whoosh", 0.3]],
+  },
+  p10c: {
+    env: (f, A) => <SimHangar f={f} tilt={f >= A("tilt") ? 7 * Math.sin((f - A("tilt")) / 9) : 0} />,
+    who: [{ c: FO, x: 400, expr: [[0, "happy"], ["fail", "neutral"], ["automatic", "happy"]], act: [[0, "talk"], ["simulators", "point"], ["fail", "cross"], ["automatic", "pointUp"]], talk: [[0, "roar."]] }],
+    ov: [
+      { t: "pill", w: "simulators", text: "FULL-MOTION SIMULATOR", x: 1240, y: 200, color: ICE },
+      { t: "tag", w: "purpose", text: "ENGINE FAILURE: ON PURPOSE", x: 1240, y: 300, color: RED },
+      { t: "punch", w: "automatic", text: "UNTIL IT'S AUTOMATIC", color: GOLD, y: 860 },
+    ],
+    hits: ["shake"],
+    sfx: [["tilt", "whoosh", 0.3], ["roar", "boom", 0.25]],
+  },
+  p12b: {
+    env: (f) => <Galley f={f} alarm />,
+    who: [
+      { c: FA, x: 420, expr: [[0, "neutral"]], act: [[0, "hold"], ["door", "pointL"]], item: [[0, "clipboard"], ["door", null]] },
+      { c: FA, x: [[0, 1560], ["moving", 980]], expr: [[0, "neutral"], ["shout", "angry"]], act: [[0, "idle"], ["Carts", "grip"], ["Loose", "reach"], ["door", "point"], ["shout", "cheer"]] },
+    ],
+    ov: [
+      { t: "pill", w: "locked", text: "CARTS: LOCKED", x: 960, y: 180, color: ICE },
+      { t: "pill", w: "stowed", text: "LOOSE ITEMS: STOWED", x: 960, y: 270, color: ICE },
+      { t: "pill", w: "door", text: "EACH ONE HAS A DOOR", x: 960, y: 360, color: GOLD },
+      { t: "bubble", w: "shout", who: 1, text: "COME THIS WAY!" },
+    ],
+    sfx: [["locked", "click", 0.4], ["stowed", "knock", 0.35]],
+  },
+  p23c: {
+    env: (f) => <Boneyard f={f} />,
+    who: [{ c: YOU, x: [[0, -120], ["service", 620]], expr: [[0, "happy"], ["retired", "sad"], ["desert", "happy"]], act: [[0, "idle"], ["passengers", "point"], ["retired", "hips"], ["desert", "wave"]] }],
+    ov: [
+      { t: "tag", w: "Gimli", text: "THE GIMLI GLIDER", x: 960, y: 170, color: GOLD },
+      { t: "pill", w: "twenty-five", text: "+25 YEARS OF SERVICE", x: 1320, y: 300, color: ICE },
+      { t: "pill", w: "retired", text: "RETIRED: 2008", x: 1320, y: 400, color: GOLD },
+    ],
+    zoom: [["parked", 1290, 690, 1.5, 60]],
+  },
+  p29b: {
+    env: (f) => <Observatory f={f} />,
+    who: [{ c: DR, x: 640, item: [[0, "tablet"], ["track", null]], expr: [[0, "neutral"], ["around", "happy"]], act: [[0, "hold"], ["track", "point"], ["around", "cheer"]] }],
+    ov: [
+      { t: "pill", w: "network", text: "VOLCANIC ASH ADVISORY CENTERS", x: 700, y: 170, color: ICE, size: 44 },
+      { t: "punch", w: "around", text: "AROUND IT, NOT THROUGH IT", color: GOLD, y: 860, size: 84 },
+    ],
+    zoom: [["warn", 1410, 200, 1.8, 60]],
+    sfx: [["warn", "sting", 0.25]],
+  },
+  p33b: {
+    env: (f) => <Cockpit f={f} alarm ground={0.85} sky="#8fb3d8" />,
+    who: pilots({ expr: [[0, "worried"], ["Hudson", "neutral"]], act: [[0, "talk"], ["Brace", "grip"]], talk: [["radio", "Hudson."], ["Brace", "impact."]] }, { expr: [[0, "worried"], ["Brace", "surprised"]], act: [[0, "grip"]] }),
+    ov: [
+      { t: "bubble", w: "We're", who: 0, text: "We're gonna be in the Hudson.", end: "Then" },
+      { t: "punch", w: "Brace", text: "BRACE FOR IMPACT", color: RED, y: 260 },
+      { t: "flash", w: "Brace" },
+    ],
+    ui: both(alt(1200, 600)),
+    sfx: [["radio", "click", 0.4], ["three", "heartbeat", 0.35]],
+  },
+  p34b: {
+    env: (f, A) => (
+      <River f={f}>
+        {[0, 1, 2, 3, 4, 5].map((k) => miniPerson(760 + k * 46, 662, 1.2, ["#e0452f", "#f2c21b", "#4a8ad8", "#8f5bd8", "#2f8f9a", "#f08a24"][k], k, f))}
+        <g transform={`translate(${1250 - prog(f, A("rescue"), A("rafts")) * 120} ${760 + Math.sin(f / 14) * 5})`}>
+          <ellipse cx={0} cy={0} rx={130} ry={30} fill="#f08a24" stroke="#0b0a0c" strokeWidth={5} />
+          {[0, 1, 2, 3].map((k) => miniPerson(-80 + k * 54, -6, 1.1, "#e9edf2", k + 10, f))}
+        </g>
+        <g transform={`translate(${2200 - prog(f, A("Ferry"), A("minutes")) * 780} 740)`}>
+          <rect x={-150} y={-50} width={300} height={60} rx={12} fill="#e9edf2" stroke="#0b0a0c" strokeWidth={5} />
+          <rect x={-90} y={-100} width={180} height={54} rx={8} fill="#2f5aa8" stroke="#0b0a0c" strokeWidth={5} />
+          <path d={`M 150 0 q 30 ${-6 + Math.sin(f / 3) * 4} 60 0`} stroke="#fff" strokeWidth={5} fill="none" />
+        </g>
+      </River>
+    ),
+    ov: [
+      { t: "hud", w: 0, label: "WATER", value: "NEAR FREEZING", color: ICE, x: 60, y: 50, wd: 460 },
+      { t: "pill", w: "minutes", text: "RESCUED WITHIN MINUTES", x: 960, y: 200, color: GOLD },
+      { t: "punch", w: "everyone", text: "EVERYONE MADE IT HOME", color: GOLD, y: 330 },
+    ],
+    zoom: [["wings", 860, 640, 1.6, 60]],
+    sfx: [["Ferry", "whoosh", 0.3], ["everyone", "sparkle", 0.35]],
+    start: "in",
+  },
+  p34c: {
+    env: (f) => <Museum f={f} label="FLIGHT 1549" />,
+    who: [
+      { c: MIA, x: [[0, -260], ["sits", 260]], expr: [[0, "happy"]], act: [[0, "idle"], ["Charlotte", "think"]] },
+      { c: YOU, x: [[0, -100], ["sits", 470]], expr: [[0, "neutral"], ["sits", "happy"]], act: [[0, "idle"], ["museum", "point"], ["city", "pointUp"]] },
+    ],
+    ov: [
+      { t: "pill", w: "Charlotte", text: "CHARLOTTE, NORTH CAROLINA", x: 1300, y: 190, color: ICE },
+      { t: "tag", w: "city", text: "ITS DESTINATION THAT DAY", x: 1300, y: 290, color: GOLD },
+    ],
+    zoom: [["never", 860, 600, 1.4, 50]],
+  },
+  p37b: {
+    env: cabin({}),
+    who: aislePair({ expr: [[0, "neutral"], ["different", "surprised"], ["opens", "happy"]], act: [[0, "idle"], ["read", "hold"], ["exits", "pointL"]], item: [["read", "clipboard"], ["exits", null]] }, { expr: [[0, "neutral"]], act: [[0, "idle"], ["exits", "pointUp"]] }),
+    ov: [
+      { t: "pill", w: "safety", text: "SAFETY CARD", x: 960, y: 190, color: GOLD },
+      { t: "tag", w: "different", text: "EVERY AIRCRAFT IS DIFFERENT", x: 960, y: 290, color: ICE },
+      { t: "pill", w: "exits", text: "YOUR EXITS + HOW YOUR DOOR OPENS", x: 960, y: 390, color: GOLD, size: 44 },
+    ],
+  },
+  p41b: {
+    env: (f) => <Terminal f={f} />,
+    who: [
+      { c: YOU, x: 700, expr: [[0, "happy"]], act: [[0, "talk"], ["lessons", "point"]], talk: [[0, "travel."]] },
+      { c: MIA, x: 980, expr: [[0, "neutral"], ["crew", "happy"]], item: [[0, "phone"], ["investigated", null]], act: [[0, "phone"], ["investigated", "think"], ["crew", "clap"]] },
+    ],
+    ui: (f, A) => <Checklist title="EVERY LESSON GOES INTO" items={[{ t: "THE NEXT AIRPLANE", at: A("airplane") }, { t: "THE NEXT CHECKLIST", at: A("checklist") }, { t: "THE NEXT CREW", at: A("crew") }]} start={A("lessons")} x={1240} y={430} />,
+    ov: [{ t: "pill", w: "safest", text: "ONE OF THE SAFEST WAYS TO TRAVEL", x: 700, y: 190, color: GOLD, size: 46 }],
+    sfx: [["investigated", "click", 0.3]],
   },
 };

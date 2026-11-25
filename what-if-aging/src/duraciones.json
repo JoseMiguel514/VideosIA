@@ -1,466 +1,466 @@
 {
  "hook1": {
-  "dur": 9.944,
+  "dur": 8.974,
   "sents": [
    {
     "t": "Imagine you blow out the candles on your twenty-fifth birthday...",
     "s": 0.0,
-    "e": 4.057
+    "e": 3.763
    },
    {
     "t": "and your body just stops.",
-    "s": 4.437,
-    "e": 6.01
+    "s": 4.043,
+    "e": 5.536
    },
    {
     "t": "Not your life.",
-    "s": 6.39,
-    "e": 7.498
+    "s": 5.816,
+    "e": 6.882
    },
    {
     "t": "Your aging.",
-    "s": 7.878,
-    "e": 8.823
+    "s": 7.162,
+    "e": 7.999
    },
    {
     "t": "Forever.",
-    "s": 9.203,
-    "e": 9.944
+    "s": 8.279,
+    "e": 8.974
    }
   ]
  },
  "hook2": {
-  "dur": 11.562,
+  "dur": 10.354,
   "sents": [
    {
     "t": "No gray hair.",
     "s": 0.0,
-    "e": 1.086
+    "e": 1.023
    },
    {
     "t": "No wrinkles.",
-    "s": 1.466,
-    "e": 2.52
+    "s": 1.303,
+    "e": 2.281
    },
    {
     "t": "No slowing down.",
-    "s": 2.9,
-    "e": 4.21
+    "s": 2.561,
+    "e": 3.779
    },
    {
     "t": "Sounds like a dream.",
-    "s": 4.59,
-    "e": 5.857
+    "s": 4.059,
+    "e": 5.29
    },
    {
     "t": "But here's the strange part.",
-    "s": 6.237,
-    "e": 7.94
+    "s": 5.57,
+    "e": 7.188
    },
    {
     "t": "You'd still die.",
-    "s": 8.32,
-    "e": 9.431
+    "s": 7.468,
+    "e": 8.513
    },
    {
     "t": "Just not the way you think.",
-    "s": 9.811,
-    "e": 11.562
+    "s": 8.793,
+    "e": 10.354
    }
   ]
  },
  "setup1": {
-  "dur": 9.755,
+  "dur": 9.047,
   "sents": [
    {
     "t": "Aging isn't one thing.",
     "s": 0.0,
-    "e": 1.682
+    "e": 1.553
    },
    {
     "t": "Scientists describe about a dozen processes, called the hallmarks of aging, that slowly wear your body down.",
-    "s": 2.062,
-    "e": 9.755
+    "s": 1.833,
+    "e": 9.047
    }
   ]
  },
  "setup2": {
-  "dur": 11.386,
+  "dur": 10.531,
   "sents": [
    {
     "t": "DNA damage.",
     "s": 0.0,
-    "e": 1.254
+    "e": 1.174
    },
    {
     "t": "Worn-out proteins.",
-    "s": 1.634,
-    "e": 3.049
+    "s": 1.454,
+    "e": 2.795
    },
    {
     "t": "Cells that stop dividing, but refuse to die.",
-    "s": 3.429,
-    "e": 6.622
+    "s": 3.075,
+    "e": 6.131
    },
    {
     "t": "Now imagine every one of them, on pause.",
-    "s": 7.002,
-    "e": 9.735
+    "s": 6.411,
+    "e": 9.017
    },
    {
     "t": "What happens next?",
-    "s": 10.115,
-    "e": 11.386
+    "s": 9.297,
+    "e": 10.531
    }
   ]
  },
  "years": {
-  "dur": 9.329,
+  "dur": 8.52,
   "sents": [
    {
     "t": "For the first few years, nothing seems different.",
     "s": 0.0,
-    "e": 2.967
+    "e": 2.737
    },
    {
     "t": "You're twenty-five.",
-    "s": 3.347,
-    "e": 4.544
+    "s": 3.017,
+    "e": 4.127
    },
    {
     "t": "So are your friends.",
-    "s": 4.924,
-    "e": 6.219
+    "s": 4.407,
+    "e": 5.639
    },
    {
     "t": "But at thirty-five, people start to notice.",
-    "s": 6.599,
-    "e": 9.329
+    "s": 5.919,
+    "e": 8.52
    }
   ]
  },
  "same": {
-  "dur": 11.481,
+  "dur": 10.513,
   "sents": [
    {
     "t": "Your skin still heals like new.",
     "s": 0.0,
-    "e": 1.862
+    "e": 1.824
    },
    {
     "t": "Your joints never ache.",
-    "s": 2.242,
-    "e": 3.848
+    "s": 2.104,
+    "e": 3.644
    },
    {
     "t": "Your heart beats just like it did at twenty-five.",
-    "s": 4.228,
-    "e": 7.276
+    "s": 3.924,
+    "e": 6.691
    },
    {
     "t": "You don't look young for your age.",
-    "s": 7.656,
-    "e": 9.463
+    "s": 6.971,
+    "e": 8.695
    },
    {
     "t": "You look exactly the same.",
-    "s": 9.843,
-    "e": 11.481
+    "s": 8.975,
+    "e": 10.513
    }
   ]
  },
  "telomeres": {
-  "dur": 18.506,
+  "dur": 17.519,
   "sents": [
    {
     "t": "Deep inside your body, something has changed.",
     "s": 0.0,
-    "e": 2.774
+    "e": 2.673
    },
    {
     "t": "Normally, every time most of your cells divide, the protective caps on your chromosomes, called telomeres, get a little shorter.",
-    "s": 3.154,
-    "e": 11.452
+    "s": 2.953,
+    "e": 10.929
    },
    {
     "t": "Eventually, the cell stops dividing for good.",
-    "s": 11.832,
-    "e": 14.798
+    "s": 11.209,
+    "e": 14.03
    },
    {
     "t": "In your frozen body, that clock never runs down.",
-    "s": 15.178,
-    "e": 18.506
+    "s": 14.31,
+    "e": 17.519
    }
   ]
  },
  "jelly": {
-  "dur": 20.201,
+  "dur": 18.734,
   "sents": [
    {
     "t": "And nature has already tried something like this.",
     "s": 0.0,
-    "e": 3.076
+    "e": 2.903
    },
    {
     "t": "A tiny jellyfish, Turritopsis dohrnii, can turn its adult body back into a juvenile stage.",
-    "s": 3.456,
-    "e": 11.066
+    "s": 3.183,
+    "e": 10.484
    },
    {
     "t": "Again, and again.",
-    "s": 11.446,
-    "e": 12.593
+    "s": 10.764,
+    "e": 11.849
    },
    {
     "t": "But here's the catch.",
-    "s": 12.973,
-    "e": 14.211
+    "s": 12.129,
+    "e": 13.316
    },
    {
     "t": "It still gets eaten.",
-    "s": 14.591,
-    "e": 15.907
+    "s": 13.595,
+    "e": 14.873
    },
    {
     "t": "It still gets sick.",
-    "s": 16.287,
-    "e": 17.517
+    "s": 15.153,
+    "e": 16.303
    },
    {
     "t": "Not aging doesn't make you immortal.",
-    "s": 17.897,
-    "e": 20.201
+    "s": 16.583,
+    "e": 18.734
    }
   ]
  },
  "math": {
-  "dur": 17.556,
+  "dur": 16.146,
   "sents": [
    {
     "t": "So how long would you actually live?",
     "s": 0.0,
-    "e": 2.128
+    "e": 2.067
    },
    {
     "t": "If you never aged, your risk of dying would stay at a twenty-five-year-old's level.",
-    "s": 2.508,
-    "e": 7.833
+    "s": 2.347,
+    "e": 7.407
    },
    {
     "t": "And what kills twenty-five-year-olds?",
-    "s": 8.213,
-    "e": 10.268
+    "s": 7.687,
+    "e": 9.721
    },
    {
     "t": "Mostly not disease.",
-    "s": 10.648,
-    "e": 12.181
+    "s": 10.001,
+    "e": 11.426
    },
    {
     "t": "Accidents.",
-    "s": 12.561,
-    "e": 13.426
+    "s": 11.706,
+    "e": 12.504
    },
    {
     "t": "Car crashes.",
-    "s": 13.806,
-    "e": 14.909
+    "s": 12.784,
+    "e": 13.822
    },
    {
     "t": "Overdoses.",
-    "s": 15.289,
-    "e": 16.329
+    "s": 14.102,
+    "e": 15.079
    },
    {
     "t": "Violence.",
-    "s": 16.709,
-    "e": 17.556
+    "s": 15.359,
+    "e": 16.146
    }
   ]
  },
  "lifespan": {
-  "dur": 10.18,
+  "dur": 9.438,
   "sents": [
    {
     "t": "Some rough estimates put your average lifespan at several hundred years.",
     "s": 0.0,
-    "e": 4.48
+    "e": 4.332
    },
    {
     "t": "Maybe even close to a thousand.",
-    "s": 4.86,
-    "e": 6.957
+    "s": 4.612,
+    "e": 6.58
    },
    {
     "t": "But that's an average.",
-    "s": 7.337,
-    "e": 8.689
+    "s": 6.86,
+    "e": 8.105
    },
    {
     "t": "Not a promise.",
-    "s": 9.069,
-    "e": 10.18
+    "s": 8.385,
+    "e": 9.438
    }
   ]
  },
  "year200": {
-  "dur": 9.537,
+  "dur": 8.864,
   "sents": [
    {
     "t": "By your two hundredth birthday, you've said goodbye to everyone from your first life.",
     "s": 0.0,
-    "e": 5.074
+    "e": 4.778
    },
    {
     "t": "More than once.",
-    "s": 5.454,
-    "e": 6.566
+    "s": 5.058,
+    "e": 6.128
    },
    {
     "t": "You've had careers that no longer exist.",
-    "s": 6.946,
-    "e": 9.537
+    "s": 6.408,
+    "e": 8.864
    }
   ]
  },
  "risk": {
-  "dur": 11.473,
+  "dur": 10.473,
   "sents": [
    {
     "t": "And something shifts in your mind.",
     "s": 0.0,
-    "e": 1.855
+    "e": 1.7
    },
    {
     "t": "Every car ride.",
-    "s": 2.235,
-    "e": 3.404
+    "s": 1.98,
+    "e": 3.119
    },
    {
     "t": "Every ski trip.",
-    "s": 3.784,
-    "e": 4.933
+    "s": 3.4,
+    "e": 4.475
    },
    {
     "t": "Every risk, now puts centuries of life on the line.",
-    "s": 5.313,
-    "e": 8.627
+    "s": 4.755,
+    "e": 7.902
    },
    {
     "t": "Would you ever get on a motorcycle again?",
-    "s": 9.007,
-    "e": 11.473
+    "s": 8.182,
+    "e": 10.473
    }
   ]
  },
  "twist": {
-  "dur": 13.834,
+  "dur": 12.703,
   "sents": [
    {
     "t": "And here's the twist.",
     "s": 0.0,
-    "e": 1.257
+    "e": 1.209
    },
    {
     "t": "For most of the biggest killers, like heart disease, many cancers, and Alzheimer's, the single greatest risk factor isn't smoking.",
-    "s": 1.637,
-    "e": 10.63
+    "s": 1.489,
+    "e": 9.881
    },
    {
     "t": "It isn't diet.",
-    "s": 11.01,
-    "e": 12.171
+    "s": 10.161,
+    "e": 11.245
    },
    {
     "t": "It's age itself.",
-    "s": 12.551,
-    "e": 13.834
+    "s": 11.525,
+    "e": 12.703
    }
   ]
  },
  "root": {
-  "dur": 7.761,
+  "dur": 7.246,
   "sents": [
    {
     "t": "That means scientists studying aging aren't just chasing youth.",
     "s": 0.0,
-    "e": 3.969
+    "e": 3.716
    },
    {
     "t": "They may be chasing the root of many diseases at once.",
-    "s": 4.349,
-    "e": 7.761
+    "s": 3.996,
+    "e": 7.246
    }
   ]
  },
  "lab": {
-  "dur": 13.435,
+  "dur": 12.439,
   "sents": [
    {
     "t": "In animal studies, drugs that clear out zombie senescent cells have improved health in old mice.",
     "s": 0.0,
-    "e": 6.951
+    "e": 6.549
    },
    {
     "t": "In humans, the research is still early.",
-    "s": 7.331,
-    "e": 9.769
+    "s": 6.829,
+    "e": 9.138
    },
    {
     "t": "No one has stopped human aging.",
-    "s": 10.149,
-    "e": 12.146
+    "s": 9.418,
+    "e": 11.33
    },
    {
     "t": "Not yet.",
-    "s": 12.526,
-    "e": 13.435
+    "s": 11.61,
+    "e": 12.439
    }
   ]
  },
  "outro1": {
-  "dur": 9.886,
+  "dur": 9.265,
   "sents": [
    {
     "t": "So maybe the real question isn't whether you'd want to stay twenty-five forever.",
     "s": 0.0,
-    "e": 5.19
+    "e": 4.823
    },
    {
     "t": "It's what you'd do with all that time, knowing it could still end tomorrow.",
-    "s": 5.57,
-    "e": 9.886
+    "s": 5.103,
+    "e": 9.265
    }
   ]
  },
  "outro2": {
-  "dur": 11.989,
+  "dur": 11.113,
   "sents": [
    {
     "t": "Would you take the deal?",
     "s": 0.0,
-    "e": 1.291
+    "e": 1.258
    },
    {
     "t": "Tell me in the comments.",
-    "s": 1.671,
-    "e": 2.976
+    "s": 1.538,
+    "e": 2.808
    },
    {
     "t": "What's the first thing you'd do with a thousand years?",
-    "s": 3.356,
-    "e": 6.231
+    "s": 3.088,
+    "e": 5.848
    },
    {
     "t": "And subscribe.",
-    "s": 6.611,
-    "e": 7.669
+    "s": 6.128,
+    "e": 7.128
    },
    {
     "t": "Next time, we're asking what happens if you never slept again.",
-    "s": 8.049,
-    "e": 11.989
+    "s": 7.408,
+    "e": 11.113
    }
   ]
  }

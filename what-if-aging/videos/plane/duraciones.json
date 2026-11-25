@@ -1,1271 +1,1491 @@
 {
  "p01": {
-  "dur": 13.181,
+  "dur": 11.348,
   "sents": [
    {
     "t": "You're thirty-five thousand feet above the ground.",
     "s": 0.0,
-    "e": 2.808
+    "e": 2.595
    },
    {
     "t": "Seat twenty-three B.",
-    "s": 3.188,
-    "e": 4.673
+    "s": 2.835,
+    "e": 4.187
    },
    {
     "t": "Drinks are coming down the aisle.",
-    "s": 5.053,
-    "e": 6.969
+    "s": 4.427,
+    "e": 6.17
    },
    {
     "t": "And then, the sound you never notice...",
-    "s": 7.349,
-    "e": 9.45
+    "s": 6.41,
+    "e": 8.332
    },
    {
     "t": "stops.",
-    "s": 9.83,
-    "e": 10.64
+    "s": 8.572,
+    "e": 9.259
    },
    {
     "t": "Both engines.",
-    "s": 11.02,
-    "e": 12.16
+    "s": 9.499,
+    "e": 10.538
    },
    {
     "t": "Gone.",
-    "s": 12.54,
-    "e": 13.181
+    "s": 10.778,
+    "e": 11.348
    }
   ]
  },
  "p02": {
-  "dur": 12.311,
+  "dur": 10.884,
   "sents": [
    {
     "t": "No roar.",
     "s": 0.0,
-    "e": 0.873
+    "e": 0.79
    },
    {
     "t": "No hum.",
-    "s": 1.253,
-    "e": 2.087
+    "s": 1.03,
+    "e": 1.765
    },
    {
     "t": "Just the hiss of air sliding past the windows.",
-    "s": 2.467,
-    "e": 5.285
+    "s": 2.005,
+    "e": 4.56
    },
    {
     "t": "And a cabin full of people, slowly realizing the same thing you are.",
-    "s": 5.665,
-    "e": 10.046
+    "s": 4.8,
+    "e": 8.854
    },
    {
     "t": "So what actually happens next?",
-    "s": 10.426,
-    "e": 12.311
+    "s": 9.094,
+    "e": 10.884
    }
   ]
  },
  "p03": {
-  "dur": 12.525,
+  "dur": 11.125,
   "sents": [
    {
     "t": "Most people imagine the plane dropping like a stone.",
     "s": 0.0,
-    "e": 3.224
+    "e": 2.956
    },
    {
     "t": "That's the movie version.",
-    "s": 3.604,
-    "e": 4.976
+    "s": 3.196,
+    "e": 4.449
    },
    {
     "t": "The real version is stranger, quieter, and in many ways, a lot more hopeful.",
-    "s": 5.356,
-    "e": 10.414
+    "s": 4.689,
+    "e": 9.251
    },
    {
     "t": "Let's go second by second.",
-    "s": 10.794,
-    "e": 12.525
+    "s": 9.491,
+    "e": 11.125
    }
   ]
  },
  "p04": {
-  "dur": 16.503,
+  "dur": 14.01,
   "sents": [
    {
     "t": "Zero seconds.",
     "s": 0.0,
-    "e": 1.124
+    "e": 1.028
    },
    {
     "t": "The engines flame out.",
-    "s": 1.504,
-    "e": 2.954
+    "s": 1.268,
+    "e": 2.532
    },
    {
     "t": "On the flight deck, the first thing pilots learn is a simple rule.",
-    "s": 3.334,
-    "e": 7.452
+    "s": 2.772,
+    "e": 6.479
    },
    {
     "t": "Aviate.",
-    "s": 7.832,
-    "e": 8.669
+    "s": 6.719,
+    "e": 7.421
    },
    {
     "t": "Navigate.",
-    "s": 9.049,
-    "e": 9.95
+    "s": 7.661,
+    "e": 8.442
    },
    {
     "t": "Communicate.",
-    "s": 10.33,
-    "e": 11.327
+    "s": 8.682,
+    "e": 9.56
    },
    {
     "t": "In that order.",
-    "s": 11.707,
-    "e": 12.714
+    "s": 9.8,
+    "e": 10.667
    },
    {
     "t": "Fly the plane first.",
-    "s": 13.094,
-    "e": 14.459
+    "s": 10.907,
+    "e": 12.195
    },
    {
     "t": "Everything else comes after.",
-    "s": 14.839,
-    "e": 16.503
+    "s": 12.435,
+    "e": 14.01
    }
   ]
  },
  "p05": {
-  "dur": 15.056,
+  "dur": 13.257,
   "sents": [
    {
     "t": "Five seconds.",
     "s": 0.0,
-    "e": 1.055
+    "e": 0.954
    },
    {
     "t": "The nose tilts gently down.",
-    "s": 1.435,
-    "e": 3.244
+    "s": 1.194,
+    "e": 2.865
    },
    {
     "t": "Not because the plane is falling, but because the pilots are trading height for speed.",
-    "s": 3.624,
-    "e": 8.855
+    "s": 3.105,
+    "e": 7.891
    },
    {
     "t": "Without engines, altitude becomes your fuel.",
-    "s": 9.235,
-    "e": 12.428
+    "s": 8.131,
+    "e": 10.942
    },
    {
     "t": "Every foot you lose buys you distance.",
-    "s": 12.808,
-    "e": 15.056
+    "s": 11.182,
+    "e": 13.257
    }
   ]
  },
  "p06": {
-  "dur": 13.661,
+  "dur": 11.967,
   "sents": [
    {
     "t": "Here's the secret most passengers never learn.",
     "s": 0.0,
-    "e": 2.901
+    "e": 2.536
    },
    {
     "t": "An airliner is, at its heart, a giant glider.",
-    "s": 3.281,
-    "e": 6.402
+    "s": 2.776,
+    "e": 5.604
    },
    {
     "t": "Those wings don't stop working when the engines do.",
-    "s": 6.782,
-    "e": 9.776
+    "s": 5.844,
+    "e": 8.507
    },
    {
     "t": "As long as air keeps flowing over them, they keep lifting.",
-    "s": 10.156,
-    "e": 13.661
+    "s": 8.747,
+    "e": 11.967
    }
   ]
  },
  "p06b": {
-  "dur": 12.274,
+  "dur": 11.135,
   "sents": [
    {
     "t": "Think of a paper airplane.",
     "s": 0.0,
-    "e": 1.595
+    "e": 1.498
    },
    {
     "t": "It has no engine at all, and it still flies across the room.",
-    "s": 1.975,
-    "e": 5.939
+    "s": 1.738,
+    "e": 5.38
    },
    {
     "t": "A jet works the same way, just heavier, faster, and with two highly trained people steering it.",
-    "s": 6.319,
-    "e": 12.274
+    "s": 5.62,
+    "e": 11.135
    }
   ]
  },
  "p07": {
-  "dur": 14.57,
+  "dur": 13.136,
   "sents": [
    {
     "t": "And from cruising altitude, a big jet can glide a surprisingly long way.",
     "s": 0.0,
-    "e": 5.139
+    "e": 4.776
    },
    {
     "t": "Often well over a hundred kilometers, depending on the aircraft, the weight, and the wind.",
-    "s": 5.519,
-    "e": 11.099
+    "s": 5.016,
+    "e": 10.251
    },
    {
     "t": "That's not a fall.",
-    "s": 11.479,
-    "e": 12.727
+    "s": 10.491,
+    "e": 11.588
    },
    {
     "t": "That's a runway search.",
-    "s": 13.107,
-    "e": 14.57
+    "s": 11.828,
+    "e": 13.136
+   }
+  ]
+ },
+ "p07b": {
+  "dur": 13.573,
+  "sents": [
+   {
+    "t": "Engineers call this the glide ratio.",
+    "s": 0.0,
+    "e": 2.273
+   },
+   {
+    "t": "For many big airliners, it's somewhere around fifteen to one.",
+    "s": 2.513,
+    "e": 6.012
+   },
+   {
+    "t": "Drop one kilometer, and you can travel roughly fifteen kilometers forward.",
+    "s": 6.252,
+    "e": 10.677
+   },
+   {
+    "t": "From ten kilometers up, that's a lot of map.",
+    "s": 10.917,
+    "e": 13.573
    }
   ]
  },
  "p08": {
-  "dur": 14.327,
+  "dur": 12.694,
   "sents": [
    {
     "t": "Ten seconds.",
     "s": 0.0,
-    "e": 0.986
+    "e": 0.9
    },
    {
     "t": "The lights flicker.",
-    "s": 1.366,
-    "e": 2.5
+    "s": 1.14,
+    "e": 2.204
    },
    {
     "t": "Some screens go dark.",
-    "s": 2.88,
-    "e": 4.432
+    "s": 2.444,
+    "e": 3.873
    },
    {
     "t": "But the plane isn't dead.",
-    "s": 4.812,
-    "e": 6.262
+    "s": 4.113,
+    "e": 5.469
    },
    {
     "t": "A small backup turbine can drop out of the belly, spinning in the wind like a pinwheel, to make emergency power.",
-    "s": 6.642,
-    "e": 14.327
+    "s": 5.709,
+    "e": 12.694
    }
   ]
  },
  "p09": {
-  "dur": 13.16,
+  "dur": 11.896,
   "sents": [
    {
     "t": "Many jets also carry a tiny extra engine in the tail, called an A P U.",
     "s": 0.0,
-    "e": 5.323
+    "e": 4.874
    },
    {
     "t": "If the crew can start it, they get electricity and air pressure back.",
-    "s": 5.703,
-    "e": 9.8
+    "s": 5.114,
+    "e": 9.034
    },
    {
     "t": "Quietly, the airplane is fighting to stay alive.",
-    "s": 10.18,
-    "e": 13.16
+    "s": 9.274,
+    "e": 11.896
    }
   ]
  },
  "p10": {
-  "dur": 15.088,
+  "dur": 13.163,
   "sents": [
    {
     "t": "Thirty seconds.",
     "s": 0.0,
-    "e": 1.122
+    "e": 0.953
    },
    {
     "t": "The checklists come out.",
-    "s": 1.502,
-    "e": 2.92
+    "s": 1.193,
+    "e": 2.462
    },
    {
     "t": "And these aren't guesses.",
-    "s": 3.3,
-    "e": 4.791
+    "s": 2.702,
+    "e": 4.081
    },
    {
     "t": "Pilots train for this exact moment, again and again, in simulators.",
-    "s": 5.171,
-    "e": 10.04
+    "s": 4.321,
+    "e": 8.895
    },
    {
     "t": "Restart the engines.",
-    "s": 10.42,
-    "e": 11.802
+    "s": 9.135,
+    "e": 10.39
    },
    {
     "t": "Check the fuel.",
-    "s": 12.182,
-    "e": 13.232
+    "s": 10.63,
+    "e": 11.622
    },
    {
     "t": "Find somewhere to land.",
-    "s": 13.612,
-    "e": 15.088
+    "s": 11.862,
+    "e": 13.163
+   }
+  ]
+ },
+ "p10b": {
+  "dur": 11.742,
+  "sents": [
+   {
+    "t": "Down on the ground, an air traffic controller sees an emergency code light up on the radar.",
+    "s": 0.0,
+    "e": 5.534
+   },
+   {
+    "t": "Other planes are moved out of the way, and every runway within reach suddenly becomes an option.",
+    "s": 5.774,
+    "e": 11.742
+   }
+  ]
+ },
+ "p10c": {
+  "dur": 13.259,
+  "sents": [
+   {
+    "t": "Pilots rehearse this in full-motion simulators.",
+    "s": 0.0,
+    "e": 2.971
+   },
+   {
+    "t": "Room-sized boxes on hydraulic legs that tilt, shake, and roar.",
+    "s": 3.211,
+    "e": 7.37
+   },
+   {
+    "t": "In there, engines fail on purpose, over and over, until the response becomes automatic.",
+    "s": 7.609,
+    "e": 13.259
    }
   ]
  },
  "p11": {
-  "dur": 12.41,
+  "dur": 11.041,
   "sents": [
    {
     "t": "Meanwhile, back in seat twenty-three B, your heart is pounding.",
     "s": 0.0,
-    "e": 4.009
+    "e": 3.654
    },
    {
     "t": "You look around.",
-    "s": 4.389,
-    "e": 5.489
+    "s": 3.894,
+    "e": 4.876
    },
    {
     "t": "Nobody is screaming yet.",
-    "s": 5.869,
-    "e": 7.379
+    "s": 5.116,
+    "e": 6.5
    },
    {
     "t": "Most people freeze, waiting for someone, anyone, to tell them what to do.",
-    "s": 7.759,
-    "e": 12.41
+    "s": 6.74,
+    "e": 11.041
    }
   ]
  },
  "p12": {
-  "dur": 12.898,
+  "dur": 11.219,
   "sents": [
    {
     "t": "One minute.",
     "s": 0.0,
-    "e": 0.881
+    "e": 0.797
    },
    {
     "t": "A calm voice comes over the speakers.",
-    "s": 1.261,
-    "e": 3.472
+    "s": 1.037,
+    "e": 3.028
    },
    {
     "t": "Please remain seated, and keep your seatbelt fastened.",
-    "s": 3.852,
-    "e": 7.311
+    "s": 3.268,
+    "e": 6.436
    },
    {
     "t": "It sounds ordinary.",
-    "s": 7.691,
-    "e": 9.046
+    "s": 6.676,
+    "e": 7.98
    },
    {
     "t": "It's not.",
-    "s": 9.426,
-    "e": 10.229
+    "s": 8.22,
+    "e": 8.939
    },
    {
     "t": "That calm is trained, and it's deliberate.",
-    "s": 10.609,
-    "e": 12.898
+    "s": 9.179,
+    "e": 11.219
+   }
+  ]
+ },
+ "p12b": {
+  "dur": 12.137,
+  "sents": [
+   {
+    "t": "In the galley, the flight attendants are already moving.",
+    "s": 0.0,
+    "e": 2.873
+   },
+   {
+    "t": "Carts get locked away.",
+    "s": 3.113,
+    "e": 4.47
+   },
+   {
+    "t": "Loose items get stowed.",
+    "s": 4.71,
+    "e": 6.173
+   },
+   {
+    "t": "Each of them knows exactly which door is theirs, and exactly what to shout if it's time to use it.",
+    "s": 6.413,
+    "e": 12.137
    }
   ]
  },
  "p13": {
-  "dur": 12.122,
+  "dur": 10.653,
   "sents": [
    {
     "t": "Now, you might expect the oxygen masks to drop.",
     "s": 0.0,
-    "e": 3.215
+    "e": 2.933
    },
    {
     "t": "But here's a twist.",
-    "s": 3.595,
-    "e": 4.869
+    "s": 3.173,
+    "e": 4.269
    },
    {
     "t": "They usually won't.",
-    "s": 5.249,
-    "e": 6.554
+    "s": 4.509,
+    "e": 5.719
    },
    {
     "t": "Those masks are for when the cabin loses pressure, not when the engines lose power.",
-    "s": 6.934,
-    "e": 12.122
+    "s": 5.959,
+    "e": 10.653
    }
   ]
  },
  "p14": {
-  "dur": 13.721,
+  "dur": 12.113,
   "sents": [
    {
     "t": "And if they do drop, the rule matters.",
     "s": 0.0,
-    "e": 2.331
+    "e": 2.117
    },
    {
     "t": "Put yours on first.",
-    "s": 2.711,
-    "e": 4.148
+    "s": 2.357,
+    "e": 3.73
    },
    {
     "t": "At cruising altitude, without oxygen, you may have only seconds of clear thinking before you can't help anyone.",
-    "s": 4.528,
-    "e": 11.917
+    "s": 3.97,
+    "e": 10.681
    },
    {
     "t": "Not even yourself.",
-    "s": 12.297,
-    "e": 13.721
+    "s": 10.921,
+    "e": 12.113
    }
   ]
  },
  "p15": {
-  "dur": 13.076,
+  "dur": 11.868,
   "sents": [
    {
     "t": "Those masks are fed by small chemical generators.",
     "s": 0.0,
-    "e": 3.232
+    "e": 3.04
    },
    {
     "t": "Each one usually lasts around twelve to fifteen minutes.",
-    "s": 3.612,
-    "e": 7.097
+    "s": 3.28,
+    "e": 6.464
    },
    {
     "t": "That sounds short, but it's enough, because the pilots will dive to thicker, breathable air.",
-    "s": 7.477,
-    "e": 13.076
+    "s": 6.704,
+    "e": 11.868
    }
   ]
  },
  "p15b": {
-  "dur": 16.572,
+  "dur": 14.338,
   "sents": [
    {
     "t": "And remember, this situation is rare.",
     "s": 0.0,
-    "e": 2.422
+    "e": 2.171
    },
    {
     "t": "Modern jet engines are astonishingly reliable.",
-    "s": 2.802,
-    "e": 6.179
+    "s": 2.412,
+    "e": 5.511
    },
    {
     "t": "Losing all of them at once almost always takes something from outside.",
-    "s": 6.559,
-    "e": 11.438
+    "s": 5.751,
+    "e": 10.066
    },
    {
     "t": "Running out of fuel.",
-    "s": 11.818,
-    "e": 13.05
+    "s": 10.306,
+    "e": 11.376
    },
    {
     "t": "A flock of birds.",
-    "s": 13.43,
-    "e": 14.8
+    "s": 11.616,
+    "e": 12.814
    },
    {
     "t": "Or volcanic ash.",
-    "s": 15.18,
-    "e": 16.572
+    "s": 13.054,
+    "e": 14.338
    }
   ]
  },
  "p16": {
-  "dur": 12.041,
+  "dur": 10.621,
   "sents": [
    {
     "t": "Three minutes.",
     "s": 0.0,
-    "e": 0.95
+    "e": 0.859
    },
    {
     "t": "The cabin tilts as the plane turns.",
-    "s": 1.33,
-    "e": 3.499
+    "s": 1.099,
+    "e": 3.162
    },
    {
     "t": "Out the window, the ground is closer now.",
-    "s": 3.879,
-    "e": 6.265
+    "s": 3.402,
+    "e": 5.622
    },
    {
     "t": "And this is where a story from nineteen eighty-three becomes very, very important.",
-    "s": 6.645,
-    "e": 12.041
+    "s": 5.862,
+    "e": 10.621
    }
   ]
  },
  "p17": {
-  "dur": 16.658,
+  "dur": 15.052,
   "sents": [
    {
     "t": "July nineteen eighty-three.",
     "s": 0.0,
-    "e": 1.751
+    "e": 1.658
    },
    {
     "t": "Air Canada Flight 143, a brand new Boeing seven sixty-seven, is cruising at forty-one thousand feet over Canada.",
-    "s": 2.131,
-    "e": 11.385
+    "s": 1.898,
+    "e": 10.421
    },
    {
     "t": "Then the warning alarms start.",
-    "s": 11.765,
-    "e": 13.531
+    "s": 10.661,
+    "e": 12.353
    },
    {
     "t": "One engine stops.",
-    "s": 13.911,
-    "e": 15.291
+    "s": 12.593,
+    "e": 13.902
    },
    {
     "t": "Then the other.",
-    "s": 15.671,
-    "e": 16.658
+    "s": 14.142,
+    "e": 15.052
    }
   ]
  },
  "p18": {
-  "dur": 12.265,
+  "dur": 10.878,
   "sents": [
    {
     "t": "The plane hadn't been hit by anything.",
     "s": 0.0,
-    "e": 2.067
+    "e": 1.887
    },
    {
     "t": "It had simply run out of fuel.",
-    "s": 2.447,
-    "e": 4.283
+    "s": 2.127,
+    "e": 3.734
    },
    {
     "t": "A mix-up between metric and imperial units meant the jet took off with less than half the fuel it actually needed.",
-    "s": 4.663,
-    "e": 12.265
+    "s": 3.974,
+    "e": 10.878
    }
   ]
  },
  "p19": {
-  "dur": 11.463,
+  "dur": 10.208,
   "sents": [
    {
     "t": "Now, a seven sixty-seven with no engines and no power for most of its instruments.",
     "s": 0.0,
-    "e": 5.815
+    "e": 5.232
    },
    {
     "t": "But Captain Robert Pearson had a strange hobby.",
-    "s": 6.195,
-    "e": 8.998
+    "s": 5.472,
+    "e": 8.041
    },
    {
     "t": "He was an experienced glider pilot.",
-    "s": 9.378,
-    "e": 11.463
+    "s": 8.281,
+    "e": 10.208
    }
   ]
  },
  "p20": {
-  "dur": 12.834,
+  "dur": 11.474,
   "sents": [
    {
     "t": "His first officer remembered an old air force base nearby, at a town called Gimli.",
     "s": 0.0,
-    "e": 5.584
+    "e": 5.181
    },
    {
     "t": "What he didn't know?",
-    "s": 5.964,
-    "e": 7.076
+    "s": 5.421,
+    "e": 6.396
    },
    {
     "t": "Part of it had become a racetrack.",
-    "s": 7.456,
-    "e": 9.447
+    "s": 6.636,
+    "e": 8.497
    },
    {
     "t": "And that day, people were there, racing go-karts.",
-    "s": 9.827,
-    "e": 12.834
+    "s": 8.737,
+    "e": 11.474
    }
   ]
  },
  "p21": {
-  "dur": 12.484,
+  "dur": 11.159,
   "sents": [
    {
     "t": "Coming in too high and too fast, Pearson did something you'd normally see in a tiny sport plane.",
     "s": 0.0,
-    "e": 6.203
+    "e": 5.616
    },
    {
     "t": "He turned the jet sideways in the air, a slip, to bleed off height without gaining speed.",
-    "s": 6.583,
-    "e": 12.484
+    "s": 5.856,
+    "e": 11.159
    }
   ]
  },
  "p22": {
-  "dur": 13.433,
+  "dur": 12.14,
   "sents": [
    {
     "t": "The jet hit the runway.",
     "s": 0.0,
-    "e": 1.49
+    "e": 1.393
    },
    {
     "t": "The nose gear collapsed, and the plane scraped to a stop, well short of the people on the track.",
-    "s": 1.87,
-    "e": 7.604
+    "s": 1.633,
+    "e": 7.088
    },
    {
     "t": "A small fire in the nose was put out by racers with hand extinguishers.",
-    "s": 7.984,
-    "e": 13.433
+    "s": 7.328,
+    "e": 12.14
    }
   ]
  },
  "p23": {
-  "dur": 14.431,
+  "dur": 12.696,
   "sents": [
    {
     "t": "No one died.",
     "s": 0.0,
-    "e": 1.113
+    "e": 1.026
    },
    {
     "t": "Today, the plane is remembered as the Gimli Glider.",
-    "s": 1.493,
-    "e": 5.071
+    "s": 1.266,
+    "e": 4.455
    },
    {
     "t": "And it proved something important.",
-    "s": 5.451,
-    "e": 7.352
+    "s": 4.695,
+    "e": 6.401
    },
    {
     "t": "A big jet with zero engines is not doomed.",
-    "s": 7.732,
-    "e": 10.663
+    "s": 6.641,
+    "e": 9.328
    },
    {
     "t": "It's a very heavy glider with a very determined crew.",
-    "s": 11.043,
-    "e": 14.431
+    "s": 9.568,
+    "e": 12.696
    }
   ]
  },
  "p23b": {
-  "dur": 13.357,
+  "dur": 11.843,
   "sents": [
    {
     "t": "After the investigation, the airline and the authorities looked hard at how the fuel had been calculated.",
     "s": 0.0,
-    "e": 6.869
+    "e": 6.152
    },
    {
     "t": "The mistake wasn't one person's.",
-    "s": 7.249,
-    "e": 9.266
+    "s": 6.392,
+    "e": 8.25
    },
    {
     "t": "It was a chain of small errors that nobody caught in time.",
-    "s": 9.646,
-    "e": 13.357
+    "s": 8.49,
+    "e": 11.843
+   }
+  ]
+ },
+ "p23c": {
+  "dur": 12.253,
+  "sents": [
+   {
+    "t": "And the Gimli Glider itself?",
+    "s": 0.0,
+    "e": 1.761
+   },
+   {
+    "t": "It went back into service and kept carrying passengers for about twenty-five more years.",
+    "s": 2.001,
+    "e": 7.14
+   },
+   {
+    "t": "It was finally retired in two thousand eight, and parked in the California desert.",
+    "s": 7.38,
+    "e": 12.253
    }
   ]
  },
  "p24": {
-  "dur": 9.756,
+  "dur": 8.502,
   "sents": [
    {
     "t": "But what if you're not over flat Canadian farmland?",
     "s": 0.0,
-    "e": 3.108
+    "e": 2.865
    },
    {
     "t": "What if you're over the ocean, at night?",
-    "s": 3.488,
-    "e": 5.477
+    "s": 3.105,
+    "e": 4.902
    },
    {
     "t": "That happened too.",
-    "s": 5.857,
-    "e": 7.055
+    "s": 5.142,
+    "e": 6.217
    },
    {
     "t": "One year earlier, to a jumbo jet.",
-    "s": 7.435,
-    "e": 9.756
+    "s": 6.457,
+    "e": 8.502
    }
   ]
  },
  "p25": {
-  "dur": 15.532,
+  "dur": 13.737,
   "sents": [
    {
     "t": "June nineteen eighty-two.",
     "s": 0.0,
-    "e": 1.721
+    "e": 1.565
    },
    {
     "t": "British Airways Flight 9, a Boeing seven forty-seven, is crossing Indonesia at night.",
-    "s": 2.101,
-    "e": 8.23
+    "s": 1.805,
+    "e": 7.427
    },
    {
     "t": "Passengers notice a strange smoke in the cabin.",
-    "s": 8.61,
-    "e": 11.722
+    "s": 7.667,
+    "e": 10.44
    },
    {
     "t": "Outside, the engines are glowing with an eerie blue light.",
-    "s": 12.102,
-    "e": 15.532
+    "s": 10.68,
+    "e": 13.737
    }
   ]
  },
  "p26": {
-  "dur": 11.979,
+  "dur": 10.574,
   "sents": [
    {
     "t": "Then, one by one, all four engines shut down.",
     "s": 0.0,
-    "e": 3.249
+    "e": 2.831
    },
    {
     "t": "The plane had flown straight into an invisible cloud of volcanic ash from Mount Galunggung.",
-    "s": 3.629,
-    "e": 9.581
+    "s": 3.071,
+    "e": 8.49
    },
    {
     "t": "Nobody on board knew it was there.",
-    "s": 9.961,
-    "e": 11.979
+    "s": 8.73,
+    "e": 10.574
    }
   ]
  },
  "p27": {
-  "dur": 13.534,
+  "dur": 12.378,
   "sents": [
    {
     "t": "The captain made one of the calmest announcements in aviation history.",
     "s": 0.0,
-    "e": 4.159
+    "e": 3.847
    },
    {
     "t": "He told passengers that all four engines had stopped, that the crew was doing their best, and that he trusted they weren't in too much distress.",
-    "s": 4.539,
-    "e": 13.534
+    "s": 4.087,
+    "e": 12.378
    }
   ]
  },
  "p28": {
-  "dur": 10.997,
+  "dur": 9.719,
   "sents": [
    {
     "t": "The jumbo jet glided for many minutes, sinking through the dark.",
     "s": 0.0,
-    "e": 4.112
+    "e": 3.806
    },
    {
     "t": "The crew tried to restart the engines, again and again.",
-    "s": 4.492,
-    "e": 8.006
+    "s": 4.046,
+    "e": 7.264
    },
    {
     "t": "Nothing.",
-    "s": 8.386,
-    "e": 9.143
+    "s": 7.504,
+    "e": 8.157
    },
    {
     "t": "Below them, mountains.",
-    "s": 9.523,
-    "e": 10.997
+    "s": 8.397,
+    "e": 9.719
    }
   ]
  },
  "p29": {
-  "dur": 14.564,
+  "dur": 12.777,
   "sents": [
    {
     "t": "And then, as the plane dropped out of the ash cloud into clean air, the melted ash inside the engines cooled, hardened, and broke away.",
     "s": 0.0,
-    "e": 9.27
+    "e": 8.327
    },
    {
     "t": "One engine coughed back to life.",
-    "s": 9.65,
-    "e": 11.675
+    "s": 8.567,
+    "e": 10.513
    },
    {
     "t": "Then another.",
-    "s": 12.055,
-    "e": 13.022
+    "s": 10.753,
+    "e": 11.532
    },
    {
     "t": "Then all four.",
-    "s": 13.402,
-    "e": 14.564
+    "s": 11.772,
+    "e": 12.777
+   }
+  ]
+ },
+ "p29b": {
+  "dur": 12.307,
+  "sents": [
+   {
+    "t": "Incidents like this one helped lead to a worldwide network of volcanic ash advisory centers.",
+    "s": 0.0,
+    "e": 6.066
+   },
+   {
+    "t": "Today, scientists track ash clouds and warn pilots, so they can fly around them instead of through them.",
+    "s": 6.306,
+    "e": 12.307
    }
   ]
  },
  "p30": {
-  "dur": 12.423,
+  "dur": 11.344,
   "sents": [
    {
     "t": "They had glided down from thirty-seven thousand feet to roughly twelve or thirteen thousand before the engines came back.",
     "s": 0.0,
-    "e": 7.942
+    "e": 7.359
    },
    {
     "t": "The plane landed safely in Jakarta.",
-    "s": 8.322,
-    "e": 10.697
+    "s": 7.599,
+    "e": 9.797
    },
    {
     "t": "Everyone survived.",
-    "s": 11.076,
-    "e": 12.423
+    "s": 10.037,
+    "e": 11.344
    }
   ]
  },
  "p31": {
-  "dur": 15.575,
+  "dur": 13.551,
   "sents": [
    {
     "t": "And then, there's the most famous one.",
     "s": 0.0,
-    "e": 2.079
+    "e": 1.936
    },
    {
     "t": "January two thousand nine.",
-    "s": 2.459,
-    "e": 4.215
+    "s": 2.176,
+    "e": 3.728
    },
    {
     "t": "US Airways Flight 1549 takes off from New York.",
-    "s": 4.595,
-    "e": 10.374
+    "s": 3.968,
+    "e": 9.032
    },
    {
     "t": "Barely a couple of minutes later, it flies into a flock of Canada geese.",
-    "s": 10.754,
-    "e": 15.575
+    "s": 9.272,
+    "e": 13.551
    }
   ]
  },
  "p32": {
-  "dur": 14.76,
+  "dur": 13.105,
   "sents": [
    {
     "t": "Both engines lose almost all their power.",
     "s": 0.0,
-    "e": 2.751
+    "e": 2.561
    },
    {
     "t": "The jet is only around three thousand feet up, over one of the most crowded cities on Earth.",
-    "s": 3.131,
-    "e": 9.203
+    "s": 2.801,
+    "e": 8.219
    },
    {
     "t": "There's no time to glide for a hundred kilometers.",
-    "s": 9.583,
-    "e": 12.846
+    "s": 8.459,
+    "e": 11.424
    },
    {
     "t": "There are only a few minutes.",
-    "s": 13.226,
-    "e": 14.76
+    "s": 11.664,
+    "e": 13.105
    }
   ]
  },
  "p33": {
-  "dur": 14.625,
+  "dur": 12.884,
   "sents": [
    {
     "t": "Captain Chesley Sullenberger and first officer Jeffrey Skiles ran their checklist and looked for options.",
     "s": 0.0,
-    "e": 7.037
+    "e": 6.177
    },
    {
     "t": "The airports were too far.",
-    "s": 7.417,
-    "e": 9.039
+    "s": 6.417,
+    "e": 7.974
    },
    {
     "t": "So he chose the only long, flat, open space left.",
-    "s": 9.419,
-    "e": 13.009
+    "s": 8.214,
+    "e": 11.485
    },
    {
     "t": "The Hudson River.",
-    "s": 13.389,
-    "e": 14.625
+    "s": 11.725,
+    "e": 12.884
+   }
+  ]
+ },
+ "p33b": {
+  "dur": 7.642,
+  "sents": [
+   {
+    "t": "His radio call to the controller was short.",
+    "s": 0.0,
+    "e": 2.464
+   },
+   {
+    "t": "We're gonna be in the Hudson.",
+    "s": 2.704,
+    "e": 4.112
+   },
+   {
+    "t": "Then, to the cabin, three words.",
+    "s": 4.352,
+    "e": 6.175
+   },
+   {
+    "t": "Brace for impact.",
+    "s": 6.415,
+    "e": 7.642
    }
   ]
  },
  "p34": {
-  "dur": 12.6,
+  "dur": 11.437,
   "sents": [
    {
     "t": "About three and a half minutes after the bird strike, the plane touched down on the water.",
     "s": 0.0,
-    "e": 5.234
+    "e": 4.786
    },
    {
     "t": "Passengers stood on the wings as ferries raced in.",
-    "s": 5.614,
-    "e": 8.453
+    "s": 5.026,
+    "e": 7.693
    },
    {
     "t": "All one hundred and fifty-five people on board survived.",
-    "s": 8.833,
-    "e": 12.6
+    "s": 7.933,
+    "e": 11.437
+   }
+  ]
+ },
+ "p34b": {
+  "dur": 12.08,
+  "sents": [
+   {
+    "t": "The water was close to freezing.",
+    "s": 0.0,
+    "e": 1.774
+   },
+   {
+    "t": "Ferry crews and rescue boats pulled people from the wings and the life rafts within minutes.",
+    "s": 2.014,
+    "e": 7.41
+   },
+   {
+    "t": "Some passengers were treated for hypothermia, but everyone made it home.",
+    "s": 7.65,
+    "e": 12.08
+   }
+  ]
+ },
+ "p34c": {
+  "dur": 8.245,
+  "sents": [
+   {
+    "t": "That airplane never flew again.",
+    "s": 0.0,
+    "e": 1.731
+   },
+   {
+    "t": "Today it sits in an aviation museum in Charlotte, North Carolina.",
+    "s": 1.971,
+    "e": 6.193
+   },
+   {
+    "t": "The city it was flying to that day.",
+    "s": 6.433,
+    "e": 8.245
    }
   ]
  },
  "p35": {
-  "dur": 12.273,
+  "dur": 10.378,
   "sents": [
    {
     "t": "So, if it ever happens to you, what should you actually do?",
     "s": 0.0,
-    "e": 3.521
+    "e": 3.135
    },
    {
     "t": "First, the boring stuff that saves lives.",
-    "s": 3.901,
-    "e": 6.575
+    "s": 3.375,
+    "e": 5.762
    },
    {
     "t": "Listen to the crew.",
-    "s": 6.955,
-    "e": 8.22
+    "s": 6.002,
+    "e": 7.096
    },
    {
     "t": "They know the plan.",
-    "s": 8.6,
-    "e": 9.828
+    "s": 7.335,
+    "e": 8.42
    },
    {
     "t": "You don't.",
-    "s": 10.208,
-    "e": 10.983
+    "s": 8.66,
+    "e": 9.34
    },
    {
     "t": "Not yet.",
-    "s": 11.363,
-    "e": 12.273
+    "s": 9.58,
+    "e": 10.378
    }
   ]
  },
  "p35b": {
-  "dur": 14.437,
+  "dur": 12.475,
   "sents": [
    {
     "t": "While you listen, the pilots are scanning for a place to land.",
     "s": 0.0,
-    "e": 3.609
+    "e": 3.284
    },
    {
     "t": "A runway first, if they can reach one.",
-    "s": 3.989,
-    "e": 6.439
+    "s": 3.524,
+    "e": 5.766
    },
    {
     "t": "If not, anything long, flat, and clear.",
-    "s": 6.819,
-    "e": 9.21
+    "s": 6.006,
+    "e": 8.273
    },
    {
     "t": "A highway.",
-    "s": 9.59,
-    "e": 10.441
+    "s": 8.513,
+    "e": 9.283
    },
    {
     "t": "A field.",
-    "s": 10.821,
-    "e": 11.701
+    "s": 9.523,
+    "e": 10.26
    },
    {
     "t": "A beach.",
-    "s": 12.081,
-    "e": 12.905
+    "s": 10.5,
+    "e": 11.228
    },
    {
     "t": "Or calm water.",
-    "s": 13.285,
-    "e": 14.437
+    "s": 11.468,
+    "e": 12.475
    }
   ]
  },
  "p36": {
-  "dur": 13.084,
+  "dur": 11.419,
   "sents": [
    {
     "t": "Second, brace.",
     "s": 0.0,
-    "e": 1.121
+    "e": 1.014
    },
    {
     "t": "Feet flat on the floor.",
-    "s": 1.501,
-    "e": 2.964
+    "s": 1.254,
+    "e": 2.624
    },
    {
     "t": "Lean forward.",
-    "s": 3.344,
-    "e": 4.402
+    "s": 2.864,
+    "e": 3.809
    },
    {
     "t": "Head down against the seat in front, or tucked toward your knees.",
-    "s": 4.782,
-    "e": 8.741
+    "s": 4.049,
+    "e": 7.616
    },
    {
     "t": "It looks strange, but it protects you from the worst of the impact.",
-    "s": 9.121,
-    "e": 13.084
+    "s": 7.856,
+    "e": 11.419
    }
   ]
  },
  "p37": {
-  "dur": 10.929,
+  "dur": 9.775,
   "sents": [
    {
     "t": "Third, before you ever take off, count the rows to your nearest exit.",
     "s": 0.0,
-    "e": 4.415
+    "e": 4.049
    },
    {
     "t": "In darkness or smoke, you may not see the signs.",
-    "s": 4.795,
-    "e": 8.211
+    "s": 4.289,
+    "e": 7.363
    },
    {
     "t": "But you can still feel the seats, and count.",
-    "s": 8.591,
-    "e": 10.929
+    "s": 7.603,
+    "e": 9.775
+   }
+  ]
+ },
+ "p37b": {
+  "dur": 8.955,
+  "sents": [
+   {
+    "t": "And read the safety card in the seat pocket.",
+    "s": 0.0,
+    "e": 2.219
+   },
+   {
+    "t": "Every aircraft is a little different.",
+    "s": 2.459,
+    "e": 4.356
+   },
+   {
+    "t": "That card shows exactly where your exits are, and how your door opens.",
+    "s": 4.596,
+    "e": 8.955
    }
   ]
  },
  "p38": {
-  "dur": 11.464,
+  "dur": 10.107,
   "sents": [
    {
     "t": "If you're heading for water, put on your life vest, but don't inflate it inside the cabin.",
     "s": 0.0,
-    "e": 5.425
+    "e": 4.804
    },
    {
     "t": "An inflated vest can trap you as water rises.",
-    "s": 5.805,
-    "e": 9.021
+    "s": 5.044,
+    "e": 7.961
    },
    {
     "t": "Inflate it as you leave the plane.",
-    "s": 9.4,
-    "e": 11.464
+    "s": 8.201,
+    "e": 10.107
    }
   ]
  },
  "p39": {
-  "dur": 11.55,
+  "dur": 9.942,
   "sents": [
    {
     "t": "And when the plane stops, leave everything.",
     "s": 0.0,
-    "e": 2.319
+    "e": 2.083
    },
    {
     "t": "Your bag.",
-    "s": 2.699,
-    "e": 3.507
+    "s": 2.323,
+    "e": 3.04
    },
    {
     "t": "Your laptop.",
-    "s": 3.887,
-    "e": 4.937
+    "s": 3.28,
+    "e": 4.177
    },
    {
     "t": "Your phone.",
-    "s": 5.317,
-    "e": 6.183
+    "s": 4.417,
+    "e": 5.193
    },
    {
     "t": "Every second you spend in the aisle is a second someone behind you can't get out.",
-    "s": 6.563,
-    "e": 11.55
+    "s": 5.433,
+    "e": 9.942
    }
   ]
  },
  "p39b": {
-  "dur": 14.161,
+  "dur": 12.8,
   "sents": [
    {
     "t": "Airliners are designed with this moment in mind.",
     "s": 0.0,
-    "e": 3.159
+    "e": 2.788
    },
    {
     "t": "Before a new model is certified, the manufacturer has to show that a full load of passengers can get out in ninety seconds, using only half of the exits.",
-    "s": 3.539,
-    "e": 14.161
+    "s": 3.028,
+    "e": 12.8
    }
   ]
  },
  "p39c": {
-  "dur": 12.745,
+  "dur": 11.363,
   "sents": [
    {
     "t": "Ninety seconds.",
     "s": 0.0,
-    "e": 1.12
+    "e": 1.0
    },
    {
     "t": "In the dark, maybe with smoke.",
-    "s": 1.5,
-    "e": 3.339
+    "s": 1.24,
+    "e": 2.902
    },
    {
     "t": "That's why counting rows, and leaving your bag behind, matter so much.",
-    "s": 3.719,
-    "e": 8.467
+    "s": 3.142,
+    "e": 7.555
    },
    {
     "t": "They are the small choices that make those ninety seconds work.",
-    "s": 8.847,
-    "e": 12.745
+    "s": 7.795,
+    "e": 11.363
    }
   ]
  },
  "p40": {
-  "dur": 13.563,
+  "dur": 12.275,
   "sents": [
    {
     "t": "Here's what might surprise you most.",
     "s": 0.0,
-    "e": 2.012
+    "e": 1.903
    },
    {
     "t": "An American safety study looked at serious airline accidents between nineteen eighty-three and two thousand.",
-    "s": 2.392,
-    "e": 9.33
+    "s": 2.143,
+    "e": 8.56
    },
    {
     "t": "More than ninety-five percent of the people on board survived.",
-    "s": 9.71,
-    "e": 13.563
+    "s": 8.8,
+    "e": 12.275
    }
   ]
  },
  "p41": {
-  "dur": 14.976,
+  "dur": 13.177,
   "sents": [
    {
     "t": "Not every accident is survivable.",
     "s": 0.0,
-    "e": 2.246
+    "e": 2.048
    },
    {
     "t": "And losing both engines is rare and genuinely dangerous.",
-    "s": 2.626,
-    "e": 6.808
+    "s": 2.288,
+    "e": 6.155
    },
    {
     "t": "But it's not the instant death sentence movies make it look like.",
-    "s": 7.188,
-    "e": 10.752
+    "s": 6.396,
+    "e": 9.685
    },
    {
     "t": "Planes glide.",
-    "s": 11.132,
-    "e": 12.219
+    "s": 9.925,
+    "e": 10.878
    },
    {
     "t": "Crews train.",
-    "s": 12.599,
-    "e": 13.617
+    "s": 11.118,
+    "e": 12.032
    },
    {
     "t": "People live.",
-    "s": 13.997,
-    "e": 14.976
+    "s": 12.272,
+    "e": 13.177
+   }
+  ]
+ },
+ "p41b": {
+  "dur": 10.352,
+  "sents": [
+   {
+    "t": "Flying is still one of the safest ways to travel.",
+    "s": 0.0,
+    "e": 2.826
+   },
+   {
+    "t": "Every accident gets investigated, and the lessons get built into the next airplane, the next checklist, and the next crew.",
+    "s": 3.066,
+    "e": 10.352
    }
   ]
  },
  "p42": {
-  "dur": 13.783,
+  "dur": 12.361,
   "sents": [
    {
     "t": "So the next time you're in seat twenty-three B, and the engines hum beneath you, maybe you'll hear them a little differently.",
     "s": 0.0,
-    "e": 7.544
+    "e": 6.947
    },
    {
     "t": "Not as the thing keeping you alive.",
-    "s": 7.924,
-    "e": 10.129
+    "s": 7.187,
+    "e": 9.169
    },
    {
     "t": "Just as one part of a very well planned system.",
-    "s": 10.509,
-    "e": 13.783
+    "s": 9.409,
+    "e": 12.361
    }
   ]
  },
  "p43": {
-  "dur": 11.574,
+  "dur": 10.257,
   "sents": [
    {
     "t": "Now, tell me in the comments.",
     "s": 0.0,
-    "e": 1.638
+    "e": 1.497
    },
    {
     "t": "Would you stay calm?",
-    "s": 2.018,
-    "e": 3.248
+    "s": 1.737,
+    "e": 2.863
    },
    {
     "t": "Or would you be the first one in the aisle?",
-    "s": 3.627,
-    "e": 5.939
+    "s": 3.103,
+    "e": 5.173
    },
    {
     "t": "And subscribe, because next time, we're asking what happens if you never slept again.",
-    "s": 6.319,
-    "e": 11.574
+    "s": 5.413,
+    "e": 10.257
    }
   ]
  }

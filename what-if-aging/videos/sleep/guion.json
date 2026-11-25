@@ -24,6 +24,10 @@
   "texto": "Your body also runs on an internal clock, roughly twenty-four hours long. As it gets dark, your brain releases a hormone called melatonin, a signal that says, it's night, time to wind down."
  },
  {
+  "id": "s04c",
+  "texto": "And caffeine lingers. For many people, about half of a cup's caffeine is still in their body five or six hours later. That afternoon coffee can still be working at bedtime."
+ },
+ {
   "id": "s05",
   "texto": "Hour seventeen. You keep going. And something sneaky happens. A study in Australia found that after seventeen to nineteen hours awake, people performed some tasks as badly, or worse, than someone at a blood alcohol level of point zero five percent."
  },
@@ -42,6 +46,10 @@
  {
   "id": "s08",
   "texto": "Your reaction time is slower. Your mood is shorter. You read the same sentence three times. Your emotions get louder, because the part of your brain that keeps them in check is the part getting tired first."
+ },
+ {
+  "id": "s08b",
+  "texto": "At work, you nod along in a meeting, but nothing sticks. Attention is one of the first things to fail. Not all at once, but in tiny lapses you don't even notice."
  },
  {
   "id": "s09",
@@ -80,6 +88,10 @@
   "texto": "Your immune system is taking hits as well. In another study, people who usually slept less than six hours were about four times more likely to catch a cold after being exposed to the virus."
  },
  {
+  "id": "s15b",
+  "texto": "Doctors see the long-term version of this. Regularly sleeping too little is linked with higher risks of obesity, diabetes, high blood pressure, and heart disease."
+ },
+ {
   "id": "s16",
   "texto": "And your memory? Sleep is when your brain files away what you learned today. Skip it, and new information starts slipping through the cracks, like writing on a whiteboard that nobody saves."
  },
@@ -90,6 +102,10 @@
  {
   "id": "s17",
   "texto": "Hour seventy-two. Three days. Many people who stay awake this long start to see things that aren't there. Shadows moving at the corner of the eye. Patterns crawling on the walls. Voices that might be real... or might not."
+ },
+ {
+  "id": "s17b",
+  "texto": "Even ordinary places start to feel wrong. The lights hum too loudly. Faces look strange. Colors seem too bright, and the floor feels like it's gently tilting."
  },
  {
   "id": "s18",
@@ -106,6 +122,10 @@
  {
   "id": "s20",
   "texto": "He stayed awake for two hundred and sixty-four hours. Eleven days. Friends kept him moving. Playing basketball. Playing pinball. Anything to keep his eyes open."
+ },
+ {
+  "id": "s20b",
+  "texto": "A Stanford sleep researcher named William Dement heard about the attempt and came to watch. He helped keep Randy safe, and took notes on what the sleepless brain was doing."
  },
  {
   "id": "s21",
@@ -156,12 +176,20 @@
   "texto": "Scientists have even recorded frigate birds sleeping while flying, in short bursts of just seconds. Nature never found a way to skip sleep. Only clever ways to squeeze it in."
  },
  {
+  "id": "s28d",
+  "texto": "Some seals do something similar. In the water, fur seals can sleep with one half of the brain, while the other half stays awake."
+ },
+ {
   "id": "s29",
   "texto": "So, back to you. Day five. You've stopped trusting your own eyes. Day seven. Your microsleeps are now constant. You might be sitting with your eyes open, technically awake, but barely there."
  },
  {
   "id": "s30",
   "texto": "And this is the strangest part. In real life, you almost certainly wouldn't make it this far. Not because you'd die, but because your brain would win. At some point, sleep would simply take you, wherever you are."
+ },
+ {
+  "id": "s30b",
+  "texto": "Severely sleep deprived people can nod off sitting up, standing in line, or in the middle of a sentence. The brain doesn't ask permission."
  },
  {
   "id": "s31",
@@ -172,12 +200,24 @@
   "texto": "Which raises a better question. If sleep is that important, why do so many of us treat it like the first thing to cut? Most adults need around seven or more hours a night. Many of us get less."
  },
  {
+  "id": "s32b",
+  "texto": "New parents know a gentle version of this. In the first months after a baby arrives, nights are broken into pieces, and many parents feel like they're thinking through fog."
+ },
+ {
   "id": "s33",
   "texto": "Every all-nighter, every late scroll on your phone, is a small version of this experiment. Not deadly. But not free, either. Your brain always collects the debt."
  },
  {
+  "id": "s33c",
+  "texto": "Screens play a part too. Bright light late at night can delay melatonin, nudging your internal clock later, so sleep arrives later than it should."
+ },
+ {
   "id": "s33b",
   "texto": "The good news is that the basics are simple. Go to bed and wake up at similar times. Keep your room dark and cool. Get some daylight in the morning. Your clock loves routine."
+ },
+ {
+  "id": "s34c",
+  "texto": "Moving your body helps as well. Regular exercise during the day is linked with falling asleep faster and sleeping more deeply at night."
  },
  {
   "id": "s34",

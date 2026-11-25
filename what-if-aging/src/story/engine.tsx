@@ -2,8 +2,8 @@ import React from "react";
 import { AbsoluteFill, Audio, interpolate, Sequence, staticFile, useCurrentFrame } from "remotion";
 import { ease } from "../kit";
 import { bodyFont, C } from "../kit";
-import { CharDef, Expr, HandMode, Pose, POSES, Stick } from "../stick/Stick";
-import { Burst, CamK, Chapter, GOLD, Grain, Hud, ICE, Layer, Pill, Progress, Punch, RED, SpeedLines, Tag, Vig } from "../stick/Hud";
+import { armSolve, CharDef, Expr, HandMode, natScore, Pose, POSES, Reach, Stick } from "../stick/Stick";
+import { Burst, CamK, Chapter, GOLD, Grain, Hud, ICE, Layer, Pill, Punch, RED, SpeedLines, Tag, Vig } from "../stick/Hud";
 import { Emote, EmoteKind, PClipboard, PCup, PFlowers, PLaser, PMirror, PPhone, PPopper, PRemote, PTablet, PTube, Spot, Bubble } from "../stick/props";
 import { FPS, LEAD, Timing } from "./timing";
 
@@ -91,7 +91,10 @@ export type Spec = {
 };
 
 /* ---------- helpers ---------- */
-const smoothStep = (f: number, a: number, d: number) => interpolate(f, [a, a + d], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+const smoothStep = (f: number, a: number, d: number) => {
+  const t = interpolate(f, [a, a + d], [0, 1], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  return t * t * (3 - 2 * t);
+};
 export const mkA = (tm: Timing, id: string) => (w: W): number => {
   if (typeof w === "number") return w;
   const [word, n] = w.split("#");
@@ -99,8 +102,8 @@ export const mkA = (tm: Timing, id: string) => (w: W): number => {
 };
 const headW = (x: number, y: number, s: number, sit?: boolean): [number, number] => [x, y + (sit ? -419 : -504) * s];
 
-type ActP = { pose: Pose; rR?: { x: number; y: number; w: number }; rL?: { x: number; y: number; w: number }; hR?: HandMode; hL?: HandMode; front?: boolean; lean?: number; dy?: number; trem?: number; lookY?: number };
-const actParams = (a: Act, f: number, sit?: boolean): ActP => {
+type ActP = { pose: Pose; rR?: Reach; rL?: Reach; hR?: HandMode; hL?: HandMode; front?: boolean; lean?: number; dy?: number; trem?: number; lookY?: number };
+const rawAct = (a: Act, f: number, sit?: boolean): ActP => {
   const hy = sit ? 85 : 0; // seated: head is lower
   const wig = (amp: number, sp: number) => Math.sin(f / sp) * amp;
   switch (a) {
@@ -113,23 +116,23 @@ const actParams = (a: Act, f: number, sit?: boolean): ActP => {
     case "pointUpL":
       return { pose: POSES.pointUpL, hL: "point" };
     case "think":
-      return { pose: POSES.idle, rR: { x: 18, y: -440 + hy, w: 1 }, rL: { x: -10, y: -330 + hy, w: 1 }, hR: "fist", front: true, lookY: -0.4 };
+      return { pose: POSES.idle, rR: { x: 22, y: -418 + hy, w: 1, ex: 58, ey: -318 + hy }, rL: { x: 52, y: -312 + hy, w: 1, ex: -46, ey: -300 + hy }, hR: "fist", front: true, lookY: -0.4 };
     case "scratch":
       return { pose: POSES.idle, rR: { x: 85 + wig(6, 2), y: -560 + hy + wig(4, 1.7), w: 1 }, hR: "relaxed" };
     case "wave":
       return { pose: { l: POSES.idle.l, r: [130, 30 + wig(25, 3)] }, hR: "open" };
     case "cross":
-      return { pose: POSES.cross };
+      return { pose: POSES.idle, rR: { x: -34, y: -322 + hy, w: 1, ex: 56, ey: -298 + hy }, rL: { x: 36, y: -338 + hy, w: 1, ex: -56, ey: -306 + hy } };
     case "shrug":
       return { pose: POSES.shrug, hR: "open", hL: "open" };
     case "hips":
-      return { pose: POSES.hips };
+      return { pose: POSES.idle, rR: { x: 52, y: -262 + hy, w: 1 }, rL: { x: -52, y: -262 + hy, w: 1 } };
     case "brace":
       return { pose: POSES.idle, rR: { x: 70, y: -570 + hy, w: 1 }, rL: { x: -70, y: -570 + hy, w: 1 }, lean: 22, dy: 30, front: true, trem: 0.3 };
     case "headHands":
       return { pose: POSES.idle, rR: { x: 80, y: -540 + hy, w: 1 }, rL: { x: -80, y: -540 + hy, w: 1 }, hR: "open", hL: "open", front: true, trem: 0.4 };
     case "nails":
-      return { pose: POSES.idle, rR: { x: 6 + wig(3, 1.4), y: -438 + hy, w: 1 }, rL: { x: -10, y: -330 + hy, w: 1 }, hR: "fist", front: true, trem: 0.4 };
+      return { pose: POSES.idle, rR: { x: 8 + wig(3, 1.4), y: -424 + hy, w: 1, ex: 52, ey: -322 + hy }, rL: { x: 48, y: -314 + hy, w: 1, ex: -46, ey: -300 + hy }, hR: "fist", front: true, trem: 0.4 };
     case "cover":
       return { pose: POSES.idle, rR: { x: 16, y: -455 + hy, w: 1 }, rL: { x: -16, y: -450 + hy, w: 1 }, hR: "open", hL: "open", front: true };
     case "rub":
@@ -141,11 +144,11 @@ const actParams = (a: Act, f: number, sit?: boolean): ActP => {
     case "cheer":
       return { pose: POSES.idle, rR: { x: 120, y: -650 + hy + wig(14, 3), w: 1 }, rL: { x: -120, y: -650 + hy - wig(14, 3), w: 1 }, hR: "fist", hL: "fist" };
     case "phone":
-      return { pose: POSES.idle, rR: { x: 50, y: -420 + hy, w: 1 }, rL: { x: -10, y: -380 + hy, w: 1 }, lookY: 0.6 };
+      return { pose: POSES.idle, rR: { x: 16, y: -338 + hy, w: 1, ex: 64, ey: -296 + hy }, rL: { x: -14, y: -334 + hy, w: 1, ex: -64, ey: -296 + hy }, lookY: 0.6 };
     case "hold":
-      return { pose: POSES.idle, rR: { x: 70, y: -420 + hy, w: 1 } };
+      return { pose: POSES.idle, rR: { x: 86, y: -338 + hy, w: 1, ex: 54, ey: -294 + hy } };
     case "clap":
-      return { pose: { l: [20, -130 + wig(25, 3)], r: [20, -130 + wig(25, 3)] }, hR: "open", hL: "open" };
+      return { pose: POSES.idle, rR: { x: 10 + Math.abs(wig(22, 2.4)), y: -360 + hy, w: 1, ex: 62, ey: -300 + hy }, rL: { x: -10 - Math.abs(wig(22, 2.4)), y: -360 + hy, w: 1, ex: -62, ey: -300 + hy }, hR: "open", hL: "open" };
     case "grip":
       return { pose: POSES.idle, rR: { x: 95, y: -190 + hy * 0.3, w: 1 }, rL: { x: -95, y: -190 + hy * 0.3, w: 1 }, hR: "fist", hL: "fist", trem: 0.5 };
     case "reach":
@@ -156,12 +159,25 @@ const actParams = (a: Act, f: number, sit?: boolean): ActP => {
       return { pose: POSES.idle };
   }
 };
+/** Action parameters with every reach target carrying an explicit elbow (natural one if not authored). */
+export const actParams = (a: Act, f: number, sit?: boolean): ActP => {
+  const p = rawAct(a, f, sit);
+  const shY = -386 + (sit ? 85 : 0);
+  const fill = (r: Reach | undefined, side: number): Reach | undefined => {
+    if (!r || r.ex !== undefined) return r;
+    const k = armSolve(side * 40, shY, r.x, r.y, natScore(side * 40, side));
+    return { ...r, ex: k.ex, ey: k.ey };
+  };
+  return { ...p, rR: fill(p.rR, 1), rL: fill(p.rL, -1) };
+};
 const mix = (a: number, b: number, t: number) => a + (b - a) * t;
 const mixR = (a: ActP["rR"], b: ActP["rR"], t: number) => {
   if (!a && !b) return undefined;
-  const A = a ?? { x: b!.x, y: b!.y, w: 0 };
-  const B = b ?? { x: a!.x, y: a!.y, w: 0 };
-  return { x: mix(A.x, B.x, t), y: mix(A.y, B.y, t), w: mix(A.w, B.w, t) };
+  const A = a ?? { ...b!, w: 0 };
+  const B = b ?? { ...a!, w: 0 };
+  const ex = A.ex !== undefined && B.ex !== undefined ? mix(A.ex, B.ex, t) : undefined;
+  const ey = A.ey !== undefined && B.ey !== undefined ? mix(A.ey, B.ey, t) : undefined;
+  return { x: mix(A.x, B.x, t), y: mix(A.y, B.y, t), w: mix(A.w, B.w, t), ex, ey };
 };
 function timeline<T>(f: number, keys: [number, T][], d = 10): { prev: T; cur: T; t: number; since: number } {
   const ks = [...keys].sort((a, b) => a[0] - b[0]);
@@ -376,7 +392,7 @@ export const StoryScene: React.FC<{ spec: Spec; A: (w: W) => number; dur: number
             const { x, walking } = pos[i];
             const acts = (w.act ?? [[0, "idle"]]).map(([k, v]) => [A(k), v] as [number, Act]);
             if (!acts.some(([k]) => k <= 0)) acts.unshift([0, "idle"]);
-            const tl = timeline(f, acts, 10);
+            const tl = timeline(f, acts, 13);
             const P0 = actParams(tl.prev, f, w.sit);
             const P1 = actParams(tl.cur, f, w.sit);
             const t = tl.t;
@@ -408,7 +424,7 @@ export const StoryScene: React.FC<{ spec: Spec; A: (w: W) => number; dur: number
                   pose={pose}
                   look={w.look ?? (x > 960 ? -0.4 : 0.4)}
                   lookY={(w.lookY ?? 0) + mix(P0.lookY ?? 0, P1.lookY ?? 0, t)}
-                  reachR={mixR(P0.rR, P1.rR, t) ?? (it ? { x: 70, y: -420 + (w.sit ? 85 : 0), w: 1 } : undefined)}
+                  reachR={mixR(P0.rR, P1.rR, t) ?? (it ? { x: 86, y: -338 + (w.sit ? 85 : 0), w: 1, ex: 54, ey: -294 + (w.sit ? 85 : 0) } : undefined)}
                   reachL={mixR(P0.rL, P1.rL, t)}
                   handR={t > 0.5 ? P1.hR : P0.hR}
                   handL={t > 0.5 ? P1.hL : P0.hL}
@@ -506,17 +522,17 @@ export const StoryVideo: React.FC<{ tm: Timing; specs: Record<string, Spec>; voi
       })}
       <Audio src={staticFile("musica.mp3")} loop volume={(fr) => interpolate(fr, [0, 30, tm.TOTAL - 60, tm.TOTAL], [0, 0.13, 0.13, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" })} />
       <Grain />
-      <Progress segs={tm.ORDER.map(tm.sceneFrames)} total={tm.TOTAL} />
     </AbsoluteFill>
   );
 };
 
 const SceneShell: React.FC<{ dur: number; last: boolean; voiceEnd: number; endTitle: string; children: React.ReactNode }> = ({ dur, last, voiceEnd, endTitle, children }) => {
   const f = useCurrentFrame();
-  const op = interpolate(f, [0, 10, dur - 8, dur], [0, 1, 1, last ? 1 : 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  // Hard cut between scenes (no dip to black); the incoming shot settles from a slight push-in.
+  const settle = interpolate(f, [0, 9], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   const endFade = last ? ease(f, voiceEnd + 10, voiceEnd + 40) : 0;
   return (
-    <AbsoluteFill style={{ opacity: op }}>
+    <AbsoluteFill style={{ transform: `scale(${1 + 0.035 * settle * settle})` }}>
       {children}
       {last && (
         <>

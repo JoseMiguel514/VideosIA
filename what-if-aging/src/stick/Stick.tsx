@@ -10,6 +10,8 @@ import React from "react";
 export type Expr = "neutral" | "bored" | "happy" | "sad" | "surprised" | "worried" | "angry" | "confused" | "blow";
 export type Arm = [number, number]; // [shoulder angle, elbow extra angle] in degrees; 0 = hanging down, + = outward
 export type Pose = { l: Arm; r: Arm };
+/** IK hand target; optional ex/ey = preferred elbow (allows foreshortened arms, e.g. hand at chin with elbow down). */
+export type Reach = { x: number; y: number; w: number; ex?: number; ey?: number };
 export type HandMode = "ball" | "relaxed" | "grip" | "open" | "point" | "fist";
 
 export const POSES = {
@@ -69,8 +71,8 @@ export type StickProps = {
   pops?: number[]; // frames that trigger a squash-and-stretch reaction
   still?: boolean; // disable secondary motion (frozen moments)
   /** IK hand targets in the character's local unscaled space (origin between feet, y up negative). w = blend weight 0..1 */
-  reachR?: { x: number; y: number; w: number };
-  reachL?: { x: number; y: number; w: number };
+  reachR?: Reach;
+  reachL?: Reach;
   /** Objects held in the hands (drawn in hand-local coordinates). */
   itemR?: React.ReactNode;
   itemL?: React.ReactNode;
@@ -109,6 +111,62 @@ const limb = (sx: number, sy: number, side: number, a: Arm, L1 = 95, L2 = 90) =>
   const hx = ex + side * L2 * Math.sin(a2);
   const hy = ey + L2 * Math.cos(a2);
   return { ex, ey, hx, hy };
+};
+
+/** Place a two-bone arm from shoulder (sx,sy) to hand target; of the two elbow solutions, keep the one `score` prefers. */
+export const armSolve = (sx: number, sy: number, tx: number, ty: number, score: (c: { ex: number; ey: number }) => number, L1 = 95, L2 = 90) => {
+  const dx = tx - sx;
+  const dyy = ty - sy;
+  const dist = Math.hypot(dx, dyy) || 1;
+  const d = Math.min(L1 + L2 - 1, Math.max(12, dist));
+  const ux = dx / dist;
+  const uy = dyy / dist;
+  const hx = sx + ux * d;
+  const hy = sy + uy * d;
+  const along = (L1 * L1 - L2 * L2 + d * d) / (2 * d);
+  const h = Math.sqrt(Math.max(0, L1 * L1 - along * along));
+  const mx = sx + ux * along;
+  const my = sy + uy * along;
+  const c1 = { ex: mx - uy * h, ey: my + ux * h };
+  const c2 = { ex: mx + uy * h, ey: my - ux * h };
+  const c = score(c1) >= score(c2) ? c1 : c2;
+  return { ex: c.ex, ey: c.ey, hx, hy };
+};
+
+/** Natural elbow preference: below and outside the shoulder. */
+export const natScore = (sx: number, side: number) => (c: { ex: number; ey: number }) => c.ey + 0.45 * side * (c.ex - sx);
+
+/** Arm with a chosen elbow point; segments may be shorter than full length (pointing toward the camera). */
+const prefSolve = (sx: number, sy: number, tx: number, ty: number, pex: number, pey: number, L1 = 95, L2 = 90) => {
+  let ex = pex;
+  let ey = pey;
+  const d1 = Math.hypot(ex - sx, ey - sy);
+  if (d1 > L1) {
+    ex = sx + ((ex - sx) * L1) / d1;
+    ey = sy + ((ey - sy) * L1) / d1;
+  }
+  let hx = tx;
+  let hy = ty;
+  const d2 = Math.hypot(hx - ex, hy - ey);
+  if (d2 > L2 + 6) {
+    hx = ex + ((hx - ex) * (L2 + 6)) / d2;
+    hy = ey + ((hy - ey) * (L2 + 6)) / d2;
+  }
+  return { ex, ey, hx, hy };
+};
+
+/** Arm polyline with a rounded elbow (no hard kink), optionally stopping short of the hand. */
+const armPath = (sx: number, sy: number, ex: number, ey: number, hx: number, hy: number, end = 1) => {
+  const l1 = Math.hypot(ex - sx, ey - sy) || 1;
+  const l2 = Math.hypot(hx - ex, hy - ey) || 1;
+  const r = Math.min(16, l1 * 0.35, l2 * 0.35);
+  const p1x = ex - ((ex - sx) / l1) * r;
+  const p1y = ey - ((ey - sy) / l1) * r;
+  const p2x = ex + ((hx - ex) / l2) * r;
+  const p2y = ey + ((hy - ey) / l2) * r;
+  const tx = ex + (hx - ex) * end;
+  const ty = ey + (hy - ey) * end;
+  return `M ${sx} ${sy} L ${p1x} ${p1y} Q ${ex} ${ey} ${p2x} ${p2y} L ${tx} ${ty}`;
 };
 
 export const RimFilter: React.FC<{ id?: string; color?: string; r?: number }> = ({ id = "rim", color = RIM, r = 5 }) => (
@@ -392,18 +450,44 @@ export const Stick: React.FC<StickProps> = ({
     return { side, fx, fy, kx, ky };
   });
 
-  // arms (walking swing)
+  // arms (walking swing). Hands are positioned first (pose FK blended toward IK targets),
+  // then the elbow is solved so it always bends naturally (down / outward), never backwards.
   const swing = walk !== undefined ? Math.sin(walk) * 18 : 0;
+  const SWa = 40;
   const arms = [
     { side: -1, a: [pose.l[0] + swing + sm * Math.sin(f / 29 + seed) * 3, pose.l[1] + sm * Math.sin(f / 23 + seed) * 4] as Arm },
     { side: 1, a: [pose.r[0] - swing + sm * Math.sin(f / 31 + seed + 1) * 3 + talkBeat * 22, pose.r[1] + sm * Math.sin(f / 21 + seed) * 4 - talkBeat * 30] as Arm },
   ].map(({ side, a }) => {
     const tgt = side > 0 ? reachR : reachL;
-    if (tgt && tgt.w > 0) {
-      const k = ik(side * 40, shY + 14, side, tgt.x, tgt.y - dy);
-      a = [a[0] + (k[0] - a[0]) * tgt.w, a[1] + (k[1] - a[1]) * tgt.w];
-    }
-    return { side, ...limb(side * 40, shY + 14, side, a) };
+    const solveAt = (sx: number, sy: number) => {
+      const fk = limb(sx, sy, side, a);
+      let hx = fk.hx;
+      let hy = fk.hy;
+      let px = fk.ex;
+      let py = fk.ey;
+      if (tgt && tgt.w > 0) {
+        const w = tgt.w * tgt.w * (3 - 2 * tgt.w);
+        const tx = tgt.x;
+        const ty = tgt.y - dy;
+        if (tgt.ex !== undefined && tgt.ey !== undefined) {
+          const pr = prefSolve(sx, sy, tx, ty, tgt.ex, tgt.ey - dy);
+          return { ex: px + (pr.ex - px) * w, ey: py + (pr.ey - py) * w, hx: hx + (pr.hx - hx) * w, hy: hy + (pr.hy - hy) * w };
+        }
+        const nat = armSolve(sx, sy, tx, ty, natScore(sx, side));
+        hx += (nat.hx - hx) * w;
+        hy += (nat.hy - hy) * w;
+        px += (nat.ex - px) * w;
+        py += (nat.ey - py) * w;
+      }
+      return armSolve(sx, sy, hx, hy, (c) => -Math.hypot(c.ex - px, c.ey - py));
+    };
+    // shoulder rises and tucks in slightly as the arm lifts overhead (clavicle), so raised arms stay attached
+    const first = solveAt(side * SWa, shY + 14);
+    const upAng = (Math.atan2(side * (first.ex - side * SWa), first.ey - (shY + 14)) * 180) / Math.PI;
+    const raise = Math.max(0, Math.min(1, (Math.abs(upAng) - 70) / 80));
+    const sx = side * (SWa - 4 * raise);
+    const sy = shY + 14 - 10 * raise;
+    return { side, sx, sy, raise, ...solveAt(sx, sy) };
   });
 
   const sleeveLen = o.kind === "tee" ? 0.42 : 1;
@@ -506,27 +590,41 @@ export const Stick: React.FC<StickProps> = ({
       )}
       <rect x={-5.5} y={headY + 40} width={11} height={shY - headY - 34} {...P(ol, INK)} />
       {arms.map((a) => {
-        const sx = a.side * SW;
-        const sy = shY + 14;
+        const { sx, sy } = a;
         const midx = sx + (a.ex - sx) * sleeveLen;
         const midy = sy + (a.ey - sy) * sleeveLen;
-        const cuffX = a.hx - (a.hx - a.ex) * 0.2;
-        const cuffY = a.hy - (a.hy - a.ey) * 0.2;
-        const cuff2X = a.hx - (a.hx - a.ex) * 0.3;
-        const cuff2Y = a.hy - (a.hy - a.ey) * 0.3;
+        const sleeveCol = o.kind === "coat" ? o.color : o.color;
+        const cuffCol = o.kind === "coat" ? shade(o.color, -0.15) : dark;
+        // elbow bend amount (0 straight .. 1 folded) for the sleeve crease
+        const v1x = a.ex - sx;
+        const v1y = a.ey - sy;
+        const v2x = a.hx - a.ex;
+        const v2y = a.hy - a.ey;
+        const bend = 1 - (v1x * v2x + v1y * v2y) / ((Math.hypot(v1x, v1y) || 1) * (Math.hypot(v2x, v2y) || 1));
         return (
           <g key={a.side}>
-            <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${a.hx} ${a.hy}`} {...P(ol, "none", INK, 10.5)} />
+            <path d={armPath(sx, sy, a.ex, a.ey, a.hx, a.hy)} {...P(ol, "none", INK, 10.5)} />
             {o.kind === "tee" ? (
               <>
-                <path d={`M ${sx} ${sy} L ${midx} ${midy}`} {...P(ol, "none", o.color, 24)} />
+                <path d={`M ${sx} ${sy} L ${midx} ${midy}`} {...P(ol, "none", sleeveCol, 24)} />
+                <circle cx={sx} cy={sy - 2} r={13} {...P(ol, sleeveCol)} />
                 {!ol && <path d={`M ${sx + (midx - sx) * 0.82} ${sy + (midy - sy) * 0.82} L ${midx} ${midy}`} stroke={dark} strokeWidth={24} strokeLinecap="butt" />}
               </>
             ) : (
               <>
-                <path d={`M ${sx} ${sy} L ${a.ex} ${a.ey} L ${cuffX} ${cuffY}`} {...P(ol, "none", o.color, 22)} />
-                {!ol && <path d={`M ${cuff2X} ${cuff2Y} L ${cuffX} ${cuffY}`} stroke={o.kind === "coat" ? shade(o.color, -0.15) : dark} strokeWidth={22} />}
+                <path d={armPath(sx, sy, a.ex, a.ey, a.hx, a.hy, 0.8)} {...P(ol, "none", sleeveCol, 22)} />
+                <circle cx={sx} cy={sy - 2} r={13} {...P(ol, sleeveCol)} />
+                {!ol && <path d={`M ${a.ex + v2x * 0.7} ${a.ey + v2y * 0.7} L ${a.ex + v2x * 0.8} ${a.ey + v2y * 0.8}`} stroke={cuffCol} strokeWidth={22} />}
                 {!ol && <path d={`M ${sx + 4 * a.side} ${sy + 6} L ${a.ex} ${a.ey}`} stroke="#000" strokeWidth={6} opacity={0.1} />}
+                {!ol && bend > 0.35 && (
+                  <path
+                    d={`M ${a.ex - v1x * 0.12} ${a.ey - v1y * 0.12} Q ${a.ex} ${a.ey} ${a.ex + v2x * 0.12} ${a.ey + v2y * 0.12}`}
+                    stroke={cuffCol}
+                    strokeWidth={3}
+                    fill="none"
+                    opacity={Math.min(0.8, (bend - 0.35) * 2)}
+                  />
+                )}
               </>
             )}
             {!handsFront && drawHand(a, ol)}

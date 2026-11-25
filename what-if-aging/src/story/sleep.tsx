@@ -2,6 +2,7 @@ import React from "react";
 import { interpolate, random } from "remotion";
 import { Spec, W, Who } from "./engine";
 import { Bedroom, Gym, SkyView } from "./envs";
+import { BusStop, Cafe, ColdSea, Diner64, DoctorOffice, Highway, MorningPark, Nursery, Supermarket, TeenRoom } from "./envs2";
 import { Aquarium, CarInterior, Corridor, Lab, NightWindow, Office, Screen, Street } from "../stick/Env";
 import { AwakeClock, BacGauge, BigStat, Brain, Checklist, DayCalendar, Dolphin, Frigate, PressureBalloon, Versus, prog } from "./widgets";
 import { DR, MIA, RANDY, SAM, YOU, ZOE } from "../stick/cast";
@@ -82,7 +83,7 @@ export const SLEEP: Record<string, Spec> = {
     chapter: ["01", "THE FIRST NIGHT"],
   },
   s04: {
-    env: (f) => <Lab f={f} />,
+    env: (f) => <Cafe f={f} />,
     who: [{ c: DR, x: 380, act: [[0, "talk"], ["adenosine", "pointUp"], ["Coffee", "idle"]], talk: [[0, "awake"]], expr: [[0, "neutral"]] }, { c: YOU, x: 1600, item: [["Coffee", "cup"]], act: [[0, "idle"], ["Coffee", "hold"]], expr: [[0, "neutral"], ["while", "confused"]] }],
     ui: (f, A) => <PressureBalloon p={0.3 + prog(f, A("builds"), A("awake") + 20) * 0.3 - (f >= A("blocking") ? 0.15 * prog(f, A("blocking"), A("blocking") + 20) : 0)} x={960} y={420} />,
     ov: [{ t: "tag", w: "blocking", text: "CAFFEINE BLOCKS THE SIGNAL", x: 960, y: 820, color: "#c48612" }],
@@ -114,15 +115,7 @@ export const SLEEP: Record<string, Spec> = {
     ],
   },
   s06b: {
-    env: (f) => <Street f={f} tint="#1a1a3a" />,
-    props: (f) => (
-      <g transform={`translate(${960 + Math.sin(f / 14) * 140} 820)`}>
-        <rect x={-150} y={-60} width={300} height={70} rx={24} fill="#2f5aa8" stroke="#0b0a0c" strokeWidth={6} />
-        <rect x={-90} y={-110} width={170} height={60} rx={18} fill="#2f5aa8" stroke="#0b0a0c" strokeWidth={6} />
-        <circle cx={-90} cy={14} r={30} fill="#111" />
-        <circle cx={90} cy={14} r={30} fill="#111" />
-      </g>
-    ),
+    env: (f) => <Highway f={f} drift={1} />,
     ov: [
       { t: "pill", w: "slower", text: "SLOWER REACTIONS", x: 600, y: 200, color: RED },
       { t: "pill", w: "drift", text: "DRIFTING LANES", x: 960, y: 280, color: RED },
@@ -234,8 +227,8 @@ export const SLEEP: Record<string, Spec> = {
     chapter: ["04", "THE BODY PAYS"],
   },
   s15: {
-    env: (f) => <Office f={f} />,
-    who: [{ c: YOU, x: 600, expr: [[0, "bored"], ["cold", "worried"]], act: [[0, "idle"], ["cold", "cover"]] }],
+    env: (f) => <DoctorOffice f={f} />,
+    who: [{ c: DR, x: 1240, item: [[0, "clipboard"]], act: [[0, "hold"]], expr: [[0, "neutral"]], look: -0.5 }, { c: YOU, x: 600, expr: [[0, "bored"], ["cold", "worried"]], act: [[0, "idle"], ["cold", "cover"]] }],
     ui: (f, A) => <BigStat value={4} prefix="~" suffix="×" label="MORE LIKELY TO CATCH A COLD (<6 H SLEEP)" start={A("four")} y={200} color={RED} />,
     ov: [{ t: "pill", w: "study", text: "PRATHER ET AL., 2015", x: 1350, y: 760, color: ICE, size: 34 }],
     sfx: [["cold", "gasp", 0.3]],
@@ -256,8 +249,8 @@ export const SLEEP: Record<string, Spec> = {
     ov: [{ t: "tag", w: "saves", text: "NOBODY SAVED IT", x: 1360, y: 660, color: RED, world: true }],
   },
   s16b: {
-    env: (f) => <Office f={f} />,
-    who: [{ c: YOU, x: 500, item: [[0, "cup"]], act: [[0, "hold"], ["crash", "facepalm"]], expr: [[0, "happy"], ["crash", "sad"]], behind: desk(560) }],
+    env: (f) => <Cafe f={f} night />,
+    who: [{ c: YOU, x: 500, item: [[0, "cup"]], act: [[0, "hold"], ["crash", "facepalm"]], expr: [[0, "happy"], ["crash", "sad"]]}],
     ui: (f, A) => <PressureBalloon p={0.75 - (f > A("helps") && f < A("crash") ? 0.25 : 0) + (f >= A("pressure") ? 0.2 : 0)} x={1450} y={420} />,
     ov: [{ t: "punch", w: "crash", text: "THE CRASH HITS HARDER", color: RED, y: 860 }],
   },
@@ -282,7 +275,7 @@ export const SLEEP: Record<string, Spec> = {
     sfx: [["Shadows", "riser", 0.35]],
   },
   s18: {
-    env: (f) => <Street f={f} tint="#1a1a3a" />,
+    env: (f) => <Supermarket f={f} warp={0.5} />,
     who: [{ c: YOU, x: 700, act: [[0, "idle"], ["math", "scratch"], ["paranoid", "cross"]], expr: [[0, "bored"], ["math", "confused"], ["paranoid", "worried"]], look: 0.6 }, { c: SAM, x: 1500, s: 0.8, expr: [[0, "bored"]], look: -0.6 }],
     ov: [
       { t: "pill", w: "speech", text: "SLURRED SPEECH", x: 1300, y: 200, color: RED },
@@ -441,12 +434,12 @@ export const SLEEP: Record<string, Spec> = {
     chapter: ["09", "THE REAL ANSWER"],
   },
   s32: {
-    env: (f) => <Office f={f} />,
-    who: [{ c: DR, x: 420, act: [[0, "talk"], ["seven", "pointUp"]], talk: [[0, "less"]], expr: [[0, "neutral"]] }],
+    env: (f) => <BusStop f={f} rain />,
+    who: [{ c: YOU, x: 1300, expr: [[0, "bored"], ["seven", "neutral"]], act: [[0, "idle"], ["cut", "yawn"], ["seven", "pointUp"]] }, { c: ZOE, x: 1600, item: [[0, "phone"]], act: [[0, "phone"]], expr: [[0, "bored"]], look: -0.5 }],
     ui: (f, A) => <BigStat value={7} suffix="+ H" label="WHAT MOST ADULTS NEED" start={A("seven")} y={200} color={ICE} />,
   },
   s33: {
-    env: bed("1:47"),
+    env: (f) => <TeenRoom f={f} />,
     who: [inBed({ item: [[0, "phone"]], act: [[0, "phone"]], expr: [[0, "bored"], ["debt", "worried"]] })],
     ov: [
       { t: "pill", w: "all-nighter", text: "EVERY ALL-NIGHTER", x: 1300, y: 260, color: GOLD },
@@ -478,6 +471,130 @@ export const SLEEP: Record<string, Spec> = {
       { t: "punch", w: "Sleep", text: "SLEEP WELL.", color: ICE, y: 300 },
     ],
     sfx: [["Subscribe", "popper", 0.35]],
+  },
+  s04c: {
+    env: (f) => <Cafe f={f} />,
+    who: [
+      { c: YOU, x: 640, item: [[0, "cup"]], act: [[0, "hold"], ["bedtime", "facepalm"]], expr: [[0, "happy"], ["half", "surprised"], ["bedtime", "worried"]] },
+      { c: ZOE, x: 1260, act: [[0, "talk"], ["half", "pointL"], ["afternoon", "cross"]], talk: [[0, "later."]], expr: [[0, "neutral"]], look: -0.5 },
+    ],
+    ui: (f, A) => <BigStat value={50} prefix="~" suffix="%" label="OF THE CAFFEINE · STILL THERE 5–6 H LATER" start={A("half")} y={170} color={GOLD} />,
+    ov: [{ t: "punch", w: "bedtime", text: "STILL WORKING AT BEDTIME", color: RED, y: 860 }],
+    sfx: [["half", "ticktock", 0.3]],
+    autoClose: false,
+  },
+  s08b: {
+    env: (f) => <Office f={f} />,
+    who: [
+      { c: YOU, x: 480, expr: [[0, "bored"], ["Attention", "neutral"], ["notice", "confused"]], act: [[0, "idle"], ["sticks", "scratch"], ["Attention", "idle"]] },
+      { c: SAM, x: 980, s: 0.92, expr: [[0, "happy"]], act: [[0, "cross"]], look: 0.5 },
+      { c: DR, x: 1450, act: [[0, "talk"], ["Attention", "pointUp"], ["lapses", "point"]], talk: [[0, "notice."]], expr: [[0, "neutral"]], look: -0.5 },
+    ],
+    ov: [
+      { t: "emote", w: "sticks", who: 0, kind: "dots" },
+      { t: "pill", w: "Attention", text: "ATTENTION FAILS FIRST", x: 960, y: 190, color: RED },
+      { t: "tag", w: "lapses", text: "TINY LAPSES YOU DON'T NOTICE", x: 960, y: 290, color: GOLD },
+    ],
+  },
+  s15b: {
+    env: (f) => <DoctorOffice f={f} />,
+    who: [
+      { c: DR, x: 900, item: [[0, "clipboard"]], act: [[0, "hold"], ["linked", "talk"]], talk: [["linked", "disease."]], expr: [[0, "neutral"]], look: -0.5 },
+      { c: YOU, x: 420, expr: [[0, "neutral"], ["risks", "worried"]], act: [[0, "idle"], ["risks", "nails"]] },
+    ],
+    ui: (f, A) => <Checklist title="LINKED WITH HIGHER RISKS" items={[{ t: "OBESITY", at: A("obesity") }, { t: "DIABETES", at: A("diabetes") }, { t: "HIGH BLOOD PRESSURE", at: A("pressure") }, { t: "HEART DISEASE", at: A("heart") }]} start={A("risks")} x={1220} y={140} />,
+    sfx: [["risks", "gulp", 0.3]],
+  },
+  s17b: {
+    env: (f, A) => <Supermarket f={f} warp={prog(f, A("wrong"), A("tilting"))} />,
+    who: [{ c: YOU, x: 760, expr: [[0, "bored"], ["wrong", "confused"], ["Faces", "surprised"], ["tilting", "worried"]], act: [[0, "idle"], ["hum", "headHands"], ["Faces", "idle"], ["tilting", "grip"]] }],
+    ov: [
+      { t: "pill", w: "hum", text: "THE LIGHTS: TOO LOUD", x: 1340, y: 200, color: GOLD },
+      { t: "pill", w: "Faces", text: "FACES LOOK STRANGE", x: 1340, y: 300, color: RED },
+      { t: "pill", w: "tilting", text: "THE FLOOR TILTS", x: 1340, y: 400, color: ICE },
+    ],
+    sfx: [["hum", "heartbeat", 0.3], ["tilting", "riser", 0.3]],
+  },
+  s20b: {
+    env: (f) => <Diner64 f={f} />,
+    who: [
+      { c: RANDY, x: 1340, expr: [[0, "bored"], ["safe", "happy"]], act: [[0, "grip"]], look: 0.3 },
+      { c: DR, x: [[0, -150], ["came", 640]], item: [["notes", "clipboard"]], act: [[0, "idle"], ["safe", "point"], ["notes", "hold"]], expr: [[0, "neutral"], ["notes", "happy"]] },
+    ],
+    ov: [
+      { t: "hud", w: "Stanford", label: "STANFORD SLEEP RESEARCHER", value: "WILLIAM DEMENT", color: ICE, x: 60, y: 50, wd: 620 },
+      { t: "pill", w: "safe", text: "KEEPING RANDY SAFE", x: 1340, y: 200, color: GOLD },
+    ],
+    sfx: [["came", "click", 0.3]],
+  },
+  s28d: {
+    env: (f) => (
+      <ColdSea f={f}>
+        <g transform={`translate(760 ${690 + Math.sin(f / 18) * 8}) rotate(${Math.sin(f / 30) * 4})`}>
+          <ellipse cx={0} cy={0} rx={150} ry={46} fill="#5a4a42" stroke="#0b0a0c" strokeWidth={6} />
+          <ellipse cx={150} cy={-30} rx={56} ry={44} fill="#5a4a42" stroke="#0b0a0c" strokeWidth={6} />
+          <path d="M 150 -40 q 10 -6 20 0" stroke="#0b0a0c" strokeWidth={5} fill="none" />
+          <circle cx={182} cy={-40} r={8} fill="#0b0a0c" />
+          <circle cx={184} cy={-42} r={3} fill="#fff" />
+          <ellipse cx={204} cy={-22} rx={8} ry={6} fill="#0b0a0c" />
+          <path d="M -150 0 q -50 -20 -70 10 q 40 0 70 10" fill="#5a4a42" stroke="#0b0a0c" strokeWidth={5} />
+          <path d="M -40 30 q 20 40 60 30" fill="#4a3a32" stroke="#0b0a0c" strokeWidth={5} />
+          <ellipse cx={0} cy={40} rx={200} ry={14} fill="#cfe6ff" opacity={0.4} />
+        </g>
+      </ColdSea>
+    ),
+    ui: (f, A) => (f >= A("half") ? <Brain x={1450} y={430} s={0.9} highlight="half" label="ONE HALF ASLEEP" /> : null),
+    ov: [{ t: "pill", w: "seals", text: "FUR SEALS", x: 760, y: 200, color: ICE }],
+    zoom: [["awake", 900, 650, 1.5, 50]],
+    sfx: [["half", "sparkle", 0.3]],
+  },
+  s30b: {
+    env: (f) => <BusStop f={f} />,
+    who: [
+      { c: SAM, x: 640, act: [[0, "talk"], ["sentence", "idle"]], talk: [[0, "middle"]], expr: [[0, "neutral"], ["sentence", "bored"]], look: 0.5 },
+      { c: YOU, x: 930, item: [[0, "phone"]], act: [[0, "phone"]], expr: [[0, "bored"], ["permission", "surprised"]] },
+      { c: ZOE, x: 1360, y: 900, sit: true, expr: [[0, "bored"]], lookY: 0.7, noEmote: true },
+    ],
+    ov: [
+      { t: "emote", w: "sitting", who: 2, kind: "dots" },
+      { t: "pill", w: "sitting", text: "SITTING UP", x: 960, y: 170, color: GOLD },
+      { t: "pill", w: "standing", text: "STANDING IN LINE", x: 960, y: 260, color: GOLD },
+      { t: "pill", w: "middle", text: "MID-SENTENCE", x: 960, y: 350, color: GOLD },
+      { t: "punch", w: "permission", text: "THE BRAIN DOESN'T ASK", color: ICE, y: 860 },
+    ],
+  },
+  s32b: {
+    env: (f, A) => <Nursery f={f} cry={f >= A("broken")} />,
+    who: [
+      { c: MIA, x: [[0, 1400], ["arrives", 980]], expr: [[0, "bored"], ["fog", "confused"]], act: [[0, "yawn"], ["arrives", "rub"], ["fog", "scratch"]] },
+      { c: YOU, x: 1600, expr: [[0, "bored"]], act: [[0, "rub"], ["fog", "yawn"]] },
+    ],
+    ov: [
+      { t: "pill", w: "broken", text: "NIGHTS IN PIECES", x: 1300, y: 200, color: RED },
+      { t: "punch", w: "fog", text: "THINKING THROUGH FOG", color: ICE, y: 860 },
+    ],
+    sfx: [["broken", "surprise", 0.25]],
+  },
+  s33c: {
+    env: (f) => <TeenRoom f={f} />,
+    who: [inBed({ x: 760, item: [[0, "phone"]], act: [[0, "phone"]], expr: [[0, "happy"], ["delay", "neutral"], ["later#2", "worried"]] })],
+    ov: [
+      { t: "pill", w: "melatonin", text: "BRIGHT LIGHT → LESS MELATONIN", x: 1300, y: 200, color: GOLD, size: 44 },
+      { t: "tag", w: "clock", text: "YOUR CLOCK SHIFTS LATER", x: 1300, y: 300, color: ICE },
+    ],
+    zoom: [["Bright", 800, 520, 1.6, 60]],
+  },
+  s34c: {
+    env: (f) => <MorningPark f={f} />,
+    who: [
+      { c: YOU, x: [[0, -150], ["helps", 720]], expr: [[0, "happy"]], act: [[0, "idle"], ["exercise", "cheer"], ["faster", "idle"]] },
+      { c: ZOE, x: [[0, 2100], ["helps", 1180]], expr: [[0, "happy"]], act: [[0, "idle"], ["deeply", "wave"]], look: -0.5 },
+    ],
+    ov: [
+      { t: "pill", w: "faster", text: "FALL ASLEEP FASTER", x: 960, y: 190, color: GOLD },
+      { t: "pill", w: "deeply", text: "SLEEP MORE DEEPLY", x: 960, y: 290, color: ICE },
+    ],
+    sfx: [["exercise", "sparkle", 0.3]],
   },
 };
 void Screen;

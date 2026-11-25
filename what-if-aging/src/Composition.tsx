@@ -3,8 +3,10 @@ import { AbsoluteFill, Audio, Composition, interpolate, Sequence, staticFile, us
 import { at, FPS, H, LEAD, ORDER, SceneId, sceneFrames, STARTS, TOTAL, voiceDur, W, wordTimes } from "./timing";
 import { bodyFont, C } from "./kit";
 import { Sheet } from "./stick/Sheet";
+import { PoseSheet } from "./story/PoseSheet";
+import { ENV_COUNT, EnvGallery } from "./story/EnvGallery";
 import * as ST from "./stick/StickScenes";
-import { Grain, Progress } from "./stick/Hud";
+import { Grain } from "./stick/Hud";
 import { StoryCompositions } from "./story/videos";
 import { Hook1, Hook2, Same, Setup1, Setup2, Telomeres, Years } from "./Scenes1";
 import { JellyScene, Lab, Lifespan, MathScene, Outro1, Outro2, Risk, Root, Twist, Year200 } from "./Scenes2";
@@ -97,11 +99,11 @@ const Captions: React.FC<{ id: SceneId }> = ({ id }) => {
 
 const SceneShell: React.FC<{ id: SceneId; stick?: boolean }> = ({ id, stick }) => {
   const f = useCurrentFrame();
-  const dur = sceneFrames(id);
   const Scene = (stick ? STICK : SCENES)[id];
-  const op = interpolate(f, [0, 10, dur - 8, dur], [0, 1, 1, id === "outro2" ? 1 : 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
+  // Hard cut between scenes (no dip to black); the incoming shot settles from a slight push-in.
+  const settle = interpolate(f, [0, 9], [1, 0], { extrapolateLeft: "clamp", extrapolateRight: "clamp" });
   return (
-    <AbsoluteFill style={{ opacity: op }}>
+    <AbsoluteFill style={{ transform: `scale(${1 + 0.035 * settle * settle})` }}>
       <Scene />
       <Captions id={id} />
     </AbsoluteFill>
@@ -170,7 +172,6 @@ export const Video: React.FC<{ stick?: boolean }> = ({ stick }) => {
             <Sfx key={`c${i}`} from={STARTS[id] + fr} src={s} volume={v} />
           ))}
           <Grain />
-          <Progress segs={ORDER.map(sceneFrames)} total={TOTAL} />
         </>
       )}
     </AbsoluteFill>
@@ -182,6 +183,8 @@ export const MyComposition: React.FC = () => (
     <Composition id="WhatIfAging" component={Video} durationInFrames={TOTAL} fps={FPS} width={W} height={H} />
     <Composition id="WhatIfAgingStick" component={Video} defaultProps={{ stick: true }} durationInFrames={TOTAL} fps={FPS} width={W} height={H} />
     <StoryCompositions />
+    <Composition id="EnvGallery" component={EnvGallery} durationInFrames={ENV_COUNT * 100} fps={FPS} width={W} height={H} />
+    <Composition id="PoseSheet" component={PoseSheet} durationInFrames={1} fps={FPS} width={W} height={H} />
     <Composition id="CharacterSheet" component={Sheet} durationInFrames={1} fps={FPS} width={W} height={H} />
   </>
 );

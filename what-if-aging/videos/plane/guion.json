@@ -32,6 +32,10 @@
   "texto": "And from cruising altitude, a big jet can glide a surprisingly long way. Often well over a hundred kilometers, depending on the aircraft, the weight, and the wind. That's not a fall. That's a runway search."
  },
  {
+  "id": "p07b",
+  "texto": "Engineers call this the glide ratio. For many big airliners, it's somewhere around fifteen to one. Drop one kilometer, and you can travel roughly fifteen kilometers forward. From ten kilometers up, that's a lot of map."
+ },
+ {
   "id": "p08",
   "texto": "Ten seconds. The lights flicker. Some screens go dark. But the plane isn't dead. A small backup turbine can drop out of the belly, spinning in the wind like a pinwheel, to make emergency power."
  },
@@ -44,12 +48,24 @@
   "texto": "Thirty seconds. The checklists come out. And these aren't guesses. Pilots train for this exact moment, again and again, in simulators. Restart the engines. Check the fuel. Find somewhere to land."
  },
  {
+  "id": "p10b",
+  "texto": "Down on the ground, an air traffic controller sees an emergency code light up on the radar. Other planes are moved out of the way, and every runway within reach suddenly becomes an option."
+ },
+ {
+  "id": "p10c",
+  "texto": "Pilots rehearse this in full-motion simulators. Room-sized boxes on hydraulic legs that tilt, shake, and roar. In there, engines fail on purpose, over and over, until the response becomes automatic."
+ },
+ {
   "id": "p11",
   "texto": "Meanwhile, back in seat twenty-three B, your heart is pounding. You look around. Nobody is screaming yet. Most people freeze, waiting for someone, anyone, to tell them what to do."
  },
  {
   "id": "p12",
   "texto": "One minute. A calm voice comes over the speakers. Please remain seated, and keep your seatbelt fastened. It sounds ordinary. It's not. That calm is trained, and it's deliberate."
+ },
+ {
+  "id": "p12b",
+  "texto": "In the galley, the flight attendants are already moving. Carts get locked away. Loose items get stowed. Each of them knows exactly which door is theirs, and exactly what to shout if it's time to use it."
  },
  {
   "id": "p13",
@@ -104,6 +120,10 @@
   "texto": "After the investigation, the airline and the authorities looked hard at how the fuel had been calculated. The mistake wasn't one person's. It was a chain of small errors that nobody caught in time."
  },
  {
+  "id": "p23c",
+  "texto": "And the Gimli Glider itself? It went back into service and kept carrying passengers for about twenty-five more years. It was finally retired in two thousand eight, and parked in the California desert."
+ },
+ {
   "id": "p24",
   "texto": "But what if you're not over flat Canadian farmland? What if you're over the ocean, at night? That happened too. One year earlier, to a jumbo jet."
  },
@@ -128,6 +148,10 @@
   "texto": "And then, as the plane dropped out of the ash cloud into clean air, the melted ash inside the engines cooled, hardened, and broke away. One engine coughed back to life. Then another. Then all four."
  },
  {
+  "id": "p29b",
+  "texto": "Incidents like this one helped lead to a worldwide network of volcanic ash advisory centers. Today, scientists track ash clouds and warn pilots, so they can fly around them instead of through them."
+ },
+ {
   "id": "p30",
   "texto": "They had glided down from thirty-seven thousand feet to roughly twelve or thirteen thousand before the engines came back. The plane landed safely in Jakarta. Everyone survived."
  },
@@ -144,8 +168,20 @@
   "texto": "Captain Chesley Sullenberger and first officer Jeffrey Skiles ran their checklist and looked for options. The airports were too far. So he chose the only long, flat, open space left. The Hudson River."
  },
  {
+  "id": "p33b",
+  "texto": "His radio call to the controller was short. We're gonna be in the Hudson. Then, to the cabin, three words. Brace for impact."
+ },
+ {
   "id": "p34",
   "texto": "About three and a half minutes after the bird strike, the plane touched down on the water. Passengers stood on the wings as ferries raced in. All one hundred and fifty-five people on board survived."
+ },
+ {
+  "id": "p34b",
+  "texto": "The water was close to freezing. Ferry crews and rescue boats pulled people from the wings and the life rafts within minutes. Some passengers were treated for hypothermia, but everyone made it home."
+ },
+ {
+  "id": "p34c",
+  "texto": "That airplane never flew again. Today it sits in an aviation museum in Charlotte, North Carolina. The city it was flying to that day."
  },
  {
   "id": "p35",
@@ -162,6 +198,10 @@
  {
   "id": "p37",
   "texto": "Third, before you ever take off, count the rows to your nearest exit. In darkness or smoke, you may not see the signs. But you can still feel the seats, and count."
+ },
+ {
+  "id": "p37b",
+  "texto": "And read the safety card in the seat pocket. Every aircraft is a little different. That card shows exactly where your exits are, and how your door opens."
  },
  {
   "id": "p38",
@@ -186,6 +226,10 @@
  {
   "id": "p41",
   "texto": "Not every accident is survivable. And losing both engines is rare and genuinely dangerous. But it's not the instant death sentence movies make it look like. Planes glide. Crews train. People live."
+ },
+ {
+  "id": "p41b",
+  "texto": "Flying is still one of the safest ways to travel. Every accident gets investigated, and the lessons get built into the next airplane, the next checklist, and the next crew."
  },
  {
   "id": "p42",

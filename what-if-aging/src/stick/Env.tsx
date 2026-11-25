@@ -1,5 +1,6 @@
 import React from "react";
 import { random } from "remotion";
+import { hudFont } from "./Hud";
 
 /* Cinematic, detailed, living environments (1920x1080). Characters stay flat on top.
  * Every environment has: a blurred far layer, a mid layer with props, animated details,
@@ -550,7 +551,7 @@ export const Corridor: React.FC<{ signs: string[]; travel: number; cool?: boolea
             <g key={s} transform={`translate(${x} ${y}) scale(${sc})`} opacity={Math.min(1, (r - 0.32) * 4)}>
               <rect x={-110} y={-48} width={220} height={96} rx={10} fill={signColor} />
               <rect x={-110} y={-48} width={220} height={96} rx={10} fill="none" stroke="#fff" strokeWidth={3} opacity={0.4} />
-              <text x={0} y={22} textAnchor="middle" fontFamily="Arial Black, sans-serif" fontWeight={900} fontSize={s.length > 5 ? 34 : 60} fill="#2a2018">
+              <text x={0} y={22} textAnchor="middle" fontFamily={hudFont} fontWeight={900} fontSize={s.length > 5 ? 34 : 60} fill="#2a2018">
                 {s}
               </text>
             </g>

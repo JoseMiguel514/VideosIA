@@ -1,3 +1,4 @@
+import { hudFont } from "../stick/Hud";
 import React from "react";
 import { random } from "remotion";
 import { Cone, Dust } from "../stick/Env";
@@ -49,7 +50,7 @@ export const PlaneCabin: React.FC<{ f: number; dim?: number; shake?: number; red
               <g key={`${i}${side}`}>
                 <rect x={side > 0 ? x : x - 60 - 160 * k} y={y} width={60 + 160 * k} height={14 + 30 * k} fill="#2a1f16" opacity={0.85} />
                 <rect x={x - 10 - 30 * k} y={y + 18 + 30 * k} width={20 + 60 * k} height={4 + 6 * k} fill="#ffe6b0" opacity={0.7} />
-                <text x={x + side * (20 + 40 * k)} y={y + 50 + 60 * k} textAnchor="middle" fontFamily="Arial Black" fontSize={10 + 26 * k} fill="#d9c7a8">
+                <text x={x + side * (20 + 40 * k)} y={y + 50 + 60 * k} textAnchor="middle" fontFamily={hudFont} fontWeight={900} fontSize={10 + 26 * k} fill="#d9c7a8">
                   {23 + 7 - i}
                 </text>
               </g>
@@ -185,7 +186,7 @@ export const Cockpit: React.FC<{ f: number; alarm?: boolean; sky?: string; groun
         <Full>
           <circle cx={960} cy={545} r={18} fill={blink ? "#ff2d3d" : "#5a1218"} />
           {blink && <circle cx={960} cy={545} r={46} fill="#ff2d3d" opacity={0.25} />}
-          <text x={960} y={515} textAnchor="middle" fontFamily="Arial Black" fontSize={22} fill={blink ? "#ff2d3d" : "#7a2a30"}>
+          <text x={960} y={515} textAnchor="middle" fontFamily={hudFont} fontWeight={900} fontSize={22} fill={blink ? "#ff2d3d" : "#7a2a30"}>
             ENG FAIL
           </text>
         </Full>
@@ -359,7 +360,7 @@ export const Bedroom: React.FC<{ f: number; clock?: string; morning?: number; la
       {/* nightstand + clock */}
       <rect x={1560} y={640} width={260} height={240} fill="#4a3a2a" stroke="#0a0e18" strokeWidth={6} />
       <rect x={1600} y={570} width={180} height={76} rx={10} fill="#0b0a0c" stroke="#2a2a3a" strokeWidth={5} />
-      <text x={1690} y={626} textAnchor="middle" fontFamily="Arial Black" fontSize={46} fill="#ff3d4d">
+      <text x={1690} y={626} textAnchor="middle" fontFamily={hudFont} fontWeight={900} fontSize={46} fill="#ff3d4d">
         {clock}
       </text>
       <rect x={0} y={880} width={1920} height={200} fill="#0c111c" />
@@ -381,7 +382,7 @@ export const Gym: React.FC<{ f: number }> = ({ f }) => (
       <rect x={880} y={140} width={160} height={110} fill="none" stroke="#f6efdf" strokeWidth={8} />
       <ellipse cx={960} cy={280} rx={70} ry={14} fill="none" stroke="#ff6a2a" strokeWidth={8} />
       <path d="M 900 286 L 930 360 L 990 360 L 1020 286" stroke="#f6efdf" strokeWidth={3} fill="none" />
-      <text x={300} y={200} fontFamily="Arial Black" fontSize={60} fill="#f2c21b" opacity={0.8}>
+      <text x={300} y={200} fontFamily={hudFont} fontWeight={900} fontSize={60} fill="#f2c21b" opacity={0.8}>
         SCIENCE FAIR 1964
       </text>
       {new Array(20).fill(0).map((_, i) => (
